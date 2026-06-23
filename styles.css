@@ -907,15 +907,23 @@ pre code {
 
 @media (max-width: 860px) {
   .topbar {
-    grid-template-columns: 1fr auto;
-    height: auto;
+    gap: 10px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    height: 56px;
     min-height: 56px;
   }
 
   .nav {
-    grid-column: 1 / -1;
+    grid-column: auto;
+    gap: 14px;
+    height: 56px;
     justify-content: start;
     overflow-x: auto;
+  }
+
+  .nav a {
+    padding: 20px 0 17px;
+    white-space: nowrap;
   }
 
   .page-grid {
@@ -931,6 +939,10 @@ pre code {
   .data-panel,
   .technical-panel,
   .diagram-panel,
+  .readout-grid,
+  .contact-strip,
+  .project-strip,
+  .neo-readouts,
   .resume-rail,
   .resume-main,
   .btree-page .page-heading,
@@ -947,6 +959,35 @@ pre code {
   .viewer-panel canvas {
     aspect-ratio: 4 / 3;
     height: auto;
+  }
+
+  .neo-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .neo-page .page-heading {
+    order: 0;
+  }
+
+  .neo-page .viewer-panel {
+    order: 1;
+  }
+
+  .neo-page .data-panel {
+    order: 2;
+  }
+
+  .neo-page .object-panel {
+    order: 3;
+  }
+
+  .neo-page .neo-readouts {
+    order: 4;
+  }
+
+  .neo-page .technical-panel {
+    order: 5;
   }
 
   .readout-grid,
@@ -994,6 +1035,18 @@ pre code {
   .project-row > a {
     margin-top: 2px;
     text-align: left;
+  }
+
+  .btree-page pre {
+    overflow-x: hidden;
+    padding: 12px;
+  }
+
+  .btree-page pre code {
+    font-size: 10px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
   }
 
   .contact-strip a {
