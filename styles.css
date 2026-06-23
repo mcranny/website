@@ -150,33 +150,43 @@ th,
 }
 
 .theme-icon {
-  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  border: 0;
   border-radius: 50%;
   display: block;
-  height: 16px;
+  height: 18px;
   position: relative;
-  width: 16px;
+  transform: rotate(-22deg);
+  width: 18px;
 }
 
 .theme-icon::after {
   background: var(--paper);
   border-radius: 50%;
   content: "";
-  height: 13px;
-  left: 5px;
+  height: 17px;
+  left: 6px;
   position: absolute;
-  top: -1px;
-  width: 13px;
+  top: -2px;
+  width: 17px;
 }
 
 :root[data-theme="dark"] .theme-icon {
-  background: #f5a623;
-  border-color: #f5a623;
-  box-shadow:
-    0 -6px 0 -4px #f5a623,
-    0 6px 0 -4px #f5a623,
-    6px 0 0 -4px #f5a623,
-    -6px 0 0 -4px #f5a623;
+  background: var(--ink);
+  transform: none;
+}
+
+:root[data-theme="dark"] .theme-icon::before {
+  background: repeating-conic-gradient(
+    from 0deg,
+    var(--ink) 0 9deg,
+    transparent 9deg 45deg
+  );
+  content: "";
+  inset: -10px;
+  -webkit-mask: radial-gradient(circle, transparent 0 12px, #000 12px 15px, transparent 15px);
+  mask: radial-gradient(circle, transparent 0 12px, #000 12px 15px, transparent 15px);
+  position: absolute;
 }
 
 :root[data-theme="dark"] .theme-icon::after {
