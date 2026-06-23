@@ -25,7 +25,3 @@ Then open `http://localhost:4173`.
 ## NEO data mode
 
 The viewer loads `assets/neo-missions.json`, a static export from the local `neo-updater` SQLite database. It includes stored asteroids, close approaches, orbital elements, interception plans, and sampled Lambert transfer polylines. A production live mode should run the same CAD/SBDB ingestion and SQLite schema behind a serverless/API boundary, then publish a versioned JSON viewer export.
-
-## Resume source
-
-No current resume file was provided with the prompt. The resume page uses only facts explicitly present in the prompt and marks detailed resume bullets/PDF as source-needed rather than fabricating content.
