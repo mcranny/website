@@ -2,7 +2,7 @@
 
 ## Palette
 
-The palette is light-first and derived from semiconductor instrumentation: clean panel stock, black annotation ink, grey rule lines, and one ASML-like indigo signal color.
+The palette is light-first and derived from semiconductor instrumentation: clean panel stock, black annotation ink, grey rule lines, and indigo signal color.
 
 | Token | Hex | Role |
 | --- | --- | --- |
@@ -62,7 +62,3 @@ missing source notice                | source-needed rows
 ## Signature Element
 
 The signature element is the NEO viewer: a live canvas readout with searchable object selection, trajectory comparison, zoom, rotation, time scrubbing, and orbital element panels. The recurring readout block carries that instrument language across Home, B-Tree, and Resume.
-
-## Self-Critique
-
-This system avoids the disallowed AI-default looks: there is no centered gradient hero, no glassmorphism, no cream/terracotta palette, no dark SaaS mood board, no floating rounded cards, and no animated entrance sequence. Visual interest comes from real data, grid alignment, and canvas trajectory rendering.
