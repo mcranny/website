@@ -30,11 +30,22 @@ const state = {
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
   localStorage.setItem("theme", theme);
+  updateThemeControls();
+}
+
+function updateThemeControls() {
+  const dark = document.documentElement.dataset.theme === "dark";
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    const label = dark ? "Switch to light mode" : "Switch to dark mode";
+    button.setAttribute("aria-label", label);
+    button.setAttribute("title", label);
+  });
 }
 
 function initTheme() {
   const stored = localStorage.getItem("theme");
   if (stored) setTheme(stored);
+  else updateThemeControls();
   document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
       setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");

@@ -21,19 +21,22 @@
         <a href="btree.html">B-Tree Engine</a>
         <a href="resume.html">Resume</a>
       </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">DM</button>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="sr-only">Toggle dark mode</span>
+      </button>
     </header>
 
     <main class="page-grid home-page">
       <section class="intro-block">
         <p class="eyebrow">Systems Engineer</p>
         <h1>Matthew Cranny</h1>
-        <p class="lede">Systems Engineer at PDF Solutions, working on firmware testing and FPGA-based validation for SEM metrology tools. Outside work: a JPL-backed asteroid intercept planner, a Rust disk-backed B-tree, and the hardware/test work in the resume.</p>
+        <p class="lede">I build software where hardware, data correctness, and operator workflows meet: firmware validation tools for SEM metrology systems, orbital planning software backed by JPL data, and storage-engine work that makes correctness visible.</p>
       </section>
 
       <section class="mini-viewer" aria-label="NEO trajectory preview">
         <div class="section-rule">
-          <h2>NEO preview</h2>
+          <h2>Asteroid transfer preview</h2>
           <a href="neo.html">Open viewer</a>
         </div>
         <canvas id="neo-canvas" data-mini-viewer width="760" height="420" aria-label="Canvas preview of cached near-earth object trajectories"></canvas>
@@ -62,6 +65,21 @@
         </article>
       </section>
 
+      <section class="contact-strip" aria-label="Contact links">
+        <a href="mailto:crannymatthew@gmail.com">
+          <span>Email</span>
+          <strong>crannymatthew@gmail.com</strong>
+        </a>
+        <a href="https://linkedin.com/in/matthew-cranny">
+          <span>LinkedIn</span>
+          <strong>linkedin.com/in/matthew-cranny</strong>
+        </a>
+        <a href="https://github.com/mcranny">
+          <span>GitHub</span>
+          <strong>github.com/mcranny</strong>
+        </a>
+      </section>
+
       <section class="project-strip">
         <div class="section-rule">
           <h2>Projects</h2>
@@ -76,17 +94,7 @@
           <p>Rust key-value engine with 4096-byte pages, a bounded pager cache, redo WAL, persistent free-list, range scans, deletion rebalancing, and SQLite differential tests.</p>
           <a href="https://github.com/mcranny/btree-storage-engine">github.com/mcranny/btree-storage-engine</a>
         </article>
-        <article class="project-row">
-          <h3><a href="resume.html">Resume</a></h3>
-          <p>PDF Solutions systems work, Amazon data automation, Berkeley Space Sciences Lab hardware work, and UC Berkeley Physics coursework.</p>
-          <a href="assets/Matthew-Cranny-Resume.pdf">Download PDF</a>
-        </article>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <span>mcranny.net</span>
-      <span>Static build / 2026-06-22</span>
-    </footer>
   </body>
 </html>

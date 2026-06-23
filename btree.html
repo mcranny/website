@@ -21,7 +21,10 @@
         <a aria-current="page" href="btree.html">B-Tree Engine</a>
         <a href="resume.html">Resume</a>
       </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">DM</button>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="sr-only">Toggle dark mode</span>
+      </button>
     </header>
 
     <main class="page-grid btree-page">
@@ -183,9 +186,5 @@ parent_children.insert(child_index + 1, right_id);</code></pre>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <span>B-tree storage engine</span>
-      <span>github.com/mcranny/btree-storage-engine</span>
-    </footer>
   </body>
 </html>

@@ -21,7 +21,10 @@
         <a href="btree.html">B-Tree Engine</a>
         <a href="resume.html">Resume</a>
       </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">DM</button>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="sr-only">Toggle dark mode</span>
+      </button>
     </header>
 
     <main class="page-grid neo-page">
@@ -138,9 +141,5 @@
       </section>
     </main>
 
-    <footer class="site-footer">
-      <span>NEO viewer</span>
-      <span>Data source: SQLite export from neo-updater</span>
-    </footer>
   </body>
 </html>
