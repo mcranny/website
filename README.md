@@ -7,10 +7,10 @@ Static-first portfolio implementation for `mcranny.net`.
 Because this is dependency-free HTML/CSS/JS, any static server works:
 
 ```sh
-python3 -m http.server 4173
+python3 -m http.server 5000
 ```
 
-Then open `http://localhost:4173`.
+Then open `http://localhost:5000`.
 
 ## Structure
 

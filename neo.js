@@ -24,6 +24,8 @@ const state = {
   playing: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   lastFrame: 0,
   drag: null,
+  touchPointers: new Map(),
+  touchGesture: null,
   movedDuringDrag: false
 };
 
@@ -483,6 +485,39 @@ function applyCameraPreset(name) {
   drawAllViewers();
 }
 
+function touchPoint(event) {
+  return { id: event.pointerId, x: event.clientX, y: event.clientY };
+}
+
+function touchDistance(a, b) {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function touchAngle(a, b) {
+  return Math.atan2(b.y - a.y, b.x - a.x);
+}
+
+function touchCenter(a, b) {
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+
+function beginTouchGesture() {
+  const points = [...state.touchPointers.values()];
+  if (points.length < 2) return;
+  const [a, b] = points;
+  const center = touchCenter(a, b);
+  state.touchGesture = {
+    distance: Math.max(1, touchDistance(a, b)),
+    angle: touchAngle(a, b),
+    centerX: center.x,
+    centerY: center.y,
+    zoom: state.zoom,
+    rotation: state.rotation,
+    panX: state.panX,
+    panY: state.panY
+  };
+}
+
 async function loadMissionPayload() {
   try {
     const response = await fetch("assets/neo-missions.json", { cache: "no-store" });
@@ -549,11 +584,61 @@ function initControls() {
   document.querySelectorAll("#neo-canvas").forEach((canvas) => {
     if (canvas.hasAttribute("data-mini-viewer")) return;
     canvas.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch") {
+        event.preventDefault();
+        state.touchPointers.set(event.pointerId, touchPoint(event));
+        state.movedDuringDrag = false;
+        if (state.touchPointers.size === 1) {
+          state.drag = { x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY, button: event.button };
+          state.touchGesture = null;
+        } else {
+          beginTouchGesture();
+          state.drag = null;
+        }
+        canvas.setPointerCapture(event.pointerId);
+        return;
+      }
       state.drag = { x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY, button: event.button };
       state.movedDuringDrag = false;
       canvas.setPointerCapture(event.pointerId);
     });
     canvas.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch") {
+        event.preventDefault();
+        if (!state.touchPointers.has(event.pointerId)) return;
+        state.touchPointers.set(event.pointerId, touchPoint(event));
+
+        if (state.touchPointers.size >= 2 && state.touchGesture) {
+          const [a, b] = [...state.touchPointers.values()];
+          const center = touchCenter(a, b);
+          const distance = Math.max(1, touchDistance(a, b));
+          const angle = touchAngle(a, b);
+          state.zoom = Math.max(4, Math.min(520, state.touchGesture.zoom * (distance / state.touchGesture.distance)));
+          state.rotation = state.touchGesture.rotation + ((angle - state.touchGesture.angle) * 180) / Math.PI;
+          state.panX = state.touchGesture.panX + (center.x - state.touchGesture.centerX);
+          state.panY = state.touchGesture.panY + (center.y - state.touchGesture.centerY);
+          state.movedDuringDrag = true;
+          const zoomInput = document.querySelector("[data-zoom-scrub]");
+          const rotationInput = document.querySelector("[data-rotation-scrub]");
+          if (zoomInput) zoomInput.value = String(Math.round(state.zoom));
+          if (rotationInput) rotationInput.value = String(Math.round(state.rotation));
+          drawAllViewers();
+          return;
+        }
+
+        if (!state.drag) return;
+        const dx = event.clientX - state.drag.x;
+        const dy = event.clientY - state.drag.y;
+        if (Math.abs(event.clientX - state.drag.startX) + Math.abs(event.clientY - state.drag.startY) > 4) {
+          state.movedDuringDrag = true;
+        }
+        state.drag.x = event.clientX;
+        state.drag.y = event.clientY;
+        state.panX += dx;
+        state.panY += dy;
+        drawAllViewers();
+        return;
+      }
       if (!state.drag) return;
       const dx = event.clientX - state.drag.x;
       const dy = event.clientY - state.drag.y;
@@ -572,6 +657,9 @@ function initControls() {
       drawAllViewers();
     });
     canvas.addEventListener("pointerup", (event) => {
+      if (event.pointerType === "touch") {
+        event.preventDefault();
+      }
       if (!state.movedDuringDrag) {
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
@@ -594,7 +682,30 @@ function initControls() {
           drawAllViewers();
         }
       }
+      if (event.pointerType === "touch") {
+        state.touchPointers.delete(event.pointerId);
+        if (state.touchPointers.size >= 2) {
+          beginTouchGesture();
+        } else if (state.touchPointers.size === 1) {
+          const [remaining] = [...state.touchPointers.values()];
+          state.drag = { x: remaining.x, y: remaining.y, startX: remaining.x, startY: remaining.y, button: 0 };
+          state.touchGesture = null;
+        } else {
+          state.drag = null;
+          state.touchGesture = null;
+        }
+        return;
+      }
       state.drag = null;
+    });
+    canvas.addEventListener("pointercancel", (event) => {
+      if (event.pointerType !== "touch") {
+        state.drag = null;
+        return;
+      }
+      state.touchPointers.delete(event.pointerId);
+      if (state.touchPointers.size < 2) state.touchGesture = null;
+      if (!state.touchPointers.size) state.drag = null;
     });
     canvas.addEventListener("contextmenu", (event) => event.preventDefault());
     canvas.addEventListener("wheel", (event) => {
