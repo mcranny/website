@@ -145,52 +145,39 @@ th,
 }
 
 .mode-toggle {
+  border-color: transparent;
   padding: 0;
   width: 38px;
 }
 
 .theme-icon {
-  background: var(--ink);
-  border: 0;
-  border-radius: 50%;
+  color: var(--ink);
   display: block;
-  height: 18px;
-  position: relative;
-  transform: rotate(-22deg);
-  width: 18px;
+  fill: currentColor;
+  height: 24px;
+  width: 24px;
 }
 
-.theme-icon::after {
-  background: var(--paper);
-  border-radius: 50%;
-  content: "";
-  height: 17px;
-  left: 6px;
-  position: absolute;
-  top: -2px;
-  width: 17px;
-}
-
-:root[data-theme="dark"] .theme-icon {
-  background: var(--ink);
-  transform: none;
-}
-
-:root[data-theme="dark"] .theme-icon::before {
-  background: repeating-conic-gradient(
-    from 0deg,
-    var(--ink) 0 9deg,
-    transparent 9deg 45deg
-  );
-  content: "";
-  inset: -10px;
-  -webkit-mask: radial-gradient(circle, transparent 0 12px, #000 12px 15px, transparent 15px);
-  mask: radial-gradient(circle, transparent 0 12px, #000 12px 15px, transparent 15px);
-  position: absolute;
-}
-
-:root[data-theme="dark"] .theme-icon::after {
+.theme-icon-sun {
   display: none;
+}
+
+.theme-icon-moon {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+.mode-toggle:hover,
+.mode-toggle:focus-visible {
+  background: var(--signal-dim);
+  border-color: transparent;
 }
 
 .sr-only {
