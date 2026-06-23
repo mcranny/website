@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>NEO Viewer | Matthew Cranny</title>
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
+    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="styles.css">
+    <script src="neo.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="index.html">MCRANNY.NET</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a aria-current="page" href="neo.html">NEO Viewer</a>
+        <a href="btree.html">B-Tree Engine</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">DM</button>
+    </header>
+
+    <main class="page-grid neo-page">
+      <section class="page-heading">
+        <p class="eyebrow">Asteroid Intercept Planner / mcranny/neo-updater</p>
+        <h1>JPL close approaches, SQLite storage, Lambert transfer plans.</h1>
+        <p class="lede">The desktop project ingests JPL CAD close approaches and SBDB orbital elements, writes them into SQLite, searches Earth-to-asteroid transfer windows, and rejects Lambert solutions that fail endpoint propagation checks. This web port serves a static export from that database.</p>
+      </section>
+
+      <aside class="object-panel" aria-label="Asteroid selector">
+        <div class="section-rule panel-title">
+          <h2>Stored Intercept Plans</h2>
+          <span data-plan-count>31</span>
+        </div>
+        <label class="field-label" for="neo-search">Search missions</label>
+        <input id="neo-search" class="text-input" type="search" placeholder="Search object" autocomplete="off">
+        <div class="object-list" data-object-list role="listbox" aria-label="Cached NEO objects"></div>
+      </aside>
+
+      <section class="viewer-panel">
+        <div class="section-rule">
+          <h2>Mission Viewer</h2>
+          <span data-sim-label>Epoch + 0 d</span>
+        </div>
+        <canvas id="neo-canvas" width="920" height="620" aria-label="Interactive canvas rendering Earth and selected near-earth object orbits"></canvas>
+        <div class="viewer-controls" aria-label="Viewer controls">
+          <label>
+            <span>Mission time</span>
+            <input data-time-scrub type="range" min="0" max="180" value="0">
+          </label>
+          <div class="segmented" aria-label="Camera presets">
+            <button type="button" data-camera="mission">Mission</button>
+            <button type="button" data-camera="inner">Inner</button>
+            <button type="button" data-camera="full">Full</button>
+          </div>
+        </div>
+        <div class="object-inspector" aria-label="Object inspector">
+          <div class="section-rule">
+            <h2>Object inspector</h2>
+            <span data-inspector-title>Target</span>
+          </div>
+          <div class="inspector-buttons">
+            <button type="button" data-inspect-object="Sun">Sun</button>
+            <button type="button" data-inspect-object="Earth">Earth</button>
+            <button type="button" data-inspect-object="Target">Target</button>
+            <button type="button" data-inspect-object="Spacecraft">Spacecraft</button>
+          </div>
+          <div class="metric-list compact" data-inspector-metrics></div>
+        </div>
+      </section>
+
+      <aside class="data-panel" aria-label="Orbital readouts">
+        <div class="section-rule panel-title">
+          <h2>Selected Object</h2>
+          <span data-selected-kind>SQLite export</span>
+        </div>
+        <div class="readout tall">
+          <span>Designation</span>
+          <strong data-selected-name>Loading</strong>
+          <code data-selected-summary>Mission plan</code>
+        </div>
+        <div class="metric-list" data-orbit-metrics></div>
+      </aside>
+
+      <section class="readout-grid neo-readouts">
+        <article class="readout">
+          <span>Asteroids</span>
+          <strong data-neo-count>27</strong>
+          <code>SQLite asteroids table</code>
+        </article>
+        <article class="readout">
+          <span>Close approaches</span>
+          <strong>31</strong>
+          <code>JPL CAD rows</code>
+        </article>
+        <article class="readout">
+          <span>Transfer plans</span>
+          <strong data-plan-count>31</strong>
+          <code>Lambert universal solver</code>
+        </article>
+        <article class="readout">
+          <span>Export mode</span>
+          <strong>Static JSON</strong>
+          <code>from data/asteroids.db</code>
+        </article>
+      </section>
+
+      <section class="technical-panel">
+        <div class="section-rule">
+          <h2>Implementation notes</h2>
+          <span><a href="https://github.com/mcranny/neo-updater">github.com/mcranny/neo-updater</a></span>
+        </div>
+        <p>The Qt/OpenGL desktop viewer remains the full application: mission cards, timeline scrubbing, repeat playback, speed control, mission/inner/full camera presets, object inspection, and map-style pan/orbit/zoom. This browser version ports the stored mission data, search, comparison, time scrub, rotation, zoom, and transfer-path display. It does not run SPICE/Skyfield or SQLite in the browser.</p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Database source</th>
+              <td><code>app/schema.sql -> data/asteroids.db -> assets/neo-missions.json</code></td>
+            </tr>
+            <tr>
+              <th>Ingestion</th>
+              <td>JPL CAD discovers close approaches; JPL SBDB provides osculating orbital elements; imports use idempotent SQLite upserts with foreign keys and uniqueness constraints.</td>
+            </tr>
+            <tr>
+              <th>Transfer planning</th>
+              <td>Universal-variable Lambert solver over configurable departure/arrival grids, with endpoint propagation checks before accepting a plan.</td>
+            </tr>
+            <tr>
+              <th>Browser boundary</th>
+              <td>Positions and transfer paths shown here are precomputed from the local project database. The desktop app handles live update, SQLite explorer, read-only SQL workspace, and full OpenGL object inspection.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>NEO viewer</span>
+      <span>Data source: SQLite export from neo-updater</span>
+    </footer>
+  </body>
+</html>
