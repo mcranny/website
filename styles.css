@@ -944,24 +944,55 @@ pre code {
     min-height: 0;
   }
 
+  .viewer-panel canvas {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
   .readout-grid,
   .btree-page .readout-grid,
+  .resume-skill-grid,
+  .metric-list.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .readout {
+    min-height: 96px;
+    padding: 12px;
+  }
+
+  .readout span {
+    margin-bottom: 10px;
+  }
+
+  .readout strong {
+    font-size: 17px;
+  }
+
   .node-row,
   .slot-grid,
-  .resume-skill-grid,
   .contact-strip,
   .project-row,
   .page-layout-diagram,
   .artifact-grid,
   .lineage-grid,
-  .metric-list.compact,
   .inspector-buttons,
   .segmented,
   .viewer-controls {
     grid-template-columns: 1fr;
   }
 
+  .project-row {
+    gap: 8px;
+    padding: 14px 0;
+  }
+
+  .project-row p {
+    line-height: 1.35;
+  }
+
   .project-row > a {
+    margin-top: 2px;
     text-align: left;
   }
 
@@ -987,7 +1018,28 @@ pre code {
   .resume-rail {
     border-right: 0;
     border-bottom: 1px solid var(--rule);
-    padding: 0 0 24px;
+    padding: 0 0 18px;
+  }
+
+  .resume-rail h1 {
+    font-size: 34px;
+    margin-bottom: 14px;
+  }
+
+  .resume-rail .readout {
+    min-height: 0;
+  }
+
+  .rail-list {
+    margin-top: 16px;
+  }
+
+  .rail-list dt {
+    margin-top: 12px;
+  }
+
+  .rail-list dd {
+    font-size: 14px;
   }
 
   h1 {
