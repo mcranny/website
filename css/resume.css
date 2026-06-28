@@ -116,6 +116,7 @@
   padding: 14px;
 }
 
+@media (max-width: 860px) {
   .readout-grid,
   .btree-page .readout-grid,
   .resume-skill-grid,
@@ -134,6 +135,7 @@
   .segmented,
   .viewer-controls {
     grid-template-columns: 1fr;
+  }
 
   .resume-entry-head {
     display: block;
@@ -171,3 +173,4 @@
   .rail-list dd {
     font-size: 14px;
   }
+}
