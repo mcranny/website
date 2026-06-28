@@ -130,6 +130,7 @@ th,
 }
 
 .mode-toggle,
+.nav-toggle,
 .button {
   align-items: center;
   background: transparent;
@@ -142,6 +143,19 @@ th,
   justify-content: center;
   min-width: 38px;
   padding: 0 12px;
+}
+
+.nav-toggle {
+  display: none;
+  padding: 0;
+  width: 38px;
+}
+
+.nav-toggle span {
+  background: currentColor;
+  display: block;
+  height: 2px;
+  width: 18px;
 }
 
 .mode-toggle {
@@ -175,7 +189,9 @@ th,
 }
 
 .mode-toggle:hover,
-.mode-toggle:focus-visible {
+.nav-toggle:hover,
+.mode-toggle:focus-visible,
+.nav-toggle:focus-visible {
   background: var(--signal-dim);
   border-color: transparent;
 }
@@ -908,22 +924,44 @@ pre code {
 @media (max-width: 860px) {
   .topbar {
     gap: 10px;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: 1fr auto auto;
     height: 56px;
     min-height: 56px;
   }
 
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
   .nav {
-    grid-column: auto;
-    gap: 14px;
-    height: 56px;
-    justify-content: start;
-    overflow-x: auto;
+    background: color-mix(in srgb, var(--paper) 98%, transparent);
+    border-bottom: 1px solid var(--rule);
+    border-top: 1px solid var(--rule);
+    display: none;
+    gap: 0;
+    grid-column: 1 / -1;
+    height: auto;
+    left: 0;
+    padding: 8px 16px;
+    position: absolute;
+    right: 0;
+    top: 56px;
   }
 
   .nav a {
-    padding: 20px 0 17px;
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0;
     white-space: nowrap;
+  }
+
+  .nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .topbar.nav-open .nav {
+    display: grid;
   }
 
   .page-grid {

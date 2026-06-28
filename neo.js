@@ -55,6 +55,40 @@ function initTheme() {
   });
 }
 
+function initNavToggle() {
+  const topbar = document.querySelector(".topbar");
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const nav = document.querySelector(".nav");
+  if (!topbar || !toggle || !nav) return;
+
+  function setOpen(open) {
+    topbar.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  }
+
+  toggle.addEventListener("click", () => {
+    setOpen(!topbar.classList.contains("nav-open"));
+  });
+
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setOpen(false));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!topbar.classList.contains("nav-open") || topbar.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setOpen(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) setOpen(false);
+  });
+}
+
 function drawViewer(canvas, mini = false) {
   const ctx = canvas.getContext("2d");
   const rect = canvas.getBoundingClientRect();
@@ -753,6 +787,7 @@ function animate(frame) {
 
 async function init() {
   initTheme();
+  initNavToggle();
   await loadMissionPayload();
   renderObjectList();
   initControls();
