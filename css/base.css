@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--signal);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+code,
+th,
+.readout,
+.eyebrow,
+.object-button small,
+.viewer-controls span,
+.select-input,
+.segmented,
+.inspector-buttons,
+.rail-list dt,
+.source-slot {
+  font-family: var(--mono);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button,
+  .object-button {
+    transition: background-color 80ms linear, border-color 80ms linear, color 80ms linear;
+  }
+}

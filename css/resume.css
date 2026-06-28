@@ -1,0 +1,173 @@
+.resume-page {
+  align-items: start;
+}
+
+.resume-rail {
+  border-right: 1px solid var(--rule);
+  grid-column: 1 / span 4;
+  padding-right: 24px;
+}
+
+.resume-rail h1 {
+  font-size: 42px;
+}
+
+.resume-main {
+  grid-column: 5 / -1;
+}
+
+.rail-list {
+  margin: 24px 0 0;
+}
+
+.rail-list dt {
+  color: var(--steel);
+  font-size: 11px;
+  margin-top: 18px;
+  text-transform: uppercase;
+}
+
+.rail-list dd {
+  color: var(--graphite);
+  margin: 4px 0 0;
+}
+
+.notice {
+  border: 1px solid color-mix(in srgb, var(--alert) 48%, transparent);
+  margin-bottom: 32px;
+  padding: 16px;
+}
+
+.notice strong {
+  color: var(--alert);
+}
+
+.notice p {
+  color: var(--graphite);
+  margin: 8px 0 0;
+}
+
+.resume-section {
+  margin-top: 32px;
+}
+
+.resume-entry {
+  border-bottom: 1px solid var(--rule);
+  padding: 16px 0;
+}
+
+.resume-entry:first-of-type {
+  padding-top: 0;
+}
+
+.resume-entry-head {
+  align-items: baseline;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.resume-entry h3 {
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 0 2px;
+}
+
+.resume-entry p {
+  color: var(--graphite);
+  font-style: italic;
+  margin: 0;
+}
+
+.resume-entry code {
+  color: var(--steel);
+  flex: 0 0 auto;
+  font-size: 12px;
+  text-align: right;
+}
+
+.resume-entry ul {
+  color: var(--graphite);
+  margin: 0;
+  padding-left: 18px;
+}
+
+.resume-entry li {
+  margin: 0 0 6px;
+}
+
+.resume-skill-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.source-slot {
+  border: 1px dashed var(--rule);
+  color: var(--steel);
+  font-size: 12px;
+  margin: 0 -1px -1px 0;
+  min-height: 92px;
+  padding: 14px;
+}
+
+  .readout-grid,
+  .btree-page .readout-grid,
+  .resume-skill-grid,
+  .metric-list.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .node-row,
+  .slot-grid,
+  .contact-strip,
+  .project-row,
+  .page-layout-diagram,
+  .artifact-grid,
+  .lineage-grid,
+  .inspector-buttons,
+  .segmented,
+  .viewer-controls {
+    grid-template-columns: 1fr;
+
+  .resume-entry-head {
+    display: block;
+  }
+
+  .resume-entry code {
+    display: block;
+    margin-top: 6px;
+    text-align: left;
+  }
+
+  .resume-rail {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 0 18px;
+  }
+
+  .resume-rail h1 {
+    font-size: 34px;
+    margin-bottom: 14px;
+  }
+
+  .resume-rail .readout {
+    min-height: 0;
+  }
+
+  .rail-list {
+    margin-top: 16px;
+  }
+
+  .rail-list dt {
+    margin-top: 12px;
+  }
+
+  .rail-list dd {
+    font-size: 14px;
+  }
