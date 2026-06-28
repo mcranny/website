@@ -216,6 +216,7 @@ td {
   color: var(--graphite);
 }
 
+@media (max-width: 860px) {
   .intro-block,
   .page-heading,
   .mini-viewer,
@@ -294,3 +295,4 @@ td {
   h1 {
     font-size: 38px;
   }
+}

@@ -124,6 +124,7 @@ pre code {
   padding-top: 14px;
 }
 
+@media (max-width: 860px) {
   .node-row,
   .slot-grid,
   .contact-strip,
@@ -135,6 +136,7 @@ pre code {
   .segmented,
   .viewer-controls {
     grid-template-columns: 1fr;
+  }
 
   .btree-page pre {
     overflow-x: hidden;
@@ -147,3 +149,4 @@ pre code {
     overflow-wrap: anywhere;
     white-space: pre-wrap;
   }
+}

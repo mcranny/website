@@ -225,6 +225,7 @@ input[type="range"] {
   flex: 0 0 auto;
 }
 
+@media (max-width: 860px) {
   .object-panel,
   .viewer-panel,
   .data-panel {
@@ -276,3 +277,5 @@ input[type="range"] {
   .segmented,
   .viewer-controls {
     grid-template-columns: 1fr;
+  }
+}
