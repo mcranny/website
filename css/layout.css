@@ -147,15 +147,27 @@
 @media (max-width: 860px) {
   .topbar {
     gap: 10px;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto;
     height: 56px;
     min-height: 56px;
+  }
+
+  .wordmark {
+    grid-column: 4;
+    justify-self: end;
   }
 
   .nav-toggle {
     display: inline-flex;
     flex-direction: column;
     gap: 4px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .mode-toggle {
+    grid-column: 3;
+    grid-row: 1;
   }
 
   .nav {
