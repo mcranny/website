@@ -507,7 +507,7 @@ function beginTouchGesture() {
 
 async function loadMissionPayload() {
   try {
-    const response = await fetch("assets/neo-missions.json", { cache: "no-store" });
+    const response = await fetch("../assets/neo-missions.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     missionPayload = await response.json();
   } catch {
