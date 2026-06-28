@@ -6,6 +6,8 @@ let missionPayload = {
 
 const PLANET_NAMES = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"];
 const PLANET_SIZES = { Mercury: 2.5, Venus: 3, Earth: 3.5, Mars: 3, Jupiter: 4.5, Saturn: 4, Uranus: 3.8, Neptune: 3.8 };
+const hitTargetsMap = new WeakMap();
+let resolvedColors = null;
 
 const state = {
   selectedIds: new Set(),
@@ -29,64 +31,15 @@ const state = {
   movedDuringDrag: false
 };
 
-function setTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  localStorage.setItem("theme", theme);
-  updateThemeControls();
-}
-
-function updateThemeControls() {
-  const dark = document.documentElement.dataset.theme === "dark";
-  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
-    const label = dark ? "Switch to light mode" : "Switch to dark mode";
-    button.setAttribute("aria-label", label);
-    button.setAttribute("title", label);
-  });
-}
-
-function initTheme() {
-  const stored = localStorage.getItem("theme");
-  if (stored) setTheme(stored);
-  else updateThemeControls();
-  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
-    button.addEventListener("click", () => {
-      setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-    });
-  });
-}
-
-function initNavToggle() {
-  const topbar = document.querySelector(".topbar");
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector(".nav");
-  if (!topbar || !toggle || !nav) return;
-
-  function setOpen(open) {
-    topbar.classList.toggle("nav-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
-  }
-
-  toggle.addEventListener("click", () => {
-    setOpen(!topbar.classList.contains("nav-open"));
-  });
-
-  nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setOpen(false));
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!topbar.classList.contains("nav-open") || topbar.contains(event.target)) return;
-    setOpen(false);
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setOpen(false);
-  });
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 860) setOpen(false);
-  });
+function resolveColors() {
+  const styles = getComputedStyle(document.documentElement);
+  resolvedColors = {
+    paper: styles.getPropertyValue("--paper").trim(),
+    ink: styles.getPropertyValue("--ink").trim(),
+    steel: styles.getPropertyValue("--steel").trim(),
+    signal: styles.getPropertyValue("--signal").trim(),
+    rule: styles.getPropertyValue("--rule").trim()
+  };
 }
 
 function drawViewer(canvas, mini = false) {
@@ -101,12 +54,8 @@ function drawViewer(canvas, mini = false) {
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, width, height);
 
-  const styles = getComputedStyle(document.documentElement);
-  const paper = styles.getPropertyValue("--paper").trim();
-  const ink = styles.getPropertyValue("--ink").trim();
-  const steel = styles.getPropertyValue("--steel").trim();
-  const signal = styles.getPropertyValue("--signal").trim();
-  const rule = styles.getPropertyValue("--rule").trim();
+  if (!resolvedColors) resolveColors();
+  const { paper, ink, steel, signal, rule } = resolvedColors;
   const vizEarth = "#2196F3";
   const vizAsteroid = "#FF6B35";
   const vizTransfer = "#00C851";
@@ -290,7 +239,7 @@ function drawViewer(canvas, mini = false) {
   ctx.fillText(`${missionPayload.mode} / SQLite export / Lambert path`, 12, height - 14);
   if (!mini) {
     hitTargets.push({ type: "inspect", object: "Sun", x: sun.x, y: sun.y, radius: 18 });
-    canvas.__neoHitTargets = hitTargets;
+    hitTargetsMap.set(canvas, hitTargets);
   }
 }
 
@@ -512,11 +461,15 @@ function applyCameraPreset(name) {
     state.panX = 0;
     state.panY = 0;
   }
+  syncCameraControls();
+  drawAllViewers();
+}
+
+function syncCameraControls() {
   const zoom = document.querySelector("[data-zoom-scrub]");
   const rotation = document.querySelector("[data-rotation-scrub]");
-  if (zoom) zoom.value = String(state.zoom);
-  if (rotation) rotation.value = String(state.rotation);
-  drawAllViewers();
+  if (zoom) zoom.value = String(Math.round(state.zoom));
+  if (rotation) rotation.value = String(Math.round(state.rotation));
 }
 
 function touchPoint(event) {
@@ -554,7 +507,7 @@ function beginTouchGesture() {
 
 async function loadMissionPayload() {
   try {
-    const response = await fetch("assets/neo-missions.json", { cache: "no-store" });
+    const response = await fetch("../assets/neo-missions.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     missionPayload = await response.json();
   } catch {
@@ -579,6 +532,8 @@ async function loadMissionPayload() {
 function initControls() {
   const search = document.querySelector("#neo-search");
   const time = document.querySelector("[data-time-scrub]");
+  const zoom = document.querySelector("[data-zoom-scrub]");
+  const rotation = document.querySelector("[data-rotation-scrub]");
   const play = document.querySelector("[data-play-toggle]");
   const restart = document.querySelector("[data-restart]");
   const speed = document.querySelector("[data-speed-select]");
@@ -588,6 +543,14 @@ function initControls() {
   time?.addEventListener("input", () => {
     state.time = Number(time.value);
     updateMetrics();
+    drawAllViewers();
+  });
+  zoom?.addEventListener("input", () => {
+    state.zoom = Number(zoom.value);
+    drawAllViewers();
+  });
+  rotation?.addEventListener("input", () => {
+    state.rotation = Number(rotation.value);
     drawAllViewers();
   });
   play?.addEventListener("click", () => {
@@ -652,10 +615,7 @@ function initControls() {
           state.panX = state.touchGesture.panX + (center.x - state.touchGesture.centerX);
           state.panY = state.touchGesture.panY + (center.y - state.touchGesture.centerY);
           state.movedDuringDrag = true;
-          const zoomInput = document.querySelector("[data-zoom-scrub]");
-          const rotationInput = document.querySelector("[data-rotation-scrub]");
-          if (zoomInput) zoomInput.value = String(Math.round(state.zoom));
-          if (rotationInput) rotationInput.value = String(Math.round(state.rotation));
+          syncCameraControls();
           drawAllViewers();
           return;
         }
@@ -745,15 +705,14 @@ function initControls() {
     canvas.addEventListener("wheel", (event) => {
       event.preventDefault();
       state.zoom = Math.max(4, Math.min(520, state.zoom - event.deltaY * 0.08));
-      const zoomInput = document.querySelector("[data-zoom-scrub]");
-      if (zoomInput) zoomInput.value = String(Math.round(state.zoom));
+      syncCameraControls();
       drawAllViewers();
     }, { passive: false });
   });
 }
 
 function nearestHit(canvas, x, y) {
-  const targets = canvas.__neoHitTargets || [];
+  const targets = hitTargetsMap.get(canvas) || [];
   let nearest = null;
   for (const target of targets) {
     const distance = Math.hypot(target.x - x, target.y - y);
@@ -786,14 +745,17 @@ function animate(frame) {
 }
 
 async function init() {
-  initTheme();
-  initNavToggle();
+  resolveColors();
   await loadMissionPayload();
   renderObjectList();
   initControls();
   updateMetrics();
   drawAllViewers();
   window.addEventListener("resize", drawAllViewers);
+  document.addEventListener("site:themechange", () => {
+    resolveColors();
+    drawAllViewers();
+  });
   requestAnimationFrame(animate);
 }
 

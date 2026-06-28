@@ -1,0 +1,149 @@
+.btree-page .page-heading {
+  grid-column: 1 / span 7;
+}
+
+.btree-page .readout-grid {
+  grid-column: 8 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.btree-diagram {
+  border: 1px solid var(--rule);
+  padding: 24px;
+}
+
+.page-layout-diagram {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 0.8fr 1.5fr 0.9fr;
+}
+
+.page-block,
+.lineage-box {
+  border: 1px solid var(--rule);
+  padding: 14px;
+}
+
+.page-block code,
+.lineage-box code {
+  color: var(--signal);
+  display: block;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.page-block span {
+  border-top: 1px solid var(--rule);
+  color: var(--graphite);
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 7px 0;
+}
+
+.artifact-grid,
+.lineage-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.artifact-grid h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.artifact-grid p,
+.lineage-box p {
+  color: var(--graphite);
+}
+
+pre {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  margin: 14px 0 0;
+  max-width: 100%;
+  overflow: auto;
+  padding: 14px;
+}
+
+pre code {
+  color: var(--ink);
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+.node {
+  border: 1px solid var(--rule);
+  padding: 14px;
+}
+
+.node code,
+.node span {
+  display: block;
+}
+
+.node code {
+  color: var(--signal);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.node.root {
+  margin: 0 auto;
+  max-width: 260px;
+}
+
+.node.active {
+  background: var(--signal-dim);
+  border-color: var(--signal);
+}
+
+.branch-line {
+  border-left: 1px solid var(--rule);
+  height: 34px;
+  margin: 0 auto;
+  width: 1px;
+}
+
+.node-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.split-arrow {
+  border-top: 1px solid var(--rule);
+  color: var(--graphite);
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 24px;
+  padding-top: 14px;
+}
+
+  .node-row,
+  .slot-grid,
+  .contact-strip,
+  .project-row,
+  .page-layout-diagram,
+  .artifact-grid,
+  .lineage-grid,
+  .inspector-buttons,
+  .segmented,
+  .viewer-controls {
+    grid-template-columns: 1fr;
+
+  .btree-page pre {
+    overflow-x: hidden;
+    padding: 12px;
+  }
+
+  .btree-page pre code {
+    font-size: 10px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }

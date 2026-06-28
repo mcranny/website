@@ -1,0 +1,26 @@
+:root {
+  --paper: #fafaf8;
+  --ink: #0a0a0b;
+  --graphite: #3d3d40;
+  --steel: #8a8d91;
+  --signal: #1530a6;
+  --signal-dim: rgb(21 48 166 / 12%);
+  --alert: #b3261e;
+  --rule: rgb(61 61 64 / 22%);
+  --panel: rgb(255 255 255 / 42%);
+  --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --sans: "Inter", "Inter Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --max: 1200px;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --paper: #0a0a0b;
+  --ink: #fafaf8;
+  --graphite: #b5b7ba;
+  --steel: #8a8d91;
+  --rule: rgb(250 250 248 / 20%);
+  --panel: rgb(250 250 248 / 7%);
+  --signal-dim: rgb(21 48 166 / 30%);
+  color-scheme: dark;
+}

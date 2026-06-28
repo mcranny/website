@@ -14,12 +14,13 @@ Then open `http://localhost:5000`.
 
 ## Structure
 
-- `index.html` - Home/status page
-- `neo.html` - interactive NEO viewer
-- `btree.html` - B-tree storage engine project page
-- `resume.html` - resume page using only verified prompt-provided facts
-- `styles.css` - shared design tokens, grid, layout, responsive styles
-- `neo.js` - cached NEO dataset and canvas orbital renderer
+- `pages/index.html` - Home/status page
+- `pages/neo.html` - interactive NEO viewer
+- `pages/btree.html` - B-tree storage engine project page
+- `pages/resume.html` - resume page using only verified prompt-provided facts
+- `css/` - split design tokens, base styles, layout styles, and per-page stylesheets
+- `js/site.js` - sitewide theme and mobile navigation behavior
+- `js/neo.js` - cached NEO dataset and canvas orbital renderer
 - `assets/neo-missions.json` - static export from `neo-updater/data/asteroids.db`
 
 ## NEO data mode

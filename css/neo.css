@@ -1,0 +1,278 @@
+.viewer-panel canvas {
+  cursor: grab;
+  touch-action: none;
+}
+
+.viewer-panel canvas:active {
+  cursor: grabbing;
+}
+
+.neo-page {
+  align-items: stretch;
+}
+
+.object-panel {
+  grid-column: 1 / span 3;
+}
+
+.viewer-panel {
+  grid-column: 4 / span 6;
+}
+
+.data-panel {
+  grid-column: 10 / span 3;
+}
+
+.object-panel,
+.viewer-panel,
+.data-panel {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  min-height: 760px;
+  padding: 12px;
+}
+
+
+.panel-title {
+  flex: 0 0 auto;
+}
+
+.field-label {
+  color: var(--steel);
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.text-input {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink);
+  height: 38px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.select-input {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink);
+  height: 34px;
+  padding: 0 8px;
+  width: 100%;
+}
+
+.object-list {
+  border: 1px solid var(--rule);
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.object-button {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  cursor: pointer;
+  display: block;
+  padding: 12px;
+  text-align: left;
+  width: 100%;
+}
+
+.object-button strong,
+.object-button small {
+  display: block;
+}
+
+.object-button small {
+  color: var(--steel);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.object-button[aria-selected="true"] {
+  background: var(--signal-dim);
+  color: var(--signal);
+}
+
+.viewer-controls {
+  border: 1px solid var(--rule);
+  border-top: 0;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(240px, 1fr) minmax(210px, 0.45fr);
+  padding: 12px;
+}
+
+.viewer-controls label {
+  display: grid;
+  gap: 4px;
+}
+
+.viewer-controls span {
+  color: var(--steel);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+input[type="range"] {
+  accent-color: var(--signal);
+  width: 100%;
+}
+
+.checkbox-control {
+  align-items: center;
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: center;
+}
+
+.checkbox-control input {
+  accent-color: var(--signal);
+}
+
+.segmented,
+.inspector-buttons {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.inspector-buttons {
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 12px;
+}
+
+.segmented button,
+.inspector-buttons button {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--graphite);
+  cursor: pointer;
+  font-size: 11px;
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+.segmented button:hover,
+.segmented button:focus-visible,
+.inspector-buttons button:hover,
+.inspector-buttons button:focus-visible {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+.object-inspector {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-top: 0;
+  flex: 0 0 auto;
+  padding: 12px;
+}
+
+.metric-list {
+  display: grid;
+  position: relative;
+  z-index: 0;
+}
+
+.metric-list.compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metric {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  margin: 0 -1px -1px 0;
+  padding: 11px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric span,
+.metric code {
+  display: block;
+}
+
+.metric span {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.metric code {
+  color: var(--ink);
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+.data-panel > .metric-list {
+  flex: 1 1 auto;
+  overflow: visible;
+}
+
+.data-panel > .readout {
+  background: var(--paper);
+  flex: 0 0 auto;
+}
+
+  .object-panel,
+  .viewer-panel,
+  .data-panel {
+    min-height: 0;
+  }
+
+  .viewer-panel canvas {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .neo-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .neo-page .page-heading {
+    order: 0;
+  }
+
+  .neo-page .viewer-panel {
+    order: 1;
+  }
+
+  .neo-page .data-panel {
+    order: 2;
+  }
+
+  .neo-page .object-panel {
+    order: 3;
+  }
+
+  .neo-page .neo-readouts {
+    order: 4;
+  }
+
+  .neo-page .technical-panel {
+    order: 5;
+  }
+
+  .readout-grid,
+  .btree-page .readout-grid,
+  .resume-skill-grid,
+  .metric-list.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inspector-buttons,
+  .segmented,
+  .viewer-controls {
+    grid-template-columns: 1fr;
