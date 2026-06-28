@@ -178,6 +178,8 @@
     gap: 0;
     grid-column: 1 / -1;
     height: auto;
+    justify-content: stretch;
+    justify-items: start;
     left: 0;
     padding: 8px 16px;
     position: absolute;
@@ -188,7 +190,9 @@
   .nav a {
     border-bottom: 1px solid var(--rule);
     padding: 12px 0;
+    text-align: left;
     white-space: nowrap;
+    width: 100%;
   }
 
   .nav a:last-child {
