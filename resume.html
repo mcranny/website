@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Resume for Matthew Cranny, systems engineer with experience in firmware validation, FPGA-based testing, Python automation, semiconductor metrology, and hardware test.">
+    <title>Resume | Matthew Cranny</title>
+    <link rel="canonical" href="https://mcranny.net/resume.html">
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
+    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/resume.css">
+    <script src="js/site.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="index.html">MCRANNY.NET</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="neo.html">NEO Viewer</a>
+        <a href="btree.html">B-Tree Engine</a>
+        <a aria-current="page" href="resume.html">Resume</a>
+      </nav>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <g class="theme-icon-sun">
+            <circle cx="32" cy="32" r="12"></circle>
+            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
+            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
+            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
+            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
+            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
+            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
+            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
+            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
+          </g>
+          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
+        </svg>
+        <span class="sr-only">Toggle dark mode</span>
+      </button>
+    </header>
+
+    <main class="page-grid resume-page">
+      <aside class="resume-rail">
+        <p class="eyebrow">Resume</p>
+        <h1>Matthew Cranny</h1>
+        <div class="readout">
+          <span>Download</span>
+          <strong>PDF resume</strong>
+          <code><a href="assets/Matthew-Cranny-Resume.pdf">assets/Matthew-Cranny-Resume.pdf</a></code>
+        </div>
+        <dl class="rail-list">
+          <dt>Contact</dt>
+          <dd><a href="mailto:crannymatthew@gmail.com">crannymatthew@gmail.com</a></dd>
+          <dd><a href="https://mcranny.net">mcranny.net</a></dd>
+          <dd><a href="https://linkedin.com/in/matthew-cranny">linkedin.com/in/matthew-cranny</a></dd>
+          <dd><a href="https://github.com/mcranny">github.com/mcranny</a></dd>
+          <dt>Current role</dt>
+          <dd>Systems Engineer, PDF Solutions</dd>
+          <dt>Education</dt>
+          <dd>B.A. Physics, UC Berkeley, May 2026</dd>
+          <dt>Core tools</dt>
+          <dd>Python, Bash, SQL, REST APIs, JSON, VBA, Verilog, Flask, PyQt6, SQLite, LabVIEW, AMD Vivado</dd>
+          <dt>Hardware/test</dt>
+          <dd>ATE, SCPI/GPIB, NI-DAQmx, PyVISA, board calibration, firmware flashing, SEM stage control</dd>
+        </dl>
+      </aside>
+
+      <section class="resume-main">
+        <section class="resume-section">
+          <div class="section-rule">
+            <h2>Experience</h2>
+            <span>HTML resume source</span>
+          </div>
+
+          <article class="resume-entry">
+            <div class="resume-entry-head">
+              <div>
+                <h3>PDF Solutions</h3>
+                <p>Systems Engineer</p>
+              </div>
+              <code>March 2026 - Present / San Jose, CA</code>
+            </div>
+            <ul>
+              <li>Built Python signal-processing and LabVIEW pipelines to process raw SEM data and characterize settling dynamics for SEM stage control hardware, integrating TCP/UDP data acquisition to tune inertia compensation and reduce time to tolerance from 300 ns to 20 ns.</li>
+              <li>Developed automated board test and calibration framework across six board families, covering clock phase, frequency, gain, and AC/DC measurements through a Python test engine, PyQt6 GUI, and SCPI/GPIB/NI-DAQmx drivers.</li>
+              <li>Designed a Flask/SQLite system of record for firmware and hardware revisions across 90+ boards, with admin CRUD and SQL/CSV export tools that exposed configuration conflicts and informed fleet deployment decisions.</li>
+              <li>Recovered and validated 5 to 6 unresponsive boards per week through cleanroom handling, AMD Vivado FPGA debugging, register probing, and targeted firmware updates before reinstallation.</li>
+            </ul>
+          </article>
+
+          <article class="resume-entry">
+            <div class="resume-entry-head">
+              <div>
+                <h3>Amazon</h3>
+                <p>Data Analyst Intern</p>
+              </div>
+              <code>May 2025 - July 2025 / Turlock, CA</code>
+            </div>
+            <ul>
+              <li>Built Python API and scraper pipelines to detect anomalous inventory behavior across fulfillment center systems, migrating execution to AWS Lambda, EventBridge, and Secrets Manager while reducing estimated vendor transaction risk by $100,000 annually.</li>
+              <li>Extended anomaly detection models to predict which inventory items were likely to become anomalous, enabling preemptive inspection and intervention before issues escalated.</li>
+              <li>Developed VBA labor management automation deployed across fulfillment centers, eliminating over 120 hours of manual reporting per week.</li>
+            </ul>
+          </article>
+
+          <article class="resume-entry">
+            <div class="resume-entry-head">
+              <div>
+                <h3>Space Sciences Laboratory, UC Berkeley</h3>
+                <p>Aerospace Engineering Intern</p>
+              </div>
+              <code>June 2024 - May 2025 / Berkeley, CA</code>
+            </div>
+            <ul>
+              <li>Modeled and iterated flight-qualified structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar far side radio observatory mission that achieved flight certification.</li>
+              <li>Fabricated and assembled structural components across concurrent satellite programs in a cleanroom environment, maintaining contamination control and handling protocols.</li>
+              <li>Built and installed wiring harnesses, assembled high-voltage step-up converter circuits, and mounted passive electrical components across flight hardware subsystems.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="resume-section">
+          <div class="section-rule">
+            <h2>Projects</h2>
+            <span>Selected build work</span>
+          </div>
+          <article class="resume-entry">
+            <div class="resume-entry-head">
+              <div>
+                <h3>Combat Robotics at Berkeley</h3>
+                <p>Technical Lead</p>
+              </div>
+              <code>August 2023 - May 2025</code>
+            </div>
+            <ul>
+              <li>Built the complete power and control system for weapon and drive subsystems, integrating ESCs, brushless motors, custom PCB harnesses, and battery management into a compact, competition-ready electrical architecture.</li>
+              <li>Engineered armor and weapon assemblies from hardened steel and HDPE; designed internal component layout and wiring paths to isolate electronics from combat-induced shock, vibration, and packaging constraints.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="resume-section">
+          <div class="section-rule">
+            <h2>Education</h2>
+            <span>UC Berkeley</span>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Degree</th>
+                <td>B.A. Physics, University of California, Berkeley. May 2026.</td>
+              </tr>
+              <tr>
+                <th>Coursework</th>
+                <td>Quantum Mechanics, Electromagnetism, Optics, Advanced Electrical Laboratory, Thermal Physics.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="resume-section">
+          <div class="section-rule">
+            <h2>Skills</h2>
+            <span>Technical readout</span>
+          </div>
+          <div class="readout-grid resume-skill-grid">
+            <article class="readout">
+              <span>Languages</span>
+              <strong>Python / SQL / Verilog</strong>
+              <code>Bash / VBA</code>
+            </article>
+            <article class="readout">
+              <span>Software</span>
+              <strong>Flask / PyQt6 / SQLite</strong>
+              <code>REST APIs / JSON pipelines / AWS / Linux</code>
+            </article>
+            <article class="readout">
+              <span>Hardware</span>
+              <strong>ATE / SCPI / GPIB</strong>
+              <code>NI-DAQmx / PyVISA / scopes</code>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+  </body>
+</html>

@@ -14,10 +14,11 @@ Then open `http://localhost:5000`.
 
 ## Structure
 
-- `pages/index.html` - Home/status page
-- `pages/neo.html` - interactive NEO viewer
-- `pages/btree.html` - B-tree storage engine project page
-- `pages/resume.html` - resume page using only verified prompt-provided facts
+- `index.html` - Home/status page served at the site root
+- `neo.html` - interactive NEO viewer
+- `btree.html` - B-tree storage engine project page
+- `resume.html` - resume page using only verified prompt-provided facts
+- `pages/` - organized copies of the HTML pages for the split asset structure
 - `css/` - split design tokens, base styles, layout styles, and per-page stylesheets
 - `js/site.js` - sitewide theme and mobile navigation behavior
 - `js/neo.js` - cached NEO dataset and canvas orbital renderer

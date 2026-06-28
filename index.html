@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Engineering portfolio for Matthew Cranny, a systems engineer working on firmware validation, FPGA-based testing, Python automation, semiconductor metrology, orbital planning, and storage engines.">
+    <title>Matthew Cranny | Systems Engineering Portfolio</title>
+    <link rel="canonical" href="https://mcranny.net/">
+    <meta property="og:title" content="Matthew Cranny | Systems Engineering Portfolio">
+    <meta property="og:description" content="Systems engineering portfolio covering firmware validation, FPGA-based testing, Python automation, asteroid intercept planning, and storage engine work.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mcranny.net/">
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
+    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/home.css">
+    <script src="js/site.js" defer></script>
+    <script src="js/neo.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="index.html">MCRANNY.NET</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav" aria-label="Primary">
+        <a aria-current="page" href="index.html">Home</a>
+        <a href="neo.html">NEO Viewer</a>
+        <a href="btree.html">B-Tree Engine</a>
+        <a href="resume.html">Resume</a>
+      </nav>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <g class="theme-icon-sun">
+            <circle cx="32" cy="32" r="12"></circle>
+            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
+            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
+            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
+            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
+            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
+            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
+            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
+            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
+          </g>
+          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
+        </svg>
+        <span class="sr-only">Toggle dark mode</span>
+      </button>
+    </header>
+
+    <main class="page-grid home-page">
+      <section class="intro-block">
+        <p class="eyebrow">Systems Engineer</p>
+        <h1>Matthew Cranny</h1>
+        <p class="lede">I build software where hardware, data correctness, and operator workflows meet: firmware validation tools for SEM metrology systems, orbital planning software backed by JPL data, and storage-engine work that makes accuracy visible.</p>
+      </section>
+
+      <section class="mini-viewer" aria-label="NEO trajectory preview">
+        <div class="section-rule">
+          <h2>Asteroid transfer preview</h2>
+          <a href="neo.html">Open viewer</a>
+        </div>
+        <canvas id="neo-canvas" data-mini-viewer width="760" height="420" aria-label="Canvas preview of cached near-earth object trajectories"></canvas>
+      </section>
+
+      <section class="readout-grid home-readouts" aria-label="Profile readouts">
+        <article class="readout">
+          <span>Current role</span>
+          <strong>Systems Engineer</strong>
+          <code>PDF Solutions</code>
+        </article>
+        <article class="readout">
+          <span>Domain</span>
+          <strong>SEM metrology</strong>
+          <code>FPGA validation</code>
+        </article>
+        <article class="readout">
+          <span>Education</span>
+          <strong>Physics B.A.</strong>
+          <code>UC Berkeley 2026</code>
+        </article>
+        <article class="readout">
+          <span>Focus</span>
+          <strong>Instrument automation</strong>
+          <code>SCPI / GPIB / test frameworks</code>
+        </article>
+      </section>
+
+      <section class="contact-strip" aria-label="Contact links">
+        <a href="mailto:crannymatthew@gmail.com">
+          <span>Email</span>
+          <strong>crannymatthew@gmail.com</strong>
+        </a>
+        <a href="https://linkedin.com/in/matthew-cranny">
+          <span>LinkedIn</span>
+          <strong>linkedin.com/in/matthew-cranny</strong>
+        </a>
+        <a href="https://github.com/mcranny">
+          <span>GitHub</span>
+          <strong>github.com/mcranny</strong>
+        </a>
+      </section>
+
+      <section class="project-strip">
+        <div class="section-rule">
+          <h2>Projects</h2>
+        </div>
+        <article class="project-row">
+          <h3><a href="neo.html">Asteroid Intercept Planner</a></h3>
+          <p>JPL CAD/SBDB ingestion, normalized SQLite storage, Lambert transfer search, endpoint propagation checks, and a mission viewer export loaded here as static JSON.</p>
+          <a href="https://github.com/mcranny/neo-updater">github.com/mcranny/neo-updater</a>
+        </article>
+        <article class="project-row">
+          <h3><a href="btree.html">B-tree Storage Engine</a></h3>
+          <p>Rust key-value engine with 4096-byte pages, a bounded pager cache, redo WAL, persistent free-list, range scans, deletion rebalancing, and SQLite differential tests.</p>
+          <a href="https://github.com/mcranny/btree-storage-engine">github.com/mcranny/btree-storage-engine</a>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
