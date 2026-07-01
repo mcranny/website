@@ -4,6 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fafaf8">
+    <script>
+      (() => {
+        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
+        let theme = "light";
+        try {
+          const stored = localStorage.getItem("theme");
+          if (stored === "dark" || stored === "light") theme = stored;
+        } catch (error) {}
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
+      })();
+    </script>
     <meta name="description" content="Resume for Matthew Cranny, systems engineer with experience in firmware validation, FPGA-based testing, Python automation, semiconductor metrology, and hardware test.">
     <title>Resume | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/resume.html">
