@@ -7,8 +7,15 @@ function updateThemeControls() {
   });
 }
 
+function updateThemeColor(theme) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  meta.setAttribute("content", theme === "dark" ? "#0a0a0b" : "#fafaf8");
+}
+
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
+  updateThemeColor(theme);
   localStorage.setItem("theme", theme);
   updateThemeControls();
   document.dispatchEvent(new CustomEvent("site:themechange"));
@@ -17,7 +24,10 @@ function setTheme(theme) {
 function initTheme() {
   const stored = localStorage.getItem("theme");
   if (stored) setTheme(stored);
-  else updateThemeControls();
+  else {
+    updateThemeColor(document.documentElement.dataset.theme);
+    updateThemeControls();
+  }
 
   document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
