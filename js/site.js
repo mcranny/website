@@ -1,3 +1,8 @@
+const THEME_COLORS = {
+  dark: "#0a0a0b",
+  light: "#fafaf8",
+};
+
 function updateThemeControls() {
   const dark = document.documentElement.dataset.theme === "dark";
   document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
@@ -7,8 +12,32 @@ function updateThemeControls() {
   });
 }
 
+function updateThemeColor(theme) {
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  const colorScheme = document.querySelector('meta[name="color-scheme"]');
+  if (themeColor) {
+    themeColor.setAttribute("content", THEME_COLORS[theme]);
+    if (themeColor.parentNode) {
+      themeColor.remove();
+      document.head.append(themeColor);
+    }
+  }
+  if (colorScheme) colorScheme.setAttribute("content", theme);
+}
+
+function updateThemeSurface(theme) {
+  const color = THEME_COLORS[theme];
+  document.documentElement.style.backgroundColor = color;
+  document.documentElement.style.colorScheme = theme;
+  if (document.body) {
+    document.body.style.backgroundColor = color;
+  }
+}
+
 function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
+  updateThemeSurface(theme);
+  updateThemeColor(theme);
   localStorage.setItem("theme", theme);
   updateThemeControls();
   document.dispatchEvent(new CustomEvent("site:themechange"));
@@ -17,7 +46,12 @@ function setTheme(theme) {
 function initTheme() {
   const stored = localStorage.getItem("theme");
   if (stored) setTheme(stored);
-  else updateThemeControls();
+  else {
+    const theme = document.documentElement.dataset.theme || "light";
+    updateThemeSurface(theme);
+    updateThemeColor(theme);
+    updateThemeControls();
+  }
 
   document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
