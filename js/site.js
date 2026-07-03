@@ -89,9 +89,6 @@ function initNavToggle() {
     if (event.key === "Escape") setOpen(false);
   });
 
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 860) setOpen(false);
-  });
 }
 
 function initSite() {

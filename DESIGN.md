@@ -25,13 +25,33 @@ Dark mode is optional and toggle-only. It inverts the panel stock and ink while 
 
 Every page uses one 12-column grid, a 56px top bar, hairline rules, and reusable readout blocks. Corners stay square or nearly square; there are no shadows, gradients, or decorative cards.
 
+Navigation uses the same compact header at every viewport: hamburger control on the left, theme control near the right, wordmark on the far right, and a stacked dropdown containing Home, project links, and Resume.
+
 ### Home
 
 ```text
 top nav ------------------------------------------------
 intro/status  [mini orbital canvas           ]
-readouts      [project routing table         ]
+readouts      [four-project routing table    ]
 footer -----------------------------------------------
+```
+
+### Hardware Verification
+
+```text
+top nav ------------------------------------------------
+framework summary | validation readouts
+layer grid ---------------------------------------------
+RTL flow / report artifacts / implementation facts -----
+```
+
+### Scope Simulator
+
+```text
+top nav ------------------------------------------------
+simulator summary | acquisition readouts
+signal-chain flow --------------------------------------
+viewer/API boundary / validation table / usage ---------
 ```
 
 ### NEO Viewer
