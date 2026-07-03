@@ -5,7 +5,7 @@
   border-bottom: 1px solid var(--rule);
   display: grid;
   gap: 10px;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   height: 56px;
   left: 0;
   min-height: 56px;
@@ -24,6 +24,10 @@
   grid-column: 4;
   justify-self: end;
   letter-spacing: 0.08em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav {
@@ -176,6 +180,10 @@
   margin: 0 auto;
   max-width: var(--max);
   padding: 48px 16px 64px;
+}
+
+.page-grid > * {
+  min-width: 0;
 }
 
 @media (max-width: 860px) {

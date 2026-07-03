@@ -37,6 +37,7 @@
 .project-shot {
   border: 1px solid var(--rule);
   margin: 0;
+  min-width: 0;
 }
 
 .project-shot img {
@@ -58,6 +59,7 @@
 .system-box,
 .flow-step {
   border: 1px solid var(--rule);
+  min-width: 0;
   padding: 14px;
 }
 
@@ -132,5 +134,13 @@
     line-height: 1.4;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .system-box code,
+  .flow-step code,
+  .project-shot figcaption {
+    overflow-wrap: anywhere;
   }
 }
