@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 NEO_REPO = Path("/Users/matthewcranny/Documents/GitHub/neo-updater")
-OUT_PATH = Path("assets/neo-missions.json")
+OUT_PATH = Path("assets/neo-missions")
 
 sys.path.insert(0, str(NEO_REPO))
 
@@ -18,6 +18,7 @@ from app.solar_system import (  # noqa: E402
     planet_elements,
     planet_position_au,
 )
+from split_neo_missions import write_payload  # noqa: E402
 
 
 def fetch_rows(connection: sqlite3.Connection) -> list[sqlite3.Row]:
@@ -118,13 +119,7 @@ def main() -> None:
         objects.append(item)
 
     payload = {
-        "mode": "sqlite-export",
-        "source_repo": str(NEO_REPO),
-        "source_database": "data/asteroids.db",
-        "export_note": (
-            "Static web export from normalized SQLite tables. Planet, Earth, "
-            "target, and Lambert geometry use neo-updater source functions."
-        ),
+        "mode": "Precomputed mission data",
         "counts": {
             table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             for table in [
@@ -137,8 +132,8 @@ def main() -> None:
         },
         "objects": objects,
     }
-    OUT_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print(f"Wrote {OUT_PATH} with {len(objects)} missions")
+    write_payload(payload, OUT_PATH)
+    print(f"Wrote {OUT_PATH} with {len(objects)} lazy-loaded missions")
 
 
 if __name__ == "__main__":
