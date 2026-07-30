@@ -9,10 +9,7 @@
       (() => {
         const colors = { dark: "#0a0a0b", light: "#fafaf8" };
         let theme = "light";
-        try {
-          const stored = localStorage.getItem("theme");
-          if (stored === "dark" || stored === "light") theme = stored;
-        } catch (error) {}
+        try { const stored = localStorage.getItem("theme"); if (stored === "dark" || stored === "light") theme = stored; } catch (error) {}
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.backgroundColor = colors[theme];
         document.documentElement.style.colorScheme = theme;
@@ -20,219 +17,84 @@
         document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
       })();
     </script>
-    <meta name="description" content="Matthew Cranny's hardware verification framework for full RTL co-simulation with Python stimulus, behavioral reference models, cocotb, Icarus Verilog, Verilator linting, and report generation.">
-    <title>Hardware Verification | Matthew Cranny</title>
+    <meta name="description" content="An independent hardware verification framework using Python reference models, cocotb, Verilog simulation, deterministic waveform comparison, and validation reporting.">
+    <title>Hardware Verification Framework | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/hardware.html">
+    <meta property="og:title" content="Hardware Verification Framework | Matthew Cranny">
+    <meta property="og:description" content="A reusable RTL co-simulation and validation environment for signal-processing hardware.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://mcranny.net/hardware.html">
+    <meta property="og:image" content="https://mcranny.net/assets/hardware-rtl-cosim-comparison.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://mcranny.net/assets/hardware-rtl-cosim-comparison.png">
     <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
     <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
     <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
     <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/project.css">
+    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css">
     <script src="js/site.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="topbar">
       <a class="wordmark" href="index.html">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
       <nav class="nav" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="neo.html">NEO Viewer</a>
-        <a aria-current="page" href="hardware.html">Hardware Verification</a>
-        <a href="scope.html">Scope Simulator</a>
-        <a href="btree.html">B-Tree Engine</a>
-        <a href="resume.html">Resume</a>
+        <a href="index.html">Home</a><a href="index.html#work">Work</a>
+        <div class="nav-projects"><button type="button" data-projects-toggle aria-expanded="false">Projects</button><div class="project-menu"><a aria-current="page" href="hardware.html">Hardware Verification</a><a href="scope.html">Scope Simulator</a><a href="neo.html">NEO Viewer</a><a href="btree.html">B-Tree Engine</a></div></div>
+        <a href="resume.html">Résumé</a><a href="index.html#contact">Contact</a>
       </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle>
-            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
-            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
-            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
-            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
-            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
-            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g class="theme-icon-sun"><circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect></g><path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path></svg><span class="sr-only">Toggle dark mode</span></button>
     </header>
 
-    <main class="page-grid project-page hardware-page">
+    <main id="main-content" class="page-grid project-page hardware-page">
       <section class="page-heading">
-        <p class="eyebrow">Hardware validation / mcranny/hardware-verification</p>
-        <h1>Full RTL co-simulation flow for signal-processing hardware.</h1>
-        <p class="lede">A Python verification framework that drives Verilog implementations with generated stimulus, compares captured RTL samples against deterministic integer reference models, and keeps the same validation harness available for behavioral models and report generation.</p>
+        <p class="eyebrow">Independent verification project</p>
+        <h1>Reusable RTL verification for signal-processing hardware.</h1>
+        <p class="lede">I built a Python verification environment that drives Verilog implementations with generated stimulus, compares captured samples against deterministic integer reference models, and produces evidence that makes the first incorrect result easy to locate.</p>
+        <div class="project-actions"><a class="button primary" href="https://github.com/mcranny/hardware-verification">View source</a><a class="button" href="scope.html">Next: Scope Simulator</a></div>
       </section>
+      <aside class="case-summary" aria-label="Project summary">
+        <div class="case-fact"><span>Problem</span><strong>Make hardware behavior repeatable before implementation</strong></div>
+        <div class="case-fact"><span>Method</span><strong>Python references compared with captured RTL samples</strong></div>
+        <div class="case-fact"><span>Evidence</span><strong>Exact comparisons, linting, and first-mismatch diagnostics</strong></div>
+      </aside>
 
-      <section class="readout-grid">
-        <article class="readout">
-          <span>Bench layer</span>
-          <strong>Python stimulus</strong>
-          <code>function generator / oscilloscope / DMM</code>
-        </article>
-        <article class="readout">
-          <span>RTL modules</span>
-          <strong>DSP / FIR / average</strong>
-          <code>dsp_block.v / fir_filter.v / moving_average.v</code>
-        </article>
-        <article class="readout">
-          <span>Co-simulation</span>
-          <strong>cocotb + Icarus</strong>
-          <code>sample-valid handshakes</code>
-        </article>
-        <article class="readout">
-          <span>Lint path</span>
-          <strong>Verilator</strong>
-          <code>per-module lint targets</code>
-        </article>
-      </section>
-
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>RTL co-simulation capture</h2>
-          <span>Python reference vs captured RTL</span>
-        </div>
-        <div class="media-grid single">
-          <figure class="project-shot">
-            <img src="assets/hardware-rtl-cosim-comparison.png" alt="Python reference and captured RTL output comparison for DSP, moving average, and FIR filter modules">
-            <figcaption>Generated by running the co-simulation path for <code>dsp_block.v</code>, <code>moving_average.v</code>, and <code>fir_filter.v</code>. Red markers are captured RTL samples; the blue traces are Python reference outputs.</figcaption>
-          </figure>
+      <section class="case-section">
+        <div class="case-section-heading"><h2>Verification problem</h2><p>Signal-processing blocks are simple to describe but easy to misimplement at signed limits, valid gaps, saturation boundaries, and coefficient changes.</p></div>
+        <div class="case-split">
+          <div><h3>What I wanted to prove</h3><p>A passing simulation should mean more than “the waveform looks close.” The harness needed to generate repeatable edge cases, preserve cycle-valid behavior, and compare every captured integer against the same reference used by the behavioral model.</p></div>
+          <div><h3>How I structured it</h3><p>Virtual instruments generate stimulus, device adapters present a consistent interface, and validation definitions package pass/fail criteria. The same bench concepts can exercise behavioral devices or Verilog modules without changing the test intent.</p></div>
         </div>
       </section>
 
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>Framework layers</h2>
-          <span>virtual_bench -> dut -> rtl_verification</span>
-        </div>
-        <div class="system-grid" aria-label="Hardware verification framework layers">
-          <div class="system-box">
-            <code>virtual_bench</code>
-            <p>Generates repeatable stimulus through virtual instruments before driving behavioral or Verilog-backed devices under test.</p>
-          </div>
-          <div class="system-box">
-            <code>validation</code>
-            <p>Packages model and RTL checks into reusable test definitions, pass/fail results, and suite-level execution output.</p>
-          </div>
-          <div class="system-box">
-            <code>monte_carlo</code>
-            <p>Runs variation trials to estimate yield and worst-case behavior for behavioral validation paths.</p>
-          </div>
-          <div class="system-box">
-            <code>dut</code>
-            <p>Hosts behavioral DUTs plus a Verilog adapter so Python stimulus can drive RTL implementations through the same harness.</p>
-          </div>
-          <div class="system-box">
-            <code>rtl_verification</code>
-            <p>Compares captured RTL output against deterministic integer reference models with exact equality and first-mismatch diagnostics.</p>
-          </div>
-          <div class="system-box">
-            <code>reporting</code>
-            <p>Produces terminal, Markdown, CSV, and plotted report artifacts for validation and Monte Carlo summaries.</p>
-          </div>
+      <section class="case-section">
+        <div class="case-section-heading"><h2>Captured evidence</h2><p>The primary artifact compares Python reference output with the samples recorded from three RTL implementations.</p></div>
+        <figure class="evidence-figure"><img src="assets/hardware-rtl-cosim-comparison.png" alt="Python reference and captured RTL output comparison for DSP, moving-average, and FIR modules"><figcaption>Red markers are captured RTL samples; blue traces are deterministic Python references. The comparison covers signed DSP behavior, moving-average valid gaps, and streamed FIR coefficients.</figcaption></figure>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section-heading"><h2>Verification strategy</h2><p>Each stage has a narrow responsibility, which keeps simulator plumbing separate from the behavior under test.</p></div>
+        <div class="validation-grid">
+          <article class="validation-step"><span>1 · Stimulus</span><p>Generate signed integers, boundary cases, valid gaps, and coefficient updates from fixed seeds.</p></article>
+          <article class="validation-step"><span>2 · Reference</span><p>Calculate expected integer results with explicit width, rounding, and saturation behavior.</p></article>
+          <article class="validation-step"><span>3 · Co-simulation</span><p>Reset the design, drive handshakes, and record only samples marked valid by the RTL.</p></article>
+          <article class="validation-step"><span>4 · Compare</span><p>Require exact equality and report the first mismatch with enough context to reproduce it.</p></article>
         </div>
       </section>
 
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Verification flow</h2>
-          <span><a href="https://github.com/mcranny/hardware-verification">github.com/mcranny/hardware-verification</a></span>
-        </div>
-        <div class="flow-grid" aria-label="RTL co-simulation flow">
-          <div class="flow-step">
-            <code>1 / stimulus</code>
-            <p>Python tests generate signed integer stimulus and expected output from reference models.</p>
-          </div>
-          <div class="flow-step">
-            <code>2 / adapter</code>
-            <p>The Verilog adapter validates input ranges and writes structured stimulus for the simulation bridge.</p>
-          </div>
-          <div class="flow-step">
-            <code>3 / cocotb</code>
-            <p>The testbench resets RTL, drives sample-valid handshakes, records output-valid samples, and handles FIR coefficients.</p>
-          </div>
-          <div class="flow-step">
-            <code>4 / compare</code>
-            <p>Python compares captured RTL waveforms against exact integer reference output and reports the first mismatch.</p>
-          </div>
+      <section class="case-section">
+        <div class="case-section-heading"><h2>What the framework validates</h2><p>The suite combines deterministic examples, randomized streams, simulator checks, and report artifacts.</p></div>
+        <div class="case-split">
+          <div><h3>RTL behavior</h3><ul><li>Signed boundaries, negative values, and saturation</li><li>Moving-average wraparound and output-valid gaps</li><li>FIR coefficient writes and variable tap counts</li><li>Fixed-seed randomized sample streams</li></ul></div>
+          <div><h3>Engineering feedback</h3><ul><li>Exact reference-versus-capture comparisons</li><li>First-mismatch diagnostics instead of visual inspection</li><li>Per-module lint and direct simulator checks</li><li>Terminal, tabular, and plotted validation reports</li></ul></div>
         </div>
       </section>
 
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Artifacts and commands</h2>
-          <span>README.md / examples / rtl</span>
-        </div>
-        <div class="artifact-grid">
-          <div>
-            <h3>Validation example</h3>
-            <p>The example builds a virtual bench, drives an amplifier DUT with a sine wave, runs gain/noise/offset checks, then executes a small Monte Carlo yield study.</p>
-            <pre><code>python examples/run_validation.py
-python examples/run_monte_carlo_report.py</code></pre>
-          </div>
-          <div>
-            <h3>RTL checks</h3>
-            <p>The local flow covers DSP, moving-average, and FIR RTL with cocotb tests plus direct simulator and lint checks.</p>
-            <pre><code>pytest tests/test_rtl_dut.py tests/test_reporting_and_rtl.py
-iverilog -g2012 -tnull rtl/fir_filter.v rtl/moving_average.v rtl/dsp_block.v
-verilator --lint-only --timing -Wall --top-module dsp_block rtl/dsp_block.v</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>Secondary report artifact</h2>
-          <span>reports/generated</span>
-        </div>
-        <div class="media-grid single">
-          <figure class="project-shot">
-            <img src="assets/hardware-gain-distribution.png" alt="Monte Carlo gain distribution histogram from the hardware verification framework">
-            <figcaption>Monte Carlo gain distribution retained as a reporting artifact, separate from the primary RTL co-simulation path.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Implementation facts</h2>
-          <span>scope-sim integration</span>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-              <th>Scope simulator dependency</th>
-              <td>The framework wraps the published <code>scope-sim</code> package for bench stimulus and also supports a sibling checkout during local development.</td>
-            </tr>
-            <tr>
-              <th>Covered RTL behavior</th>
-              <td>Signed boundaries, negative values, saturation cases, moving-average wraparound, valid gaps, FIR coefficient writes, variable tap counts, and fixed-seed randomized streams.</td>
-            </tr>
-            <tr>
-              <th>Boundary</th>
-              <td>The project is presented as full RTL co-simulation and lint coverage, with clear boundaries around synthesis, timing closure, silicon signoff, and exhaustive formal proof.</td>
-            </tr>
-            <tr>
-              <th>Repo</th>
-              <td><a href="https://github.com/mcranny/hardware-verification">https://github.com/mcranny/hardware-verification</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <section class="case-section"><div class="case-note"><strong>Boundary:</strong> This is an independent verification project focused on simulation correctness and reusable test architecture. It does not claim synthesis, timing closure, formal proof, or silicon signoff, and it is separate from my employer’s production test systems.</div></section>
     </main>
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

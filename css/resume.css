@@ -24,11 +24,11 @@
 
 .resume-download:hover,
 .resume-download:focus-visible {
-  border-color: color-mix(in srgb, var(--accent) 58%, var(--rule));
+  border-color: color-mix(in srgb, var(--signal) 58%, var(--rule));
 }
 
 .resume-download:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
 }
 

@@ -20,9 +20,16 @@
         document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
       })();
     </script>
-    <meta name="description" content="Static web port of Matthew Cranny's asteroid intercept planner, using JPL close approach data, SQLite exports, and precomputed Lambert transfer paths.">
-    <title>NEO Viewer | Matthew Cranny</title>
+    <meta name="description" content="An interactive view of an independent asteroid intercept planner using JPL close-approach data, validated Lambert transfer searches, and precomputed mission paths.">
+    <title>Asteroid Intercept Planner | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/neo.html">
+    <meta property="og:title" content="Asteroid Intercept Planner | Matthew Cranny">
+    <meta property="og:description" content="Explore precomputed Earth-to-asteroid transfer plans built from JPL close-approach and orbital data.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://mcranny.net/neo.html">
+    <meta property="og:image" content="https://mcranny.net/assets/neo-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://mcranny.net/assets/neo-preview.png">
     <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
     <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
@@ -33,11 +40,13 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/project.css">
     <link rel="stylesheet" href="css/neo.css">
     <script src="js/site.js" defer></script>
     <script src="js/neo.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="topbar">
       <a class="wordmark" href="index.html">MCRANNY.NET</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
@@ -47,11 +56,18 @@
       </button>
       <nav class="nav" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a aria-current="page" href="neo.html">NEO Viewer</a>
-        <a href="hardware.html">Hardware Verification</a>
-        <a href="scope.html">Scope Simulator</a>
-        <a href="btree.html">B-Tree Engine</a>
-        <a href="resume.html">Resume</a>
+        <a href="index.html#work">Work</a>
+        <div class="nav-projects">
+          <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
+          <div class="project-menu">
+            <a href="hardware.html">Hardware Verification</a>
+            <a href="scope.html">Scope Simulator</a>
+            <a aria-current="page" href="neo.html">NEO Viewer</a>
+            <a href="btree.html">B-Tree Engine</a>
+          </div>
+        </div>
+        <a href="resume.html">Résumé</a>
+        <a href="index.html#contact">Contact</a>
       </nav>
       <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
@@ -72,11 +88,12 @@
       </button>
     </header>
 
-    <main class="page-grid neo-page">
+    <main id="main-content" class="page-grid neo-page">
       <section class="page-heading">
-        <p class="eyebrow">Asteroid Intercept Planner / mcranny/neo-updater</p>
-        <h1>JPL close approaches, SQLite storage, Lambert transfer plans.</h1>
-        <p class="lede">The desktop project ingests JPL CAD close approaches and SBDB orbital elements, writes them into SQLite, searches Earth-to-asteroid transfer windows, and rejects Lambert solutions that fail endpoint propagation checks. This web port serves a static export from that database.</p>
+        <p class="eyebrow">Independent scientific-computing project</p>
+        <h1>From JPL close approaches to validated intercept plans.</h1>
+        <p class="lede">I built a desktop pipeline that combines close-approach and orbital data, searches Earth-to-asteroid transfer windows, and rejects Lambert solutions that fail endpoint propagation checks. This browser viewer presents a small, precomputed set of those mission plans.</p>
+        <div class="project-actions"><a class="button primary" href="https://github.com/mcranny/neo-updater">View source</a><a class="button" href="btree.html">B-tree case study</a></div>
       </section>
 
       <aside class="object-panel" aria-label="Asteroid selector">
@@ -92,12 +109,13 @@
       <section class="viewer-panel">
         <div class="section-rule">
           <h2>Mission Viewer</h2>
-          <span data-sim-label>Epoch + 0 d</span>
+          <span data-load-status role="status" aria-live="polite">Loading mission data</span>
         </div>
-        <canvas id="neo-canvas" width="920" height="620" aria-label="Interactive canvas rendering Earth and selected near-earth object orbits"></canvas>
+        <p class="viewer-help" id="viewer-help">Choose a stored mission, scrub mission time, or use the camera presets. Pointer controls pan and rotate the visualization; the controls below provide the same essential selection functions from a keyboard.</p>
+        <canvas id="neo-canvas" width="920" height="620" aria-label="Interactive canvas rendering Earth and selected near-earth object orbits" aria-describedby="viewer-help">A visual rendering of the selected Earth-to-asteroid transfer. Mission values remain available in the adjacent text readouts.</canvas>
         <div class="viewer-controls" aria-label="Viewer controls">
           <label>
-            <span>Mission time</span>
+            <span data-sim-label>Mission time</span>
             <input data-time-scrub type="range" min="0" max="180" value="0">
           </label>
           <div class="segmented" aria-label="Camera presets">
@@ -124,7 +142,7 @@
       <aside class="data-panel" aria-label="Orbital readouts">
         <div class="section-rule panel-title">
           <h2>Selected Object</h2>
-          <span data-selected-kind>SQLite export</span>
+          <span data-selected-kind>Precomputed plan</span>
         </div>
         <div class="readout tall">
           <span>Designation</span>
@@ -138,7 +156,7 @@
         <article class="readout">
           <span>Asteroids</span>
           <strong data-neo-count>27</strong>
-          <code>SQLite asteroids table</code>
+          <code>Stored mission candidates</code>
         </article>
         <article class="readout">
           <span>Close approaches</span>
@@ -151,40 +169,40 @@
           <code>Lambert universal solver</code>
         </article>
         <article class="readout">
-          <span>Export mode</span>
-          <strong>Static JSON</strong>
-          <code>from data/asteroids.db</code>
+          <span>Browser data</span>
+          <strong>On demand</strong>
+          <code>Selected mission only</code>
         </article>
       </section>
 
       <section class="technical-panel">
         <div class="section-rule">
-          <h2>Implementation notes</h2>
-          <span><a href="https://github.com/mcranny/neo-updater">github.com/mcranny/neo-updater</a></span>
+          <h2>How the plan is built</h2>
+          <span>Data, search, and validation</span>
         </div>
-        <p>The Qt/OpenGL desktop viewer remains the full application: mission cards, timeline scrubbing, repeat playback, speed control, mission/inner/full camera presets, object inspection, and map-style pan/orbit/zoom. This browser version ports the stored mission data, search, comparison, time scrub, rotation, zoom, and transfer-path display. It does not run SPICE/Skyfield or SQLite in the browser.</p>
+        <p>The full desktop application performs data ingestion, database exploration, transfer search, and interactive inspection. This web version intentionally loads only the selected precomputed mission needed for the viewer.</p>
         <table>
           <tbody>
             <tr>
-              <th>Database source</th>
-              <td><code>app/schema.sql -> data/asteroids.db -> assets/neo-missions.json</code></td>
+              <th>Data</th>
+              <td>JPL close-approach records identify candidates, while orbital elements provide the state needed for trajectory search and display.</td>
             </tr>
             <tr>
-              <th>Ingestion</th>
-              <td>JPL CAD discovers close approaches; JPL SBDB provides osculating orbital elements; imports use idempotent SQLite upserts with foreign keys and uniqueness constraints.</td>
+              <th>Storage</th>
+              <td>Normalized records and uniqueness constraints make repeated updates deterministic and keep source observations separate from derived plans.</td>
             </tr>
             <tr>
-              <th>Transfer planning</th>
-              <td>Universal-variable Lambert solver over configurable departure/arrival grids, with endpoint propagation checks before accepting a plan.</td>
+              <th>Search</th>
+              <td>A universal-variable Lambert solver evaluates configurable departure and arrival windows instead of relying on a single hand-picked trajectory.</td>
             </tr>
             <tr>
-              <th>Browser boundary</th>
-              <td>Positions and transfer paths shown here are precomputed from the local project database. The desktop app handles live update, SQLite explorer, read-only SQL workspace, and full OpenGL object inspection.</td>
+              <th>Validation</th>
+              <td>Endpoint propagation checks must reproduce the required arrival state before a candidate plan is retained for inspection.</td>
             </tr>
           </tbody>
         </table>
       </section>
     </main>
-
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

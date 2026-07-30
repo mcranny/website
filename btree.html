@@ -1,234 +1,32 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#fafaf8">
-    <script>
-      (() => {
-        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("theme");
-          if (stored === "dark" || stored === "light") theme = stored;
-        } catch (error) {}
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.backgroundColor = colors[theme];
-        document.documentElement.style.colorScheme = theme;
-        document.querySelector('meta[name="color-scheme"]').setAttribute("content", theme);
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
-      })();
-    </script>
-    <meta name="description" content="Matthew Cranny's Rust disk-backed B-tree storage engine with page layout, WAL, deletion rebalancing, range scans, and SQLite differential tests.">
-    <title>B-Tree Engine | Matthew Cranny</title>
-    <link rel="canonical" href="https://mcranny.net/btree.html">
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-    <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
-    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
-    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/btree.css">
-    <script src="js/site.js" defer></script>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#fafaf8">
+    <script>(()=>{const c={dark:"#0a0a0b",light:"#fafaf8"};let t="light";try{const s=localStorage.getItem("theme");if(s==="dark"||s==="light")t=s}catch(e){}document.documentElement.dataset.theme=t;document.documentElement.style.backgroundColor=c[t];document.documentElement.style.colorScheme=t;document.querySelector('meta[name="color-scheme"]').setAttribute("content",t);document.querySelector('meta[name="theme-color"]').setAttribute("content",c[t])})();</script>
+    <meta name="description" content="An independent Rust storage engine with fixed-size pages, a bounded cache, redo logging, deletion rebalancing, range scans, and SQLite differential testing.">
+    <title>B-Tree Storage Engine | Matthew Cranny</title><link rel="canonical" href="https://mcranny.net/btree.html">
+    <meta property="og:title" content="B-Tree Storage Engine | Matthew Cranny"><meta property="og:description" content="A disk-backed Rust key-value engine built around explicit durability and correctness checks."><meta property="og:type" content="article"><meta property="og:url" content="https://mcranny.net/btree.html"><meta property="og:image" content="https://mcranny.net/assets/btree-preview.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://mcranny.net/assets/btree-preview.png">
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png"><link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css"><link rel="stylesheet" href="css/btree.css"><script src="js/site.js" defer></script>
   </head>
   <body>
-    <header class="topbar">
-      <a class="wordmark" href="index.html">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <nav class="nav" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="neo.html">NEO Viewer</a>
-        <a href="hardware.html">Hardware Verification</a>
-        <a href="scope.html">Scope Simulator</a>
-        <a aria-current="page" href="btree.html">B-Tree Engine</a>
-        <a href="resume.html">Resume</a>
-      </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle>
-            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
-            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
-            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
-            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
-            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
-            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
-    </header>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="topbar"><a class="wordmark" href="index.html">MCRANNY.NET</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav" aria-label="Primary"><a href="index.html">Home</a><a href="index.html#work">Work</a><div class="nav-projects"><button type="button" data-projects-toggle aria-expanded="false">Projects</button><div class="project-menu"><a href="hardware.html">Hardware Verification</a><a href="scope.html">Scope Simulator</a><a href="neo.html">NEO Viewer</a><a aria-current="page" href="btree.html">B-Tree Engine</a></div></div><a href="resume.html">Résumé</a><a href="index.html#contact">Contact</a></nav><button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g class="theme-icon-sun"><circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect></g><path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path></svg><span class="sr-only">Toggle dark mode</span></button></header>
 
-    <main class="page-grid btree-page">
-      <section class="page-heading">
-        <p class="eyebrow">Rust storage engine / mcranny/btree-storage-engine</p>
-        <h1>Disk-backed B-tree storage engine in Rust.</h1>
-        <p class="lede">One database file, 4096-byte pages, signed 64-bit keys, byte-string values up to 256 bytes, a bounded 64-page LRU pager cache, checksummed redo WAL, range scans, and rebalancing deletion.</p>
-      </section>
+    <main id="main-content" class="page-grid project-page btree-page">
+      <section class="page-heading"><p class="eyebrow">Independent systems-software project</p><h1>A disk-backed B-tree with explicit durability and correctness checks.</h1><p class="lede">I built a Rust key-value engine to understand the invariants beneath a database API: fixed page formats, bounded caching, crash recovery, deletion rebalancing, and operation-by-operation comparison with SQLite.</p><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine">View source</a><a class="button" href="neo.html">Open NEO Viewer</a></div></section>
+      <aside class="case-summary" aria-label="Project summary"><div class="case-fact"><span>Storage</span><strong>One database file with fixed 4096-byte pages</strong></div><div class="case-fact"><span>Durability</span><strong>Checksummed redo logging before page checkpoint</strong></div><div class="case-fact"><span>Validation</span><strong>Property tests and SQLite differential traces</strong></div></aside>
 
-      <section class="readout-grid">
-        <article class="readout">
-          <span>Language</span>
-          <strong>Rust</strong>
-          <code>disk-backed pages</code>
-        </article>
-        <article class="readout">
-          <span>Validation</span>
-          <strong>36 tests</strong>
-          <code>10 files with tests</code>
-        </article>
-        <article class="readout">
-          <span>Integration tests</span>
-          <strong>7 files</strong>
-          <code>point lookup / insert / delete / range / SQLite</code>
-        </article>
-        <article class="readout">
-          <span>Property tests</span>
-          <strong>proptest</strong>
-          <code>generated put/delete/get traces</code>
-        </article>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Storage invariants</h2><p>The page format is deliberately constrained so every mutation has a predictable on-disk representation.</p></div><div class="btree-diagram page-layout-diagram" aria-label="B-tree page layout diagram"><div class="page-block metadata"><code>Metadata page</code><span>File identity and format version</span><span>Root page and page count</span><span>Persistent free-list head</span></div><div class="page-block node-page"><code>Node page</code><span>Leaf or internal-node type</span><span>Parent and key-count metadata</span><span>Thirteen fixed-width records</span><span>Fourteen child page identifiers</span><span>Reserved bytes required to remain zero</span></div><div class="page-block free-page"><code>Reusable page</code><span>Free-page identity</span><span>Next free page identifier</span><span>Returned after merge or root contraction</span></div></div></section>
 
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>On-disk page layout</h2>
-          <span>docs/design.md and src/format.rs</span>
-        </div>
-        <div class="btree-diagram page-layout-diagram" aria-label="B-tree page layout diagram">
-          <div class="page-block metadata">
-            <code>page 0 metadata</code>
-            <span>magic BTREEDB\0</span>
-            <span>format version</span>
-            <span>root page id</span>
-            <span>page count</span>
-            <span>free-list head</span>
-          </div>
-          <div class="page-block node-page">
-            <code>node page</code>
-            <span>0..4 magic NODE</span>
-            <span>4 node type</span>
-            <span>6..8 key count</span>
-            <span>8..16 parent page id</span>
-            <span>32..3568 thirteen 272-byte records</span>
-            <span>3568..3680 fourteen child page ids</span>
-            <span>3680..4096 reserved zero-fill</span>
-          </div>
-          <div class="page-block free-page">
-            <code>free page</code>
-            <span>magic FREE</span>
-            <span>next free page id at offset 8</span>
-            <span>reused after merge/root contraction</span>
-          </div>
-        </div>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Mutation and recovery</h2><p>Correctness depends on preserving both tree invariants and the ordering of durable writes.</p></div><div class="validation-grid"><article class="validation-step"><span>1 · Rebalance</span><p>Split full children before insertion and borrow or merge before deletion descent.</p></article><article class="validation-step"><span>2 · Record</span><p>Collect complete after-images for every page changed by the public mutation.</p></article><article class="validation-step"><span>3 · Protect</span><p>Write and synchronize a checksummed redo record before checkpointing dirty pages.</p></article><article class="validation-step"><span>4 · Recover</span><p>Replay a complete record after interruption, then clear the log only after a durable checkpoint.</p></article></div></section>
 
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Split and validation artifacts</h2>
-          <span><a href="https://github.com/mcranny/btree-storage-engine">github.com/mcranny/btree-storage-engine</a></span>
-        </div>
-        <div class="artifact-grid">
-          <div>
-            <h3>Top-down split path</h3>
-            <p>Full children are split before descent. The median record moves into the parent; the left and right nodes each keep six records for minimum degree t = 7.</p>
-            <pre><code>let mut left_entries = child.entries().to_vec();
-let right_entries = left_entries.split_off(MIN_DEGREE);
-let median = left_entries
-    .pop()
-    .expect("a full node always contains a median entry");
+      <section class="case-section"><div class="case-section-heading"><h2>Correctness strategy</h2><p>The engine is tested from both sides: local invariants inside the page and tree code, and observable behavior against a mature database.</p></div><div class="case-split"><div><h3>Generated operation traces</h3><p>Property tests generate sequences of inserts, replacements, deletes, and reads. The engine must preserve ordering, free-page reuse, range boundaries, and parent-child relationships throughout the trace.</p></div><div><h3>SQLite as an oracle</h3><p>The same operation stream is applied to an in-memory SQLite table. Point lookups, deletion results, and complete range output are compared after each relevant step so structural bugs become externally visible.</p></div></div></section>
 
-let right_id = self.pager.allocate_page()?;
-let left = Node::new(child.kind(), Some(parent_id), left_entries, left_children)?;
-let right = Node::new(child.kind(), Some(parent_id), right_entries, right_children)?;
+      <section class="case-section"><div class="case-section-heading"><h2>Engineering decisions</h2><p>The implementation favors inspectable constraints over broad database features.</p></div><div class="case-split"><div><h3>Deliberate limits</h3><ul><li>Signed 64-bit keys and bounded byte-string values</li><li>A 64-page least-recently-used cache</li><li>One writer and an explicit close/checkpoint boundary</li><li>Range scans over persistent leaf and internal records</li></ul></div><div><h3>Failure surfaces made visible</h3><ul><li>Corrupt page identities and invalid metadata</li><li>Truncated or checksummed log records</li><li>Separator errors during borrow and merge</li><li>Free-list persistence across reopen</li></ul></div></div></section>
 
-parent_entries.insert(child_index, median);
-parent_children.insert(child_index + 1, right_id);</code></pre>
-          </div>
-          <div>
-            <h3>SQLite differential check</h3>
-            <p>The test harness applies the same generated operation stream to this engine and an in-memory SQLite table, then compares point lookup and full-range output.</p>
-            <pre><code>match operation {
-    Op::Put(key, value) => {
-        engine.put(key, value.clone()).unwrap();
-        connection.execute(
-            "INSERT OR REPLACE INTO kv VALUES (?1, ?2)",
-            params![key, value],
-        ).unwrap();
-    }
-    Op::Delete(key) => {
-        let engine_removed = engine.delete(key).unwrap();
-        let sqlite_removed =
-            connection.execute("DELETE FROM kv WHERE key = ?1", [key]).unwrap() != 0;
-        prop_assert_eq!(engine_removed, sqlite_removed);
-    }
-    Op::Get(key) => {
-        prop_assert_eq!(engine.get(key).unwrap(), sqlite_get(&connection, key));
-    }
-}</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>Correctness lineage</h2>
-          <span>neo-updater -> btree-storage-engine</span>
-        </div>
-        <div class="lineage-grid">
-          <div class="lineage-box">
-            <code>neo-updater</code>
-            <p>JPL CAD/SBDB records are normalized into SQLite. Lambert solutions are kept only after endpoint propagation checks.</p>
-          </div>
-          <div class="lineage-box">
-            <code>btree-storage-engine</code>
-            <p>The storage engine goes one layer lower: fixed page layout, WAL-backed mutations, and operation-by-operation SQLite differential checks.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Implementation facts</h2>
-          <span>README.md and docs/design.md</span>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-              <th>Public API</th>
-              <td><code>open</code>, <code>put</code>, <code>get</code>, <code>delete</code>, <code>range</code>, <code>close</code>.</td>
-            </tr>
-            <tr>
-              <th>Page format</th>
-              <td>Page zero metadata; every other page is a B-tree node or reusable free page. Node pages store thirteen fixed-width records and fourteen child page IDs.</td>
-            </tr>
-            <tr>
-              <th>Mutation durability</th>
-              <td>Each public mutation writes checksummed full-page after-images to a redo WAL before dirty database pages are checkpointed.</td>
-            </tr>
-            <tr>
-              <th>Deletion</th>
-              <td>Rebalances before descent by borrowing through the parent or merging a child, separator, and sibling; merged pages return to the persistent free list.</td>
-            </tr>
-            <tr>
-              <th>Repo</th>
-              <td><a href="https://github.com/mcranny/btree-storage-engine">https://github.com/mcranny/btree-storage-engine</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <section class="case-section"><div class="case-note"><strong>Boundary:</strong> This is an independent educational storage engine, not a replacement for a production database. Its value is the explicit treatment of page layout, recovery ordering, and differential correctness.</div></section>
     </main>
-
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

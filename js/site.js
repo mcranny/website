@@ -15,13 +15,7 @@ function updateThemeControls() {
 function updateThemeColor(theme) {
   const themeColor = document.querySelector('meta[name="theme-color"]');
   const colorScheme = document.querySelector('meta[name="color-scheme"]');
-  if (themeColor) {
-    themeColor.setAttribute("content", THEME_COLORS[theme]);
-    if (themeColor.parentNode) {
-      themeColor.remove();
-      document.head.append(themeColor);
-    }
-  }
+  if (themeColor) themeColor.setAttribute("content", THEME_COLORS[theme]);
   if (colorScheme) colorScheme.setAttribute("content", theme);
 }
 
@@ -29,9 +23,7 @@ function updateThemeSurface(theme) {
   const color = THEME_COLORS[theme];
   document.documentElement.style.backgroundColor = color;
   document.documentElement.style.colorScheme = theme;
-  if (document.body) {
-    document.body.style.backgroundColor = color;
-  }
+  if (document.body) document.body.style.backgroundColor = color;
 }
 
 function setTheme(theme) {
@@ -45,13 +37,12 @@ function setTheme(theme) {
 
 function initTheme() {
   const stored = localStorage.getItem("theme");
-  if (stored) setTheme(stored);
-  else {
-    const theme = document.documentElement.dataset.theme || "light";
-    updateThemeSurface(theme);
-    updateThemeColor(theme);
-    updateThemeControls();
-  }
+  const theme = stored === "dark" || stored === "light"
+    ? stored
+    : document.documentElement.dataset.theme || "light";
+  updateThemeSurface(theme);
+  updateThemeColor(theme);
+  updateThemeControls();
 
   document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -60,40 +51,61 @@ function initTheme() {
   });
 }
 
-function initNavToggle() {
+function initNavigation() {
   const topbar = document.querySelector(".topbar");
-  const toggle = document.querySelector("[data-nav-toggle]");
+  const navToggle = document.querySelector("[data-nav-toggle]");
   const nav = document.querySelector(".nav");
-  if (!topbar || !toggle || !nav) return;
+  const projects = document.querySelector(".nav-projects");
+  const projectsToggle = document.querySelector("[data-projects-toggle]");
+  if (!topbar || !navToggle || !nav) return;
 
-  function setOpen(open) {
-    topbar.classList.toggle("nav-open", open);
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  function setProjectsOpen(open) {
+    if (!projects || !projectsToggle) return;
+    projects.classList.toggle("open", open);
+    projectsToggle.setAttribute("aria-expanded", String(open));
   }
 
-  toggle.addEventListener("click", () => {
-    setOpen(!topbar.classList.contains("nav-open"));
+  function setNavOpen(open) {
+    topbar.classList.toggle("nav-open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+    navToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    if (!open) setProjectsOpen(false);
+  }
+
+  navToggle.addEventListener("click", () => {
+    setNavOpen(!topbar.classList.contains("nav-open"));
+  });
+
+  projectsToggle?.addEventListener("click", () => {
+    setProjectsOpen(!projects?.classList.contains("open"));
   });
 
   nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setOpen(false));
+    link.addEventListener("click", () => setNavOpen(false));
   });
 
   document.addEventListener("click", (event) => {
-    if (!topbar.classList.contains("nav-open") || topbar.contains(event.target)) return;
-    setOpen(false);
+    if (topbar.contains(event.target)) return;
+    setProjectsOpen(false);
+    setNavOpen(false);
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setOpen(false);
+    if (event.key !== "Escape") return;
+    const navWasOpen = topbar.classList.contains("nav-open");
+    const projectsWasOpen = projects?.classList.contains("open");
+    setProjectsOpen(false);
+    setNavOpen(false);
+    if (navWasOpen) navToggle.focus();
+    else if (projectsWasOpen) projectsToggle?.focus();
   });
 
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) setNavOpen(false);
+  });
 }
 
-function initSite() {
+document.addEventListener("DOMContentLoaded", () => {
   initTheme();
-  initNavToggle();
-}
-
-document.addEventListener("DOMContentLoaded", initSite);
+  initNavigation();
+});

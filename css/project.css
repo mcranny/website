@@ -7,6 +7,149 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.project-page .page-heading .lede {
+  line-height: 1.55;
+}
+
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.case-summary {
+  display: grid;
+  gap: 16px;
+  grid-column: 8 / -1;
+  grid-template-columns: 1fr;
+}
+
+.case-fact {
+  border: 1px solid var(--rule);
+  padding: 18px;
+}
+
+.case-fact span {
+  color: var(--steel);
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.case-fact strong {
+  display: block;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.case-section {
+  border-top: 1px solid var(--rule);
+  grid-column: 1 / -1;
+  padding-top: 36px;
+}
+
+.case-section-heading {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1.5fr);
+  margin-bottom: 24px;
+}
+
+.case-section-heading h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.case-section-heading p {
+  color: var(--graphite);
+  font-size: 16px;
+  margin: 0;
+  max-width: 760px;
+}
+
+.case-split {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.case-split h3 {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.case-split p,
+.case-split li {
+  color: var(--graphite);
+}
+
+.case-split ul {
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+
+.case-split li {
+  margin-bottom: 8px;
+}
+
+.evidence-figure {
+  border: 1px solid var(--rule);
+  margin: 0;
+}
+
+.evidence-figure img {
+  background: #fff;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.evidence-figure figcaption {
+  border-top: 1px solid var(--rule);
+  color: var(--graphite);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 12px 14px;
+}
+
+.validation-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.validation-step {
+  border-top: 2px solid var(--ink);
+  padding-top: 14px;
+}
+
+.validation-step span {
+  color: var(--signal);
+  display: block;
+  font-weight: 750;
+  margin-bottom: 8px;
+}
+
+.validation-step p {
+  color: var(--graphite);
+  margin-bottom: 0;
+}
+
+.case-note {
+  background: var(--panel);
+  border-left: 3px solid var(--signal);
+  color: var(--graphite);
+  font-size: 16px;
+  padding: 20px 22px;
+}
+
+.case-note strong {
+  color: var(--ink);
+}
+
 .system-grid,
 .flow-grid,
 .artifact-grid {
@@ -109,6 +252,7 @@
 @media (max-width: 860px) {
   .project-page .page-heading,
   .project-page .readout-grid,
+  .case-summary,
   .system-grid,
   .flow-grid,
   .artifact-grid,
@@ -121,6 +265,12 @@
   .artifact-grid,
   .media-grid,
   .media-grid.single {
+    grid-template-columns: 1fr;
+  }
+
+  .case-section-heading,
+  .case-split,
+  .validation-grid {
     grid-template-columns: 1fr;
   }
 
