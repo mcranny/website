@@ -433,6 +433,38 @@ td {
   font-weight: 700;
 }
 
+.secondary-projects {
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 32px;
+}
+
+.secondary-project {
+  border-bottom: 1px solid var(--rule);
+  padding: 24px 24px 24px 0;
+}
+
+.secondary-project:nth-child(2) {
+  border-left: 1px solid var(--rule);
+  padding-left: 24px;
+}
+
+.secondary-project h3 {
+  font-size: 21px;
+  margin-bottom: 8px;
+}
+
+.secondary-project p {
+  color: var(--graphite);
+}
+
+.secondary-project a {
+  color: var(--signal);
+  font-weight: 700;
+}
+
 .background-grid {
   display: grid;
   gap: 16px;
@@ -607,8 +639,14 @@ td {
   }
 
   .featured-project-grid,
+  .secondary-projects,
   .impact-section {
     grid-template-columns: 1fr;
+  }
+
+  .secondary-project:nth-child(2) {
+    border-left: 0;
+    padding-left: 0;
   }
 
   .section-heading h2 {
