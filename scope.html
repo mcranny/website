@@ -1,217 +1,32 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#fafaf8">
-    <script>
-      (() => {
-        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("theme");
-          if (stored === "dark" || stored === "light") theme = stored;
-        } catch (error) {}
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.backgroundColor = colors[theme];
-        document.documentElement.style.colorScheme = theme;
-        document.querySelector('meta[name="color-scheme"]').setAttribute("content", theme);
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
-      })();
-    </script>
-    <meta name="description" content="Matthew Cranny's physics-oriented virtual oscilloscope and signal acquisition simulator with waveform, DAC, analog path, ADC, trigger, measurement, and browser viewer components.">
-    <title>Scope Simulator | Matthew Cranny</title>
-    <link rel="canonical" href="https://mcranny.net/scope.html">
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-    <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
-    <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
-    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
-    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/project.css">
-    <script src="js/site.js" defer></script>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#fafaf8">
+    <script>(()=>{const c={dark:"#0a0a0b",light:"#fafaf8"};let t="light";try{const s=localStorage.getItem("theme");if(s==="dark"||s==="light")t=s}catch(e){}document.documentElement.dataset.theme=t;document.documentElement.style.backgroundColor=c[t];document.documentElement.style.colorScheme=t;document.querySelector('meta[name="color-scheme"]').setAttribute("content",t);document.querySelector('meta[name="theme-color"]').setAttribute("content",c[t])})();</script>
+    <meta name="description" content="An independent virtual oscilloscope and acquisition simulator modeling waveform generation, converters, analog response, triggering, measurement, and a browser viewer.">
+    <title>Virtual Oscilloscope Simulator | Matthew Cranny</title><link rel="canonical" href="https://mcranny.net/scope.html">
+    <meta property="og:title" content="Virtual Oscilloscope Simulator | Matthew Cranny"><meta property="og:description" content="A physics-oriented model of the acquisition path from generated waveform to measured scope record."><meta property="og:type" content="article"><meta property="og:url" content="https://mcranny.net/scope.html"><meta property="og:image" content="https://mcranny.net/assets/scope-basic-capture.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://mcranny.net/assets/scope-basic-capture.png">
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png"><link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css"><script src="js/site.js" defer></script>
   </head>
   <body>
-    <header class="topbar">
-      <a class="wordmark" href="index.html">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <nav class="nav" aria-label="Primary">
-        <a href="index.html">Home</a>
-        <a href="neo.html">NEO Viewer</a>
-        <a href="hardware.html">Hardware Verification</a>
-        <a aria-current="page" href="scope.html">Scope Simulator</a>
-        <a href="btree.html">B-Tree Engine</a>
-        <a href="resume.html">Resume</a>
-      </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle>
-            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
-            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
-            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
-            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
-            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
-            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
-    </header>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="topbar"><a class="wordmark" href="index.html">MCRANNY.NET</a><button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav" aria-label="Primary"><a href="index.html">Home</a><a href="index.html#work">Work</a><div class="nav-projects"><button type="button" data-projects-toggle aria-expanded="false">Projects</button><div class="project-menu"><a href="hardware.html">Hardware Verification</a><a aria-current="page" href="scope.html">Scope Simulator</a><a href="neo.html">NEO Viewer</a><a href="btree.html">B-Tree Engine</a></div></div><a href="resume.html">Résumé</a><a href="index.html#contact">Contact</a></nav><button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g class="theme-icon-sun"><circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect></g><path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path></svg><span class="sr-only">Toggle dark mode</span></button></header>
 
-    <main class="page-grid project-page scope-page">
-      <section class="page-heading">
-        <p class="eyebrow">Instrumentation simulator / mcranny/scope-sim</p>
-        <h1>Virtual oscilloscope and acquisition path simulator.</h1>
-        <p class="lede">A physics-oriented Python package that models signal generation, conversion impairments, analog path behavior, triggering, acquisition buffers, measurements, static visualization, and a browser-based oscilloscope viewer.</p>
-      </section>
+    <main id="main-content" class="page-grid project-page scope-page">
+      <section class="page-heading"><p class="eyebrow">Independent instrumentation project</p><h1>Modeling the complete path from waveform to scope measurement.</h1><p class="lede">I built a virtual oscilloscope to explore how signal generation, converter behavior, analog response, sampling, triggering, and measurement algorithms combine to produce the trace an engineer actually sees.</p><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/scope-sim">View source</a><a class="button" href="hardware.html">Hardware verification case study</a></div></section>
+      <aside class="case-summary" aria-label="Project summary"><div class="case-fact"><span>Signal path</span><strong>Generator through DAC, analog response, ADC, and acquisition</strong></div><div class="case-fact"><span>Measurements</span><strong>Frequency, peak-to-peak, triggering, and history</strong></div><div class="case-fact"><span>Result</span><strong>Static plots and an interactive browser oscilloscope</strong></div></aside>
 
-      <section class="readout-grid">
-        <article class="readout">
-          <span>Signal path</span>
-          <strong>Waveform to trace</strong>
-          <code>generator / DAC / analog / ADC</code>
-        </article>
-        <article class="readout">
-          <span>Scope model</span>
-          <strong>Trigger and acquire</strong>
-          <code>timebase / bandwidth / buffers</code>
-        </article>
-        <article class="readout">
-          <span>Measurements</span>
-          <strong>Frequency / Vpp</strong>
-          <code>full-resolution capture data</code>
-        </article>
-        <article class="readout">
-          <span>Viewer</span>
-          <strong>Browser controls</strong>
-          <code>stdlib server / canvas / API</code>
-        </article>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Acquisition result</h2><p>The capture artifact exposes both the waveform and the measurements derived from the full-resolution record.</p></div><figure class="evidence-figure"><img src="assets/scope-basic-capture.png" alt="Virtual oscilloscope capture with trigger marker and measured waveform readouts"><figcaption>A generated signal passes through modeled conversion and acquisition stages before the trigger and measurement engines produce the displayed record.</figcaption></figure></section>
 
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>Scope capture output</h2>
-          <span>examples/basic_capture.py</span>
-        </div>
-        <div class="media-grid single">
-          <figure class="project-shot">
-            <img src="assets/scope-basic-capture.png" alt="Virtual oscilloscope capture plot with trigger marker and measured waveform readouts">
-            <figcaption>Generated by running the scope simulator example: trigger point, trigger level, captured waveform, and extracted measurements.</figcaption>
-          </figure>
-        </div>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Modeled signal chain</h2><p>Each stage is isolated so a test can change one impairment without obscuring where the resulting measurement error came from.</p></div><div class="validation-grid"><article class="validation-step"><span>1 · Waveform</span><p>Create deterministic sine, square, and other source signals at controlled sample rates.</p></article><article class="validation-step"><span>2 · Conversion</span><p>Apply gain, offset, quantization, effective-number-of-bits noise, and optional nonlinearity.</p></article><article class="validation-step"><span>3 · Analog path</span><p>Model noise, drift, attenuation, bandwidth limits, and fractional-sample delay.</p></article><article class="validation-step"><span>4 · Acquisition</span><p>Apply sampling, aperture jitter, triggering, record history, and measurement extraction.</p></article></div></section>
 
-      <section class="diagram-panel">
-        <div class="section-rule">
-          <h2>Acquisition path</h2>
-          <span>models complete signal chain</span>
-        </div>
-        <div class="flow-grid" aria-label="Virtual oscilloscope acquisition path">
-          <div class="flow-step">
-            <code>1 / waveform</code>
-            <p>Configurable waveform generation produces deterministic time and signal vectors for repeatable experiments.</p>
-          </div>
-          <div class="flow-step">
-            <code>2 / DAC</code>
-            <p>Gain, offset, quantization, ENOB noise, and optional nonlinearity model converter behavior before the analog path.</p>
-          </div>
-          <div class="flow-step">
-            <code>3 / analog path</code>
-            <p>Noise, drift, attenuation, low-pass filtering, and fractional sample delay shape the observed signal.</p>
-          </div>
-          <div class="flow-step">
-            <code>4 / ADC and scope</code>
-            <p>Sample timing, aperture jitter, quantization, trigger behavior, bandwidth limiting, and acquisition history produce scope records.</p>
-          </div>
-        </div>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Measurement correctness</h2><p>The simulator keeps display data separate from measurement data so visualization decimation cannot silently change the result.</p></div><div class="case-split"><div><h3>What I validate</h3><ul><li>FFT-based frequency placement and reconstruction behavior</li><li>Gain, offset, quantization, noise, and bandwidth impairments</li><li>Trigger edge, level, pre-trigger fraction, and acquisition history</li><li>Frequency and peak-to-peak measurements on full records</li></ul></div><div><h3>Why the boundary matters</h3><p>A browser can draw a compact trace while the measurement engine continues to use the complete capture. That separation mirrors a common instrumentation concern: presentation should not alter the data used for engineering decisions.</p></div></div></section>
 
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Viewer and API boundary</h2>
-          <span><a href="https://github.com/mcranny/scope-sim">github.com/mcranny/scope-sim</a></span>
-        </div>
-        <div class="artifact-grid">
-          <div>
-            <h3>Interactive viewer</h3>
-            <p>The viewer uses Python's standard-library HTTP server plus vanilla HTML, JavaScript, and canvas. Controls adjust waveform, converter, analog-path, and scope parameters in the browser.</p>
-            <pre><code>PYTHONPATH=src python3 -m scope_sim.viewer --host 127.0.0.1 --port 8000</code></pre>
-          </div>
-          <div>
-            <h3>Acquisition endpoint</h3>
-            <p>The viewer serves decimated trace data for display while keeping measurements tied to the full-resolution acquisition record.</p>
-            <pre><code>GET /api/acquire
-{
-  "trace": [[time, voltage], ...],
-  "measurements": { "frequency": value, "vpp": value }
-}</code></pre>
-          </div>
-        </div>
-      </section>
+      <section class="case-section"><div class="case-section-heading"><h2>Interactive result</h2><p>A small browser application exposes waveform, analog-path, and scope controls while a dedicated acquisition endpoint returns trace and measurement data.</p></div><div class="case-split"><div><h3>Operator controls</h3><p>The viewer provides timebase, trigger, waveform, conversion, and analog-path parameters in a scope-like interface.</p></div><div><h3>Application boundary</h3><p>The simulation engine remains independent of the browser. That keeps the numerical model testable and lets other clients request acquisitions without coupling measurement logic to the UI.</p></div></div></section>
 
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Validation focus</h2>
-          <span>waveform / conversion / triggering / measurement</span>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-              <th>Waveforms</th>
-              <td>FFT placement, generated waveform shapes, static visualization output, and sample-rate reconstruction behavior.</td>
-            </tr>
-            <tr>
-              <th>Converters and analog path</th>
-              <td>DAC gain/offset and nonlinearities, ADC ENOB/SNR behavior, analog low-pass rolloff, bandwidth limiting, jitter impact, and impairments.</td>
-            </tr>
-            <tr>
-              <th>Scope behavior</th>
-              <td>Trigger behavior, acquisition history bounds, viewer acquisition requests, and measurement accuracy under noisy low-frequency captures.</td>
-            </tr>
-            <tr>
-              <th>Boundary</th>
-              <td>The zero-phase Butterworth filters make magnitude-response validation simple, but they are not presented as causal analog-front-end phase models.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="technical-panel">
-        <div class="section-rule">
-          <h2>Minimal usage</h2>
-          <span>README.md</span>
-        </div>
-        <pre><code>from scope_sim import WaveformGenerator, OscilloscopeEngine, MeasurementEngine
-
-generator = WaveformGenerator(kind="sine", frequency=1_000, amplitude=1.0)
-time, signal = generator.generate(n_samples=100_000, sample_rate=1_000_000)
-
-scope = OscilloscopeEngine(
-    time_per_div=100e-6,
-    divisions=10,
-    trigger_level=0.0,
-    trigger_edge="rising",
-    pre_trigger_fraction=0.5,
-)
-record = scope.acquire(signal, sample_rate=1_000_000)
-
-measurements = MeasurementEngine(record)
-print(measurements.frequency())
-print(measurements.vpp())</code></pre>
-      </section>
+      <section class="case-section"><div class="case-note"><strong>Boundary:</strong> This independent simulator is intended for software validation and engineering exploration. Its converter and analog models are explicit approximations rather than calibrated replacements for physical lab instruments.</div></section>
     </main>
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

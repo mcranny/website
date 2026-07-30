@@ -8,6 +8,7 @@ const PLANET_NAMES = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", 
 const PLANET_SIZES = { Mercury: 2.5, Venus: 3, Earth: 3.5, Mars: 3, Jupiter: 4.5, Saturn: 4, Uranus: 3.8, Neptune: 3.8 };
 const hitTargetsMap = new WeakMap();
 let resolvedColors = null;
+let viewerVisible = true;
 
 const state = {
   selectedIds: new Set(),
@@ -236,7 +237,7 @@ function drawViewer(canvas, mini = false) {
 
   ctx.fillStyle = steel;
   ctx.font = "11px IBM Plex Mono, SFMono-Regular, monospace";
-  ctx.fillText(`${missionPayload.mode} / SQLite export / Lambert path`, 12, height - 14);
+  ctx.fillText("Precomputed mission / validated transfer", 12, height - 14);
   if (!mini) {
     hitTargets.push({ type: "inspect", object: "Sun", x: sun.x, y: sun.y, radius: 18 });
     hitTargetsMap.set(canvas, hitTargets);
@@ -299,8 +300,10 @@ function renderObjectList() {
   `).join("");
 
   list.querySelectorAll("[data-object-id]").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       const id = button.dataset.objectId;
+      button.disabled = true;
+      await loadMission(id);
       state.selectedIds.clear();
       state.selectedIds.add(id);
       state.time = 0;
@@ -506,8 +509,9 @@ function beginTouchGesture() {
 }
 
 async function loadMissionPayload() {
+  const status = document.querySelector("[data-load-status]");
   try {
-    const response = await fetch("../assets/neo-missions.json", { cache: "no-store" });
+    const response = await fetch("assets/neo-missions/index.json");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     missionPayload = await response.json();
   } catch {
@@ -516,9 +520,12 @@ async function loadMissionPayload() {
       counts: { asteroids: 0, close_approaches: 0, intercept_plans: 0 },
       objects: []
     };
+    if (status) status.textContent = "Mission data unavailable";
   }
   if (!state.selectedIds.size && missionPayload.objects.length) {
-    state.selectedIds.add(missionPayload.objects[0].designation);
+    const first = missionPayload.objects[0].designation;
+    await loadMission(first);
+    state.selectedIds.add(first);
   }
   document.querySelectorAll("[data-neo-count]").forEach((node) => {
     node.textContent = String(missionPayload.counts.asteroids || missionPayload.objects.length);
@@ -527,6 +534,22 @@ async function loadMissionPayload() {
     node.textContent = String(missionPayload.counts.intercept_plans || missionPayload.objects.length);
   });
   applyCameraPreset("mission");
+}
+
+async function loadMission(designation) {
+  const mission = missionPayload.objects.find((item) => item.designation === designation);
+  if (!mission || mission.__loaded) return mission;
+  const status = document.querySelector("[data-load-status]");
+  if (status) status.textContent = `Loading ${designation}`;
+  try {
+    const response = await fetch(mission.data_file);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    Object.assign(mission, await response.json(), { __loaded: true });
+    if (status) status.textContent = `${designation} loaded`;
+  } catch {
+    if (status) status.textContent = `${designation} unavailable`;
+  }
+  return mission;
 }
 
 function initControls() {
@@ -727,7 +750,7 @@ function animate(frame) {
   const delta = state.lastFrame ? frame - state.lastFrame : 0;
   state.lastFrame = frame;
   const time = document.querySelector("[data-time-scrub]");
-  if (state.playing) {
+  if (state.playing && viewerVisible && document.visibilityState === "visible") {
     const primary = primaryMission();
     const max = Math.max(1, primary?.tof_days || 180);
     state.time += (delta / 1000) * state.speed;
@@ -752,6 +775,17 @@ async function init() {
   updateMetrics();
   drawAllViewers();
   window.addEventListener("resize", drawAllViewers);
+  document.addEventListener("visibilitychange", () => {
+    state.lastFrame = performance.now();
+  });
+  const mainViewer = document.querySelector(".viewer-panel");
+  if (mainViewer && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      viewerVisible = entries.some((entry) => entry.isIntersecting);
+      state.lastFrame = performance.now();
+    }, { threshold: 0.05 });
+    observer.observe(mainViewer);
+  }
   document.addEventListener("site:themechange", () => {
     resolveColors();
     drawAllViewers();

@@ -23,6 +23,13 @@
     <meta name="description" content="Resume for Matthew Cranny, systems engineer with experience in firmware validation, FPGA-based testing, Python automation, semiconductor metrology, and hardware test.">
     <title>Resume | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/resume.html">
+    <meta property="og:title" content="Résumé | Matthew Cranny">
+    <meta property="og:description" content="Systems engineer focused on automated test systems, custom test hardware, semiconductor equipment, firmware validation, and instrumentation.">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://mcranny.net/resume.html">
+    <meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
     <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
     <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
     <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
@@ -37,6 +44,7 @@
     <script src="js/site.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="topbar">
       <a class="wordmark" href="index.html">MCRANNY.NET</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
@@ -46,11 +54,18 @@
       </button>
       <nav class="nav" aria-label="Primary">
         <a href="index.html">Home</a>
-        <a href="neo.html">NEO Viewer</a>
-        <a href="hardware.html">Hardware Verification</a>
-        <a href="scope.html">Scope Simulator</a>
-        <a href="btree.html">B-Tree Engine</a>
-        <a aria-current="page" href="resume.html">Resume</a>
+        <a href="index.html#work">Work</a>
+        <div class="nav-projects">
+          <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
+          <div class="project-menu">
+            <a href="hardware.html">Hardware Verification</a>
+            <a href="scope.html">Scope Simulator</a>
+            <a href="neo.html">NEO Viewer</a>
+            <a href="btree.html">B-Tree Engine</a>
+          </div>
+        </div>
+        <a aria-current="page" href="resume.html">Résumé</a>
+        <a href="index.html#contact">Contact</a>
       </nav>
       <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
@@ -71,14 +86,14 @@
       </button>
     </header>
 
-    <main class="page-grid resume-page">
+    <main id="main-content" class="page-grid resume-page">
       <aside class="resume-rail">
         <p class="eyebrow">Resume</p>
         <h1>Matthew Cranny</h1>
         <a class="readout resume-download" href="assets/Matthew-Cranny-Resume.pdf">
           <span>Download</span>
-          <strong>PDF resume</strong>
-          <code>assets/Matthew-Cranny-Resume.pdf</code>
+          <strong>PDF résumé</strong>
+          <code>Open the downloadable version</code>
         </a>
         <dl class="rail-list">
           <dt>Contact</dt>
@@ -101,7 +116,7 @@
         <section class="resume-section">
           <div class="section-rule">
             <h2>Experience</h2>
-            <span>HTML resume source</span>
+            <span>Professional experience</span>
           </div>
 
           <article class="resume-entry">
@@ -113,10 +128,11 @@
               <code>March 2026 - Present / San Jose, CA</code>
             </div>
             <ul>
-              <li>Built Python signal-processing and LabVIEW pipelines to process raw SEM data and characterize settling dynamics for SEM stage control hardware, integrating TCP/UDP data acquisition to tune inertia compensation and reduce time to tolerance from 300 ns to 20 ns.</li>
-              <li>Developed automated board test and calibration framework across six board families, covering clock phase, frequency, gain, and AC/DC measurements through a Python test engine, PyQt6 GUI, and SCPI/GPIB/NI-DAQmx drivers.</li>
+              <li>Own and continuously expand an automated qualification suite that verifies board configuration, reference voltages, output and waveform functions, gain, transfer response, distortion, noise, DC linearity, resonance, thermal behavior, telemetry, and firmware-controlled operating modes.</li>
+              <li>Developed the supporting Python software, PyQt6 interfaces, instrumentation drivers, and custom test hardware used to add repeatable coverage across six evolving board families.</li>
               <li>Designed a Flask/SQLite system of record for firmware and hardware revisions across 90+ boards, with admin CRUD and SQL/CSV export tools that exposed configuration conflicts and informed fleet deployment decisions.</li>
-              <li>Recovered and validated 5 to 6 unresponsive boards per week through cleanroom handling, AMD Vivado FPGA debugging, register probing, and targeted firmware updates before reinstallation.</li>
+              <li>Run automated acceptance testing before installation and lead coordinated firmware upgrades across installed board fleets, while recovering and validating 5 to 6 unresponsive boards per week through FPGA debugging, register probing, and targeted updates.</li>
+              <li>Built signal-processing pipelines for SEM stage data and used measured settling dynamics to tune inertia compensation, reducing time to tolerance from 300 ns to 20 ns.</li>
             </ul>
           </article>
 
@@ -215,6 +231,6 @@
         </section>
       </section>
     </main>
-
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

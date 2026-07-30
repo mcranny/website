@@ -1,84 +1,40 @@
-# mcranny.net Design System
+# mcranny.net design system
 
-## Palette
+## Purpose
 
-The palette is light-first and derived from semiconductor instrumentation: clean panel stock, black annotation ink, grey rule lines, and indigo signal color.
+The portfolio is organized around professional semiconductor test-system work. Independent projects support that story without competing with the current role.
 
-| Token | Hex | Role |
-| --- | --- | --- |
-| `--paper` | `#FAFAF8` | Primary page background |
-| `--ink` | `#0A0A0B` | Primary text and high-contrast line work |
-| `--graphite` | `#3D3D40` | Structural borders and secondary text |
-| `--steel` | `#8A8D91` | Tertiary labels and inactive controls |
-| `--signal` | `#1530A6` | Active state, links, focus outlines, live NEO trajectory |
-| `--alert` | `#B3261E` | Genuine warnings or missing-source states only |
+## Visual language
 
-Dark mode is optional and toggle-only. It inverts the panel stock and ink while keeping `--signal` constant so the active trajectory reads like an instrument indicator.
+- Light-first paper, ink, graphite, steel, and indigo signal colors.
+- Sans-serif typography for narrative and navigation.
+- Monospaced typography reserved for real measurements, compact technical diagrams, and code evidence.
+- Hairline rules and square panels remain, but repeated readout grids are used sparingly.
+- Dark mode preserves the same hierarchy and signal color.
 
-## Type
+## Navigation
 
-- Display and labels: Inter Display / system grotesk. Restrained geometric headings fit the ASML/Anduril reference without using a novelty display face.
-- Body: Inter / system sans. The site depends on fast scanning and readable engineering prose.
-- Technical and numeric values: IBM Plex Mono / SFMono-Regular / Consolas. Orbital elements, benchmark values, contact details, and repository identifiers use a mono face so real data aligns predictably.
+Desktop navigation exposes Home, Work, Projects, Résumé, and Contact. Projects open an ordered menu: Hardware Verification, Scope Simulator, NEO Viewer, and B-Tree Engine. At mobile widths, the same navigation moves into the hamburger menu.
 
-## Layout Concept
-
-Every page uses one 12-column grid, a 56px top bar, hairline rules, and reusable readout blocks. Corners stay square or nearly square; there are no shadows, gradients, or decorative cards.
-
-Navigation uses the same compact header at every viewport: hamburger control on the left, theme control near the right, wordmark on the far right, and a stacked dropdown containing Home, project links, and Resume.
+## Page hierarchy
 
 ### Home
 
-```text
-top nav ------------------------------------------------
-intro/status  [mini orbital canvas           ]
-readouts      [four-project routing table    ]
-footer -----------------------------------------------
-```
+1. Professional test-system positioning
+2. Current automated hardware-qualification work
+3. Verified professional outcomes
+4. Selected independent projects
+5. Broader experience and education
+6. Contact
 
-### Hardware Verification
+### Independent project pages
 
-```text
-top nav ------------------------------------------------
-framework summary | validation readouts
-layer grid ---------------------------------------------
-RTL flow / report artifacts / implementation facts -----
-```
+Each case study uses the structure most useful for its engineering story rather than a shared implementation inventory. Every page identifies the work as independent, describes evidence and limitations, and links to source with natural language.
 
-### Scope Simulator
+### NEO viewer
 
-```text
-top nav ------------------------------------------------
-simulator summary | acquisition readouts
-signal-chain flow --------------------------------------
-viewer/API boundary / validation table / usage ---------
-```
+The interactive viewer remains the most application-like project page. A compact index supports search, while detailed tracks load only for the selected mission.
 
-### NEO Viewer
+### Résumé
 
-```text
-top nav ------------------------------------------------
-object list | orbital canvas / controls | readouts
-technical panel ---------------------------------------
-```
-
-### B-Tree Engine
-
-```text
-top nav ------------------------------------------------
-project summary | validation readouts
-disk layout diagram -----------------------------------
-technical table ---------------------------------------
-```
-
-### Resume
-
-```text
-top nav ------------------------------------------------
-left rail: contact / verified facts | resume body
-missing source notice                | source-needed rows
-```
-
-## Signature Element
-
-The signature element is the NEO viewer: a live canvas readout with searchable object selection, trajectory comparison, zoom, rotation, time scrubbing, and orbital element panels. The recurring readout block carries that instrument language across Home, B-Tree, and Resume.
+The HTML résumé remains the complete chronological record. The homepage summarizes only the professional evidence most relevant to test and validation roles.
