@@ -20,6 +20,7 @@ Then open `http://localhost:5000`.
 - `hardware.html` - hardware verification framework project page
 - `btree.html` - B-tree storage engine project page
 - `resume.html` - HTML résumé plus the downloadable PDF résumé
+- `contact.html` - direct contact, profile, source, and résumé links
 - `css/` - split design tokens, base styles, layout styles, project styles, and per-page stylesheets
 - `js/site.js` - sitewide theme and mobile navigation behavior
 - `js/neo.js` - lazy-loaded mission data and canvas orbital renderer

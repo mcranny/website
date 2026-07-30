@@ -1,0 +1,126 @@
+.contact-page-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contact-page-body main {
+  flex: 1;
+}
+
+.contact-intro {
+  grid-column: 1 / span 7;
+}
+
+.contact-intro .lede {
+  max-width: 720px;
+}
+
+.contact-primary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.contact-context {
+  border: 1px solid var(--rule);
+  grid-column: 8 / -1;
+}
+
+.contact-context-row {
+  border-bottom: 1px solid var(--rule);
+  padding: 20px;
+}
+
+.contact-context-row:last-child {
+  border-bottom: 0;
+}
+
+.contact-context-row span {
+  color: var(--steel);
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.contact-context-row strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.contact-options {
+  border-top: 1px solid var(--rule);
+  display: grid;
+  gap: 16px;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-top: 32px;
+}
+
+.contact-card {
+  border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  padding: 20px;
+}
+
+.contact-card:hover,
+.contact-card:focus-visible {
+  border-color: var(--signal);
+}
+
+.contact-card span {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.contact-card strong {
+  font-size: 21px;
+  margin: 16px 0 8px;
+}
+
+.contact-card p {
+  color: var(--graphite);
+  margin: 0;
+}
+
+.contact-card em {
+  color: var(--signal);
+  font-style: normal;
+  font-weight: 700;
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+@media (max-width: 860px) {
+  .contact-intro,
+  .contact-context,
+  .contact-options {
+    margin-bottom: 28px;
+  }
+
+  .contact-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-options {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    min-height: 0;
+  }
+}
