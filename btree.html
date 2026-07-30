@@ -25,7 +25,6 @@
 
       <section class="case-section"><div class="case-section-heading"><h2>Engineering decisions</h2><p>The implementation favors inspectable constraints over broad database features.</p></div><div class="case-split"><div><h3>Deliberate limits</h3><ul><li>Signed 64-bit keys and bounded byte-string values</li><li>A 64-page least-recently-used cache</li><li>One writer and an explicit close/checkpoint boundary</li><li>Range scans over persistent leaf and internal records</li></ul></div><div><h3>Failure surfaces made visible</h3><ul><li>Corrupt page identities and invalid metadata</li><li>Truncated or checksummed log records</li><li>Separator errors during borrow and merge</li><li>Free-list persistence across reopen</li></ul></div></div></section>
 
-      <section class="case-section"><div class="case-note"><strong>Boundary:</strong> This is an independent educational storage engine, not a replacement for a production database. Its value is the explicit treatment of page layout, recovery ordering, and differential correctness.</div></section>
     </main>
     <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>

@@ -138,18 +138,6 @@
   margin-bottom: 0;
 }
 
-.case-note {
-  background: var(--panel);
-  border-left: 3px solid var(--signal);
-  color: var(--graphite);
-  font-size: 16px;
-  padding: 20px 22px;
-}
-
-.case-note strong {
-  color: var(--ink);
-}
-
 .system-grid,
 .flow-grid,
 .artifact-grid {
