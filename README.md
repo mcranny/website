@@ -1,38 +1,39 @@
-# mcranny.net static site
+# Matthew Cranny — Engineering Portfolio
 
-Static-first portfolio implementation for `mcranny.net`.
+[![Matthew Cranny's engineering portfolio](assets/site-preview.png)](https://mcranny.net)
 
-## Local preview
+Personal engineering portfolio for Matthew Cranny, a systems engineer focused on automated test systems, custom hardware, semiconductor manufacturing equipment, instrumentation, and firmware validation.
 
-Because this is dependency-free HTML/CSS/JS, any static server works:
+**Live site:** [mcranny.net](https://mcranny.net)
 
-```sh
-python3 -m http.server 5000
-```
+## Professional focus
 
-Then open `http://localhost:5000`.
+I build automated test software and custom hardware used to qualify control boards for advanced semiconductor manufacturing tools. My work spans electrical and analog-performance testing, instrumentation control, firmware feature validation, production board acceptance, and coordinated firmware deployment across installed equipment.
 
-## Structure
+The portfolio is organized around this professional work. Independent projects appear as supporting evidence of related verification, instrumentation, scientific-computing, and systems-programming methods.
 
-- `index.html` - professional-work-first home page served at the site root
-- `neo.html` - interactive NEO viewer
-- `scope.html` - virtual oscilloscope simulator project page
-- `hardware.html` - hardware verification framework project page
-- `btree.html` - B-tree storage engine project page
-- `resume.html` - HTML résumé plus the downloadable PDF résumé
-- `contact.html` - direct contact, profile, source, and résumé links
-- `css/` - split design tokens, base styles, layout styles, project styles, and per-page stylesheets
-- `js/site.js` - sitewide theme and mobile navigation behavior
-- `js/neo.js` - lazy-loaded mission data and canvas orbital renderer
-- `assets/neo-missions/` - lightweight mission index and per-mission viewer payloads
-- `scripts/split_neo_missions.py` - repeatable splitter for a full viewer export
+## Selected independent projects
 
-## NEO data mode
+- [Hardware Verification Framework](https://mcranny.net/hardware) — reusable Python and cocotb verification for deterministic RTL stimulus, waveform comparison, diagnostics, and reporting.
+- [Virtual Oscilloscope Simulator](https://mcranny.net/scope) — a testable model of waveform generation, conversion, analog response, acquisition, triggering, and full-record measurement.
+- [Asteroid Intercept Planner](https://mcranny.net/neo) — JPL data ingestion, orbital-transfer search, endpoint validation, and an interactive mission viewer.
+- [B-Tree Storage Engine](https://mcranny.net/btree) — a disk-backed Rust key-value engine with redo logging, deletion rebalancing, and differential testing against SQLite.
 
-The viewer first loads a compact mission index, then fetches only the selected mission's orbital tracks and Lambert transfer samples. To refresh the viewer data, provide a full export from the source project and run:
+These projects are independent work and are not employer systems. Source repositories are linked from each case study.
 
-```sh
-python3 scripts/split_neo_missions.py path/to/full-export.json assets/neo-missions
-```
+## Site qualities
 
-The homepage does not load the viewer JavaScript or any mission data.
+- Dependency-free HTML, CSS, and JavaScript with no client framework or application build step.
+- Responsive layouts and navigation for desktop, tablet, and mobile viewports.
+- Light and dark themes with reduced-motion support.
+- Keyboard-accessible navigation, visible focus states, skip links, and descriptive image alternatives.
+- Clean production URLs, canonical metadata, social previews, structured profile data, and a maintained sitemap.
+- Lazy-loaded NEO mission data so the homepage remains independent of the interactive viewer payloads.
+
+## Deployment
+
+The static site is deployed to [mcranny.net](https://mcranny.net) through Cloudflare. Redirects, caching behavior, security headers, and public security contact information are versioned with the site source.
+
+## Contact
+
+Professional contact information, profiles, and the current résumé are available on the [contact page](https://mcranny.net/contact).
