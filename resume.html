@@ -20,7 +20,7 @@
         document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
       })();
     </script>
-    <meta name="description" content="Resume for Matthew Cranny, systems engineer with experience in firmware validation, FPGA-based testing, Python automation, semiconductor metrology, and hardware test.">
+    <meta name="description" content="Resume for Matthew Cranny, a systems engineer focused on automated board qualification, custom test hardware, semiconductor manufacturing equipment, instrumentation, and firmware deployment.">
     <title>Resume | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/resume.html">
     <meta property="og:title" content="Résumé | Matthew Cranny">
@@ -106,9 +106,9 @@
           <dt>Education</dt>
           <dd>B.A. Physics, UC Berkeley, May 2026</dd>
           <dt>Core tools</dt>
-          <dd>Python, Bash, SQL, REST APIs, JSON, VBA, Verilog, Flask, PyQt6, SQLite, LabVIEW, AMD Vivado</dd>
+          <dd>Python, PyQt6, LabVIEW, Bash, SQL, REST APIs, JSON, VBA, Verilog, Flask, SQLite, AMD Vivado</dd>
           <dt>Hardware/test</dt>
-          <dd>ATE, SCPI/GPIB, NI-DAQmx, PyVISA, board calibration, firmware flashing, SEM stage control</dd>
+          <dd>Automated qualification, ATE, SCPI/GPIB, NI-DAQmx, PyVISA, custom test hardware, firmware validation and deployment</dd>
         </dl>
       </aside>
 
@@ -128,10 +128,11 @@
               <code>March 2026 - Present / San Jose, CA</code>
             </div>
             <ul>
-              <li>Own and continuously expand an automated qualification suite that verifies board configuration, reference voltages, output and waveform functions, gain, transfer response, distortion, noise, DC linearity, resonance, thermal behavior, telemetry, and firmware-controlled operating modes.</li>
-              <li>Developed the supporting Python software, PyQt6 interfaces, instrumentation drivers, and custom test hardware used to add repeatable coverage across six evolving board families.</li>
+              <li>Own and continuously expand an automated qualification suite that verifies board configuration and reference voltages; exercises output and waveform-generation functions; and measures gain, transfer response, total harmonic distortion, noise, DC linearity, resonance, thermal behavior, and telemetry.</li>
+              <li>Develop the supporting Python automation, PyQt6 interfaces, instrumentation drivers, and custom test hardware; add repeatable coverage as new board revisions and firmware features are released across six board families.</li>
+              <li>Run automated acceptance testing on production boards before installation and lead coordinated firmware upgrades across board fleets already installed on semiconductor manufacturing tools.</li>
+              <li>Diagnose hardware and firmware failures, recovering and validating 5 to 6 unresponsive boards per week through FPGA debugging, register probing, and targeted updates.</li>
               <li>Designed a Flask/SQLite system of record for firmware and hardware revisions across 90+ boards, with admin CRUD and SQL/CSV export tools that exposed configuration conflicts and informed fleet deployment decisions.</li>
-              <li>Run automated acceptance testing before installation and lead coordinated firmware upgrades across installed board fleets, while recovering and validating 5 to 6 unresponsive boards per week through FPGA debugging, register probing, and targeted updates.</li>
               <li>Built signal-processing pipelines for SEM stage data and used measured settling dynamics to tune inertia compensation, reducing time to tolerance from 300 ns to 20 ns.</li>
             </ul>
           </article>
@@ -219,13 +220,13 @@
             </article>
             <article class="readout">
               <span>Software</span>
-              <strong>Flask / PyQt6 / SQLite</strong>
-              <code>REST APIs / JSON pipelines / AWS / Linux</code>
+              <strong>PyQt6 / LabVIEW / Flask</strong>
+              <code>SQLite / AWS / Linux / REST APIs</code>
             </article>
             <article class="readout">
               <span>Hardware</span>
-              <strong>ATE / SCPI / GPIB</strong>
-              <code>NI-DAQmx / PyVISA / scopes</code>
+              <strong>ATE / custom test hardware</strong>
+              <code>SCPI / GPIB / NI-DAQmx / PyVISA</code>
             </article>
           </div>
         </section>
