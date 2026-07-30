@@ -314,10 +314,13 @@
     display: none;
     gap: 0;
     grid-column: 1 / -1;
+    justify-content: stretch;
+    justify-items: stretch;
     left: 0;
     padding: 8px 16px;
     position: absolute;
     right: 0;
+    text-align: left;
     top: 56px;
   }
 
@@ -342,13 +345,18 @@
   .project-menu {
     border: 0;
     box-shadow: none;
+    justify-items: stretch;
     min-width: 0;
     padding: 0 0 8px 14px;
     position: static;
+    text-align: left;
+    width: 100%;
   }
 
   .project-menu a {
     min-height: 44px;
+    text-align: left;
+    width: 100%;
   }
 
   .page-grid {
