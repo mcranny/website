@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fafaf8">
+    <script>
+      (() => {
+        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
+        let theme = "light";
+        try { const stored = localStorage.getItem("theme"); if (stored === "dark" || stored === "light") theme = stored; } catch (error) {}
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.backgroundColor = colors[theme];
+        document.documentElement.style.colorScheme = theme;
+        document.querySelector('meta[name="color-scheme"]').setAttribute("content", theme);
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
+      })();
+    </script>
+    <meta name="description" content="Contact Matthew Cranny about automated test systems, semiconductor manufacturing hardware, instrumentation, and hardware-validation engineering.">
+    <title>Contact Matthew Cranny | Test Systems Engineer</title>
+    <link rel="canonical" href="https://mcranny.net/contact.html">
+    <meta property="og:title" content="Contact Matthew Cranny | Test Systems Engineer">
+    <meta property="og:description" content="Contact information and professional profiles for Matthew Cranny, a systems engineer focused on automated hardware qualification.">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://mcranny.net/contact.html">
+    <meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
+    <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
+    <link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <script src="js/site.js" defer></script>
+  </head>
+  <body class="contact-page-body">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="topbar">
+      <a class="wordmark" href="index.html">MCRANNY.NET</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a><a href="index.html#work">Work</a>
+        <div class="nav-projects"><button type="button" data-projects-toggle aria-expanded="false">Projects</button><div class="project-menu"><a href="hardware.html">Hardware Verification</a><a href="scope.html">Scope Simulator</a><a href="neo.html">NEO Viewer</a><a href="btree.html">B-Tree Engine</a></div></div>
+        <a href="resume.html">Résumé</a><a aria-current="page" href="contact.html">Contact</a>
+      </nav>
+      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode"><svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g class="theme-icon-sun"><circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect></g><path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path></svg><span class="sr-only">Toggle dark mode</span></button>
+    </header>
+
+    <main id="main-content" class="page-grid contact-page">
+      <section class="contact-intro">
+        <p class="eyebrow">Contact</p>
+        <h1>Let’s talk about test systems and hardware validation.</h1>
+        <p class="lede">The best way to reach me is by email. I’m especially interested in systems, semiconductor test, instrumentation, manufacturing-test, and hardware-validation engineering work.</p>
+        <div class="contact-primary-actions"><a class="button primary" href="mailto:crannymatthew@gmail.com">Email Matthew</a><a class="button" href="resume.html">View résumé</a></div>
+      </section>
+
+      <aside class="contact-context" aria-label="Professional details">
+        <div class="contact-context-row"><span>Current role</span><strong>Systems Engineer</strong></div>
+        <div class="contact-context-row"><span>Location</span><strong>San Jose, California</strong></div>
+        <div class="contact-context-row"><span>Focus</span><strong>Automated test systems and hardware qualification</strong></div>
+      </aside>
+
+      <section class="contact-options" aria-label="Contact and professional links">
+        <a class="contact-card" href="mailto:crannymatthew@gmail.com"><span>Direct contact</span><strong>Email</strong><p>crannymatthew@gmail.com</p><em>Start a conversation</em></a>
+        <a class="contact-card" href="https://linkedin.com/in/matthew-cranny"><span>Professional profile</span><strong>LinkedIn</strong><p>Experience, education, and professional updates.</p><em>Open profile</em></a>
+        <a class="contact-card" href="https://github.com/mcranny"><span>Engineering work</span><strong>GitHub</strong><p>Source repositories and independent technical projects.</p><em>View repositories</em></a>
+        <a class="contact-card" href="resume.html"><span>Full record</span><strong>Résumé</strong><p>Professional experience, technical skills, and education.</p><em>View résumé</em></a>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="index.html#work">Professional work</a><a href="resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
+  </body>
+</html>

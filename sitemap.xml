@@ -24,4 +24,8 @@
     <loc>https://mcranny.net/resume.html</loc>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://mcranny.net/contact.html</loc>
+    <priority>0.9</priority>
+  </url>
 </urlset>

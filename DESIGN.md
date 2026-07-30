@@ -38,3 +38,7 @@ The interactive viewer remains the most application-like project page. A compact
 ### Résumé
 
 The HTML résumé remains the complete chronological record. The homepage summarizes only the professional evidence most relevant to test and validation roles.
+
+### Contact
+
+The dedicated contact page keeps email, LinkedIn, GitHub, résumé, location, and role interests together. Every page retains the same Professional work, Résumé, GitHub, and Email footer links.
