@@ -48,21 +48,6 @@
   margin: 4px 0 0;
 }
 
-.notice {
-  border: 1px solid color-mix(in srgb, var(--alert) 48%, transparent);
-  margin-bottom: 32px;
-  padding: 16px;
-}
-
-.notice strong {
-  color: var(--alert);
-}
-
-.notice p {
-  color: var(--graphite);
-  margin: 8px 0 0;
-}
-
 .resume-section {
   margin-top: 32px;
 }
@@ -118,20 +103,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.slot-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.source-slot {
-  border: 1px dashed var(--rule);
-  color: var(--steel);
-  font-size: 12px;
-  margin: 0 -1px -1px 0;
-  min-height: 92px;
-  padding: 14px;
-}
-
 @media (max-width: 860px) {
   .readout-grid,
   .btree-page .readout-grid,
@@ -141,7 +112,6 @@
   }
 
   .node-row,
-  .slot-grid,
   .contact-strip,
   .project-row,
   .page-layout-diagram,
