@@ -9,6 +9,9 @@ const PLANET_SIZES = { Mercury: 2.5, Venus: 3, Earth: 3.5, Mars: 3, Jupiter: 4.5
 const hitTargetsMap = new WeakMap();
 let resolvedColors = null;
 let viewerVisible = true;
+let selectionRequest = 0;
+let retrySelection = null;
+let lastReadoutFrame = 0;
 
 const state = {
   selectedIds: new Set(),
@@ -50,8 +53,10 @@ function drawViewer(canvas, mini = false) {
   const width = Math.max(320, Math.round(rect.width || canvas.width));
   const height = Math.max(240, Math.round(width * (mini ? 0.55 : 0.67)));
 
-  canvas.width = Math.round(width * ratio);
-  canvas.height = Math.round(height * ratio);
+  const pixelWidth = Math.round(width * ratio);
+  const pixelHeight = Math.round(height * ratio);
+  if (canvas.width !== pixelWidth) canvas.width = pixelWidth;
+  if (canvas.height !== pixelHeight) canvas.height = pixelHeight;
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.clearRect(0, 0, width, height);
 
@@ -71,6 +76,13 @@ function drawViewer(canvas, mini = false) {
 
   ctx.fillStyle = paper;
   ctx.fillRect(0, 0, width, height);
+  if (!primaryMission()) {
+    ctx.fillStyle = ink;
+    ctx.font = "14px sans-serif";
+    ctx.fillText("Choose a mission to view its trajectory.", 16, 36);
+    hitTargetsMap.set(canvas, []);
+    return;
+  }
 
   function project(point) {
     const px = point.x - (mini ? 0 : state.cameraX);
@@ -245,7 +257,7 @@ function drawViewer(canvas, mini = false) {
 }
 
 function primaryMission() {
-  return missionPayload.objects.find((object) => state.selectedIds.has(object.designation)) || missionPayload.objects[0];
+  return missionPayload.objects.find((object) => state.selectedIds.has(object.designation));
 }
 
 function updateMetrics() {
@@ -278,43 +290,79 @@ function updateMetrics() {
     ["Polyline samples", `${primary.polyline_au?.length || 0} from Lambert export`]
   ];
 
-  metrics.innerHTML = rows.map(([labelText, value]) => (
-    `<div class="metric"><span>${labelText}</span><code>${value}</code></div>`
-  )).join("");
+  renderMetricRows(metrics, rows);
   updateMissionTimeline(primary);
   updateInspector();
 }
 
+function renderMetricRows(container, rows) {
+  // Reuse readout nodes; mission data is always text, never markup.
+  if (container.children.length !== rows.length) {
+    container.replaceChildren(...rows.map(() => {
+      const row = document.createElement("div");
+      row.className = "metric";
+      row.append(document.createElement("span"), document.createElement("code"));
+      return row;
+    }));
+  }
+  rows.forEach(([label, value], index) => {
+    const row = container.children[index];
+    if (row.firstChild.textContent !== String(label)) row.firstChild.textContent = label;
+    if (row.lastChild.textContent !== String(value)) row.lastChild.textContent = value;
+  });
+}
+
 function renderObjectList() {
   const list = document.querySelector("[data-object-list]");
-  const search = document.querySelector("#neo-search");
   if (!list) return;
-
-  const query = (search?.value || "").toLowerCase();
+  const query = (document.querySelector("#neo-search")?.value || "").toLowerCase();
   const matches = missionPayload.objects.filter((object) => `${object.designation} ${object.fullname} ${object.close_approach_text}`.toLowerCase().includes(query));
-  list.innerHTML = matches.map((object) => `
-    <button class="object-button" type="button" role="option" data-object-id="${object.designation}" aria-selected="${state.selectedIds.has(object.designation)}">
-      <strong>${object.designation}</strong>
-      <small>${object.close_approach_text} / dv=${formatNumber(object.total_dv_kms, 2)} km/s / miss=${formatNumber(object.distance_au, 5)} AU</small>
-    </button>
-  `).join("");
+  list.replaceChildren(...matches.map((object) => {
+    const button = document.createElement("button");
+    button.className = "object-button";
+    button.type = "button";
+    button.dataset.objectId = object.designation;
+    button.setAttribute("aria-pressed", String(state.selectedIds.has(object.designation)));
+    const name = document.createElement("strong");
+    name.textContent = object.designation;
+    const detail = document.createElement("small");
+    detail.textContent = `${object.close_approach_text} / dv=${formatNumber(object.total_dv_kms, 2)} km/s / miss=${formatNumber(object.distance_au, 5)} AU`;
+    button.append(name, detail);
+    button.addEventListener("click", () => selectMission(object.designation));
+    return button;
+  }));
+  if (!matches.length) list.textContent = "No matching missions.";
+}
 
-  list.querySelectorAll("[data-object-id]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const id = button.dataset.objectId;
-      button.disabled = true;
-      await loadMission(id);
-      state.selectedIds.clear();
-      state.selectedIds.add(id);
-      state.time = 0;
-      const time = document.querySelector("[data-time-scrub]");
-      if (time) time.value = "0";
-      applyCameraPreset("mission");
-      renderObjectList();
-      updateMetrics();
-      drawAllViewers();
+function loadingStatus(message, retry = null) {
+  const status = document.querySelector("[data-load-status]");
+  if (status) status.textContent = message;
+  retrySelection = retry;
+  const button = document.querySelector("[data-load-retry]");
+  if (button) button.hidden = !retry;
+}
+
+async function selectMission(id) {
+  const request = ++selectionRequest;
+  loadingStatus(`Loading ${id}`);
+  try {
+    const mission = await loadMission(id);
+    if (request !== selectionRequest) return;
+    state.selectedIds = new Set([mission.designation]);
+    state.time = 0;
+    const time = document.querySelector("[data-time-scrub]");
+    if (time) time.value = "0";
+    // Keep focus on the native button the user activated.
+    document.querySelectorAll("[data-object-id]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.objectId === id));
     });
-  });
+    loadingStatus(`${id} loaded`);
+    updateMetrics();
+    applyCameraPreset("mission");
+  } catch {
+    if (request !== selectionRequest) return;
+    loadingStatus(`${id} unavailable. ${primaryMission() ? "Previous mission retained." : "Choose another mission or retry."}`, () => selectMission(id));
+  }
 }
 
 function drawAllViewers() {
@@ -413,9 +461,7 @@ function updateInspector() {
     ];
   }
 
-  metrics.innerHTML = rows.map(([labelText, value]) => (
-    `<div class="metric"><span>${labelText}</span><code>${value}</code></div>`
-  )).join("");
+  renderMetricRows(metrics, rows);
 }
 
 function applyCameraPreset(name) {
@@ -508,48 +554,71 @@ function beginTouchGesture() {
   };
 }
 
+function validateSummary(mission) {
+  if (!mission || typeof mission !== "object" ||
+      typeof mission.designation !== "string" || !mission.designation.trim() ||
+      typeof mission.close_approach_text !== "string" ||
+      typeof mission.data_file !== "string" ||
+      !/^assets\/neo-missions\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(mission.data_file) ||
+      !Number.isFinite(mission.tof_days) || mission.tof_days <= 0) {
+    throw new Error("Invalid mission summary");
+  }
+  const numeric = ["distance_au", "relative_velocity_kms", "total_dv_kms", "semi_major_axis_au", "eccentricity", "inclination_deg", "c3_km2_s2", "leo_departure_dv_kms"];
+  if (numeric.some((key) => !Number.isFinite(mission[key]))) throw new Error("Invalid mission metric");
+}
+
+function validateTracks(mission) {
+  const validTrack = (track) => Array.isArray(track) && track.length >= 2 && track.length <= 10000 &&
+    track.every((point) => Array.isArray(point) && point.length === 3 && point.every(Number.isFinite));
+  if (![mission.polyline_au, mission.target_track_au, mission.target_orbit_au].every(validTrack) ||
+      !PLANET_NAMES.every((name) => validTrack(mission.planet_tracks_au?.[name]) && validTrack(mission.planet_orbits_au?.[name]))) {
+    throw new Error("Invalid mission tracks");
+  }
+}
+
 async function loadMissionPayload() {
-  const status = document.querySelector("[data-load-status]");
+  loadingStatus("Loading mission data");
   try {
     const response = await fetch("assets/neo-missions/index.json");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    missionPayload = await response.json();
+    const payload = await response.json();
+    if (!Array.isArray(payload.objects) || !payload.objects.length || payload.objects.length > 1000 ||
+        !payload.counts || !Object.values(payload.counts).every((count) => Number.isInteger(count) && count >= 0)) throw new Error("Invalid mission index");
+    payload.objects.forEach(validateSummary);
+    if (new Set(payload.objects.map((item) => item.designation)).size !== payload.objects.length) throw new Error("Duplicate mission");
+    missionPayload = payload;
+    document.querySelectorAll("[data-neo-count]").forEach((node) => { node.textContent = String(payload.counts.asteroids ?? 0); });
+    document.querySelectorAll("[data-close-count]").forEach((node) => { node.textContent = String(payload.counts.close_approaches ?? 0); });
+    document.querySelectorAll("[data-plan-count]").forEach((node) => { node.textContent = `${payload.objects.length} example missions`; });
+    document.querySelectorAll("[data-stored-plan-count]").forEach((node) => { node.textContent = String(payload.counts.intercept_plans ?? 0); });
+    const date = document.querySelector("[data-export-date]");
+    if (date) date.textContent = payload.exported_at ? `Exported ${payload.exported_at}. Stored examples.` : `Stored examples from ${payload.archived_on || "an undated archive"}.`;
+    renderObjectList();
+    await selectMission(payload.objects[0].designation);
   } catch {
-    missionPayload = {
-      mode: "fallback",
-      counts: { asteroids: 0, close_approaches: 0, intercept_plans: 0 },
-      objects: []
-    };
-    if (status) status.textContent = "Mission data unavailable";
+    loadingStatus("Mission index unavailable.", loadMissionPayload);
   }
-  if (!state.selectedIds.size && missionPayload.objects.length) {
-    const first = missionPayload.objects[0].designation;
-    await loadMission(first);
-    state.selectedIds.add(first);
-  }
-  document.querySelectorAll("[data-neo-count]").forEach((node) => {
-    node.textContent = String(missionPayload.counts.asteroids || missionPayload.objects.length);
-  });
-  document.querySelectorAll("[data-plan-count]").forEach((node) => {
-    node.textContent = String(missionPayload.counts.intercept_plans || missionPayload.objects.length);
-  });
-  applyCameraPreset("mission");
 }
 
 async function loadMission(designation) {
   const mission = missionPayload.objects.find((item) => item.designation === designation);
-  if (!mission || mission.__loaded) return mission;
-  const status = document.querySelector("[data-load-status]");
-  if (status) status.textContent = `Loading ${designation}`;
-  try {
-    const response = await fetch(mission.data_file);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    Object.assign(mission, await response.json(), { __loaded: true });
-    if (status) status.textContent = `${designation} loaded`;
-  } catch {
-    if (status) status.textContent = `${designation} unavailable`;
-  }
+  if (!mission) throw new Error("Unknown mission");
+  if (mission.__loaded) return mission;
+  validateSummary(mission);
+  const response = await fetch(mission.data_file);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
+  if (data.designation !== designation) throw new Error("Mission identity mismatch");
+  const loaded = { ...data, data_file: mission.data_file };
+  validateSummary(loaded);
+  validateTracks(loaded);
+  Object.assign(mission, loaded, { __loaded: true });
   return mission;
+}
+
+function syncPlayback() {
+  const play = document.querySelector("[data-play-toggle]");
+  if (play) play.textContent = state.playing ? "Pause" : "Play";
 }
 
 function initControls() {
@@ -562,8 +631,12 @@ function initControls() {
   const speed = document.querySelector("[data-speed-select]");
   const repeat = document.querySelector("[data-repeat-toggle]");
 
+  syncPlayback();
+  document.querySelector("[data-load-retry]")?.addEventListener("click", () => retrySelection?.());
   search?.addEventListener("input", renderObjectList);
   time?.addEventListener("input", () => {
+    state.playing = false;
+    syncPlayback();
     state.time = Number(time.value);
     updateMetrics();
     drawAllViewers();
@@ -578,7 +651,7 @@ function initControls() {
   });
   play?.addEventListener("click", () => {
     state.playing = !state.playing;
-    play.textContent = state.playing ? "Pause" : "Play";
+    syncPlayback();
   });
   restart?.addEventListener("click", () => {
     state.time = 0;
@@ -684,14 +757,8 @@ function initControls() {
         const hit = nearestHit(canvas, x, y);
         if (hit) {
           if (hit.type === "mission") {
-            state.selectedIds.clear();
-            state.selectedIds.add(hit.id);
             state.inspectedObject = "Target";
-            state.time = 0;
-            const timeInput = document.querySelector("[data-time-scrub]");
-            if (timeInput) timeInput.value = "0";
-            applyCameraPreset("mission");
-            renderObjectList();
+            selectMission(hit.id);
           } else {
             state.inspectedObject = hit.object;
           }
@@ -752,6 +819,7 @@ function animate(frame) {
   const time = document.querySelector("[data-time-scrub]");
   if (state.playing && viewerVisible && document.visibilityState === "visible") {
     const primary = primaryMission();
+    if (!primary) { requestAnimationFrame(animate); return; }
     const max = Math.max(1, primary?.tof_days || 180);
     state.time += (delta / 1000) * state.speed;
     if (state.time > max) {
@@ -761,7 +829,10 @@ function animate(frame) {
       if (play) play.textContent = state.playing ? "Pause" : "Play";
     }
     if (time) time.value = String(Math.round(state.time));
-    updateMetrics();
+    if (frame - lastReadoutFrame >= 100 || !state.playing) {
+      updateMetrics();
+      lastReadoutFrame = frame;
+    }
     drawAllViewers();
   }
   requestAnimationFrame(animate);
@@ -769,9 +840,8 @@ function animate(frame) {
 
 async function init() {
   resolveColors();
-  await loadMissionPayload();
-  renderObjectList();
   initControls();
+  await loadMissionPayload();
   updateMetrics();
   drawAllViewers();
   window.addEventListener("resize", drawAllViewers);

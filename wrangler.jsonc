@@ -6,9 +6,12 @@
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": "./dist"
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "build": {
+    "command": "python3 scripts/build_site.py"
+  }
 }

@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1789878087" />
+    <testcase name="differential_directed" classname="test_engine" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test_engine.py" lineno="68" time="0.02999114990234375" sim_time_ns="6760.0" ratio_time="225399.82701602645" />
+    <testcase name="differential_random" classname="test_engine" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test_engine.py" lineno="124" time="2.7306597232818604" sim_time_ns="638880.0" ratio_time="233965.43866408887" />
+    <testcase name="differential_uart" classname="test_engine" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test_engine.py" lineno="169" time="1.5728483200073242" sim_time_ns="403440.0000000001" ratio_time="256502.80123522747" />
+  </testsuite>
+</testsuites>

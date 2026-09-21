@@ -1,0 +1,53 @@
+{
+  "captured_on": "2026-09-20",
+  "source_commit": "ef72e557af2d91763b5eb75c888eaba20e4993e9",
+  "capture_method": "QEMU 11.1.1 QMP screendump, 1024 x 768",
+  "frames_per_second": 4,
+  "frame_count": 50,
+  "files": {
+    "nvme-serial.txt": "1a24ec20f6068bd784bf1236baf0596bd698384460fee951e539d8464d7d9707",
+    "boot.mp4": "0f56b006269bbaa2fd26f8bf0de85e5ed0b485b77cbad386e124fb7c0ddb7c03",
+    "ata.pcap": "fb692cd33a9e7e82dec48fd1231944e559c996f4294ea4c40c9c7cefaac4decd",
+    "disk-ahci.png": "fed2412adbf4cd96e923489322193efbb75cd7e5d19196d5051f7cb788fb7982",
+    "tcp-packets.txt": "f66a3662fb285fa0bc7d62a006ab511e9b3f70d45da7eb18bef74bd266bd1369",
+    "http-response.png": "8cb163f16d1d3648d37c24dc5b2ae66fa3b552a43a933f48ef8b2212d644d069",
+    "download.png": "5d57692f9b79b8289a4288df8b0087056e27c16d9d7a8fc588eb9e4e2d9b3290",
+    "disk-ata.png": "8fcf297ec79ab5b4bc0619ceb5df39569e9c54809c6a39e4da9ea9b4a7308960",
+    "boot-poster.png": "f538d456c9c54fae51c4a71a55f0cc85779f78f82d529bf0d666e88bd7231e12",
+    "tcp-echo.txt": "20ac5178c7f44c78c95f2543d154bda12ddeb66d0fb634cc4379362613eb2ca5",
+    "ata-serial.txt": "7c2c14aac62217fe0818f34d9fb81a69d673a647bfeb7aa74f4371babba9b795",
+    "boot.png": "f538d456c9c54fae51c4a71a55f0cc85779f78f82d529bf0d666e88bd7231e12",
+    "disk-nvme.png": "72577cf78796b65e9f27d8267d11ff5653fa17e5796dcb5a7a1dbcb31fe66202",
+    "boot.webm": "f3762a63bf263ccd6a3ee6aa439f5543f9b290dec13033d7c68e372027225cda",
+    "ahci-serial.txt": "94ae4f47e9b0ec8b8d01f5c1220cbc51fb7033d59221a1a12832ef52bc3cb501"
+  },
+  "boot_artifact": {
+    "run": "https://github.com/mcranny/TestOS/actions/runs/34529923221",
+    "artifact_id": 10173080670,
+    "sha256": "7da655c735fbe1ee7777d74d1500aef6aeb3f3de6bedd64ba1b8f3d6fe63f9a4"
+  },
+  "checks": [
+    "ATA, AHCI, and NVMe data disks",
+    "DHCP ACK",
+    "HTTP file download, 1400 bytes",
+    "TCP echo, 25 connections of 1021 bytes",
+    "PCAP handshake, exact data ACK, echoed payload, and FIN close"
+  ],
+  "metadata": "PNG metadata empty. Video descriptive metadata removed.",
+  "packet_review": {
+    "ipv4_addresses": [
+      "0.0.0.0",
+      "10.0.2.15",
+      "10.0.2.2",
+      "255.255.255.255"
+    ],
+    "ethernet_addresses": [
+      "52:54:00:12:34:56",
+      "52:55:0a:00:02:02",
+      "ff:ff:ff:ff:ff:ff"
+    ],
+    "experimental_frames": 2,
+    "experimental_payload": "TestOS-TX",
+    "network": "QEMU user-mode virtual network"
+  }
+}

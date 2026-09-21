@@ -1,0 +1,116 @@
+[2J[01;01H[=3h[2J[01;01H[2J[01;01H[=3h[2J[01;01H[2J[01;01H[=3h[2J[01;01HBdsDxe: loading Boot0001 "UEFI QEMU HARDDISK QM00023 " from PciRoot(0x0)/Pci(0x1,0x0)/Sata(0x5,0xFFFF,0x0)
+BdsDxe: starting Boot0001 "UEFI QEMU HARDDISK QM00023 " from PciRoot(0x0)/Pci(0x1,0x0)/Sata(0x5,0xFFFF,0x0)
+[01;01H[01;01HTestOS 0.15 x86-64 boot
+kernel entry
+BOOT: Boot information validated; framebuffer physical=0x0000000080000000
+loading gdt/idt/tss
+IDT loaded
+initializing physical memory
+free frames=0x000000000001ca04
+taking over paging
+paging probe OK
+initializing heap
+heap free=0x0000000000200000
+initializing lapic
+acpi madt OK
+cpu_count=0x0000000000000001
+user as OK
+scanning pci
+PCI: Scanning PCI bus
+PCI 00:00.0 8086:29C0 Bridge Device
+PCI 00:01.0 8086:2922 Mass Storage Controller
+PCI 00:02.0 1B36:000D USB Controller
+PCI 00:03.0 8086:10D3 Network Controller
+PCI 00:04.0 1234:1111 Display Controller
+PCI 00:1F.0 8086:2918 Bridge Device
+PCI 00:1F.2 8086:2922 Mass Storage Controller
+PCI 00:1F.3 8086:2930 USB Controller
+PCI: PCI scan complete
+initializing storage
+ATA: no disk
+AHCI: Controller found
+AHCI: Ports implemented = 63
+AHCI: Controller found
+AHCI: Ports implemented = 63
+AHCI: sata0
+AHCI: Sectors = 32768
+NVME: No controller found
+tfs mount OK (formatted)
+syscall OK
+scheduler OK
+enabling timer and keyboard
+starting APs
+initializing xhci
+XHCI: Controller found
+XHCI: Controller running
+XHCI: Command No-Op completed
+XHCI: Port connected = 5
+XHCI: Slot enabled = 1
+XHCI: Command CC=5
+XHCI: Command type=11
+XHCI: Address device failed (EP0 context incomplete)
+XHCI: Bring-up only: HID interrupt-IN / EP0 product path pending
+HID: Ready
+initializing e1000
+E1000: Initializing Intel E1000
+E1000: found 8086:10D3
+E1000: BAR0 = 0x0000000081060000
+E1000: BAR0 size = 0x0000000000020000
+E1000: PCI command = 7
+E1000: MMIO mapped at 0xffffd00000008000
+E1000: MMIO mapped
+E1000: reset
+E1000: MAC 52:54:00:12:34:56
+E1000: link up
+E1000: TX initialized
+E1000: RX initialized
+E1000: PCI interrupt line = IRQ 11
+E1000: Interrupt handler installed
+E1000: ready
+E1000: Interrupts enabled
+BOOT: TestOS ready
+E1000: IRQ received
+E1000: Cause = 0x80000004
+probing network
+UDP: Echo service ready
+UDP: Port = 12345
+TCP: Echo service ready
+TCP: Port = 12346
+HTTP: Ready on port 8080
+UDP: Packet received
+UDP: Source port = 67
+UDP: Destination port = 68
+UDP: Payload length = 548
+DHCP: Offer received
+UDP: Packet received
+UDP: Source port = 67
+UDP: Destination port = 68
+UDP: Payload length = 548
+DHCP: ACK received
+ARP: Requesting IP 10.0.2.2
+NET: e1000e0 10.0.2.15 gw 10.0.2.2 dns 10.0.2.3
+ICMP: Echo Request sent
+ICMP: Identifier = 4660
+ICMP: Sequence = 1
+ICMP: Echo Reply received
+ICMP: Identifier = 4660
+ICMP: Sequence = 1
+scheduler worker A
+scheduler worker B
+timer ticks=0x00000000000000b0
+preempt OK
+seeded /calc
+seeded /dns
+seeded /wget
+seeded /tcp
+seeded /udp
+hi
+ring3 hello OK
+starting shell
+/# ls
+calc* (22976 bytes)
+dns* (9536 bytes)
+wget* (13912 bytes)
+tcp* (9896 bytes)
+udp* (9776 bytes)
+/# 

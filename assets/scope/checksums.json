@@ -1,0 +1,19 @@
+{
+  "captured_on": "2026-09-20",
+  "source_commit": "073ed6320064b5e9c76434b06f42d75255d84764",
+  "capture_method": "Chrome browser screenshots, 1280 x 900",
+  "frames_per_second": 5,
+  "frame_count": 60,
+  "files": {
+    "viewer.mp4": "96b0a9f32aa31b8dd6689720b36477bebfd7569e1f892338acd7414c3dcbe28a",
+    "adjusted.png": "6cd479561c5423b0b7c976fa5bd7754980b56b95ec0f6381f67c6ccbfdb276a8",
+    "viewer.webm": "8f567c0e3d5377bf939dd9f72db73a4a87a65277d888f62951afba36bffdb2b5",
+    "viewer.png": "02654dc8b51c7c6ef8be31870d59b92342e66e06a25d1fde0c938f633ab393b1"
+  },
+  "controls": {
+    "time_div_us": 20,
+    "trigger_level": 0.4,
+    "analog_lpf_mhz": 0.08
+  },
+  "metadata": "PNG metadata empty. Video descriptive metadata removed."
+}

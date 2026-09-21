@@ -160,3 +160,6 @@
     font-size: 14px;
   }
 }
+
+.resume-date, .resume-location { display: block; }
+.resume-summary { color: var(--graphite); }

@@ -232,7 +232,7 @@
 
 .button.primary:hover,
 .button.primary:focus-visible {
-  background: var(--signal);
+  background: var(--signal-fill);
   color: #fff;
 }
 
@@ -322,6 +322,10 @@
     right: 0;
     text-align: left;
     top: 56px;
+    max-height: calc(100vh - 56px);
+    max-height: calc(100dvh - 56px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .topbar.nav-open .nav {

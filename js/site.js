@@ -30,16 +30,18 @@ function setTheme(theme) {
   document.documentElement.dataset.theme = theme;
   updateThemeSurface(theme);
   updateThemeColor(theme);
-  localStorage.setItem("theme", theme);
+  try { localStorage.setItem("theme", theme); } catch {}
   updateThemeControls();
   document.dispatchEvent(new CustomEvent("site:themechange"));
 }
 
 function initTheme() {
-  const stored = localStorage.getItem("theme");
+  let stored;
+  try { stored = localStorage.getItem("theme"); } catch {}
   const theme = stored === "dark" || stored === "light"
     ? stored
     : document.documentElement.dataset.theme || "light";
+  document.documentElement.dataset.theme = theme;
   updateThemeSurface(theme);
   updateThemeColor(theme);
   updateThemeControls();
@@ -106,6 +108,6 @@ function initNavigation() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
   initNavigation();
+  initTheme();
 });

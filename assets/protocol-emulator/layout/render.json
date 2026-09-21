@@ -1,0 +1,50 @@
+{
+  "commit": "c22a3d440bb1bf25fe691259c937f95bc4e683c3",
+  "run": "https://github.com/mcranny/protocol-emulator-asic/actions/runs/35460188674",
+  "artifact_id": 10591300479,
+  "gds_sha256": "c40f2ceaff9d38e9b6aefc3855de4faa135f61a8d0eb852faadbe36eab56f389",
+  "width": 25784,
+  "height": 14212,
+  "target_box_um": [
+    0,
+    0,
+    1289.28,
+    710.64
+  ],
+  "micrometers_per_pixel": {
+    "x": 0.050003102699348434,
+    "y": 0.05000281452293836
+  },
+  "tile_count": 1931,
+  "tile_size": 512,
+  "overlap": 1,
+  "renderer": "KLayout 0.30.12",
+  "fills": "solid",
+  "background": "white",
+  "oversampling": 1,
+  "pyramid": "libvips dzsave from arrayjoin strips",
+  "vips_version": "vips-8.18.6",
+  "visible_layers": [
+    "Activ.drawing",
+    "Cont.drawing",
+    "GatPoly.drawing",
+    "Metal1.drawing",
+    "Metal2.drawing",
+    "Metal3.drawing",
+    "Metal4.drawing",
+    "TopMetal1.drawing",
+    "TopVia1.drawing",
+    "Via1.drawing",
+    "Via2.drawing",
+    "Via3.drawing"
+  ],
+  "hidden_cells": [
+    "sg13cmos5l_decap_4",
+    "sg13cmos5l_decap_8",
+    "sg13cmos5l_fill_1",
+    "sg13cmos5l_fill_2"
+  ],
+  "layer_order": "Metal3.drawing before Metal1.drawing and Metal4.drawing",
+  "strips": 4,
+  "layer_properties_sha256": "e118120ac05c31cb6388dba225f7932fad4f3d133db9fe38cd2424f10d0f6208"
+}
