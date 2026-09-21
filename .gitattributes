@@ -1,0 +1,5 @@
+*.pdf binary
+*.png binary
+*.ico binary
+# Preserve raw serial captures, including terminal control bytes and CRLF.
+assets/testos/*-serial.txt binary

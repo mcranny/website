@@ -1,0 +1,160 @@
+{
+  "files": {
+    "build/formal-engine.log": {
+      "bytes": 81547,
+      "sha256": "564d1a3d3be8a5326537ae867fa8d4f6105114dd79badc42af012246ea22c5de"
+    },
+    "build/python-results.xml": {
+      "bytes": 24291,
+      "sha256": "333f9a32317e14e92bda6cdb1477f57134631dbb143906e02f4534a1bc77c154"
+    },
+    "examples/pulse.asm": {
+      "bytes": 87,
+      "sha256": "a2489dabed0561db29016ca38916ed7f820bee70286f229d0b90ff51c49ba155"
+    },
+    "examples/uart_1000000.asm": {
+      "bytes": 278,
+      "sha256": "da93c0c25cbc72acc80d1707342a589bf51b7f7c36b6d776f9d13cb64a5951bc"
+    },
+    "examples/uart_115200.asm": {
+      "bytes": 289,
+      "sha256": "70d2f5e42547b6177a00453c2d0194665787795d6339376dd06f1c485158a654"
+    },
+    "formal/engine.ys": {
+      "bytes": 175,
+      "sha256": "c9de7aa7f56c7eba945c0b9af62905e85762870fbc3b67ea5d60b4b1f7c4de40"
+    },
+    "info.yaml": {
+      "bytes": 863,
+      "sha256": "d803eb2f119441765a8225d936f612868a57ed48c9ff66c56c0932ec4c213636"
+    },
+    "src/config.json": {
+      "bytes": 4098,
+      "sha256": "eeaf9dff48f0be59facdebfe84cd0982a023773c040e2579175c8fad74df8e18"
+    },
+    "src/engine.v": {
+      "bytes": 9145,
+      "sha256": "4093345f3e79b90cb286094390611a8af8911946713d341415b2be7a8282b237"
+    },
+    "src/host_spi.v": {
+      "bytes": 2461,
+      "sha256": "743eec8a4dc3fe310b6d6798667ef1cddd1a050f028661ca6b2c112a32348b4e"
+    },
+    "src/project.v": {
+      "bytes": 1613,
+      "sha256": "b533406fc556ce043f66917ec39dc2baa6b502767d6f4373ef8e689c2c1e3df1"
+    },
+    "test/output/program-0.json": {
+      "bytes": 865,
+      "sha256": "09a3fbc3678f829182756684c3cc68b2b23b954fe8a84044a9d1b6e722b5f136"
+    },
+    "test/output/program-1.json": {
+      "bytes": 883,
+      "sha256": "0b09538ae65a808337df2054f364465760575225fa4216efd1d727ba50286348"
+    },
+    "test/output/program-10.json": {
+      "bytes": 878,
+      "sha256": "61a25c15b92ded8e526d223e2b1d841d8d6356a992cdd364cf6733c02f03ebea"
+    },
+    "test/output/program-11.json": {
+      "bytes": 871,
+      "sha256": "c0a57be7bbb22ad6e1b09efc060ee4b48d024547030b19f51a519b70e0dcd8da"
+    },
+    "test/output/program-2.json": {
+      "bytes": 886,
+      "sha256": "18ac58a4d8b9cd1da3f7311f0f5776c8d35a1603fdddde7a35d6648760140a02"
+    },
+    "test/output/program-3.json": {
+      "bytes": 887,
+      "sha256": "b30bf7f46b61113f2eeeeda6ed5ea15854d0d5646fd59e85d02162bb54f8b6e8"
+    },
+    "test/output/program-4.json": {
+      "bytes": 853,
+      "sha256": "cde511f49ebb966ac60011ef63ea35277e6b34195780c32bf062dc58cf5fc6a1"
+    },
+    "test/output/program-5.json": {
+      "bytes": 867,
+      "sha256": "6de199d99ba84ba03d5fe19f26411e4b131658ef67839325a20c0c63a56b2724"
+    },
+    "test/output/program-6.json": {
+      "bytes": 866,
+      "sha256": "214babc471e4ea2715109f55b917f17b079ef6b504b8645345c0ae0d37038652"
+    },
+    "test/output/program-7.json": {
+      "bytes": 870,
+      "sha256": "517fa95c0d4e3cdc04ba78229e2903408f6b3b420d66365090bf0f7ae3e42c0e"
+    },
+    "test/output/program-8.json": {
+      "bytes": 871,
+      "sha256": "83d3d69e88f88be44a49dd9dfd9156f58004fffac49a3ce1ddaee5a36e9bd0fa"
+    },
+    "test/output/program-9.json": {
+      "bytes": 853,
+      "sha256": "91b3a2b9eaa17e45e3656fdd5cfe4afae3b2a3353d6d79b9da2ab601c8aa327b"
+    },
+    "test/output/uart-217.json": {
+      "bytes": 184605,
+      "sha256": "d9e72a067b4f32174f7091758ddd997a98a4ca8cb5ece8a6325c4d7bd3a39f56"
+    },
+    "test/output/uart-25.json": {
+      "bytes": 123164,
+      "sha256": "e049fef604f7dc739ae7f55da573fc1c206252da9f11f03bd525392c6d706bf5"
+    },
+    "test/requirements.txt": {
+      "bytes": 28,
+      "sha256": "4273151bc1544b57436ccd1af30e6428beb0291e4f9fba3307db8115ef53f60d"
+    },
+    "test/results.xml": {
+      "bytes": 889,
+      "sha256": "ffc9bb23c9dca056a2f9dbe9a78dc87cc06bbb2a52e6429e314ce51d35ef9930"
+    },
+    "test/results_core.xml": {
+      "bytes": 916,
+      "sha256": "6f606189e4f18c9f0be4ec7b2d75873f72ce6d9610d71f44f9387a48d5db6031"
+    },
+    "test/sim_build/core/protocol_engine.fst": {
+      "bytes": 78649,
+      "sha256": "833631418f48297036093ab5600619af418743147e56af281af7d88352548e1b"
+    },
+    "test/tb.fst": {
+      "bytes": 40835,
+      "sha256": "0759f607b778e8e627880395e7245ad531b7376674ff67db81348200a2f1b6e1"
+    },
+    "test/test.py": {
+      "bytes": 7824,
+      "sha256": "58b0b2ab05fccdcda58dda684f3690f49c2b00ed3eb8827862d92e3c5e34b72f"
+    },
+    "test/test_engine.py": {
+      "bytes": 6897,
+      "sha256": "2129539ee84f2d3b7098e23c44f6cef98ccee5273b12af3d533d75f201b665c6"
+    }
+  },
+  "kind": "rtl",
+  "packages": {
+    "cocotb": "2.0.1",
+    "pytest": "8.4.2"
+  },
+  "python": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+  "schema": 1,
+  "source_commit": "88f5210bc92e38a82f0168967a80e024c57de79e",
+  "tools": {
+    "git": {
+      "exit_code": 0,
+      "output": "git version 2.55.0"
+    },
+    "iverilog": {
+      "exit_code": 0,
+      "output": "Icarus Verilog version 12.0 (stable) ()\n\nCopyright (c) 2000-2021 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Preprocessor version 12.0 (stable) ()\n\nCopyright (c) 1999-2021 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Parser/Elaborator version 12.0 (stable) ()\n\nCopyright (c) 1998-2021 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n FLAGS DLL vvp.tgt\nvvp.tgt: Icarus Verilog VVP Code Generator 12.0 (stable) ()\n\nCopyright (c) 2001-2021 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+    },
+    "verilator": {
+      "exit_code": 0,
+      "output": "Verilator 5.020 2024-01-01 rev (Debian 5.020-1)"
+    },
+    "yosys": {
+      "exit_code": 0,
+      "output": "Yosys 0.33 (git sha1 2584903a060)"
+    }
+  },
+  "workflow_run_attempt": "1",
+  "workflow_run_id": "35488919040"
+}

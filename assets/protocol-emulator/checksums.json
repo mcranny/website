@@ -1,0 +1,32 @@
+{
+  "reviewed_website_commit": "1db5fe3d42f85e90d6b5c961b0c224d8f4acac75",
+  "functional": {
+    "commit": "88f5210bc92e38a82f0168967a80e024c57de79e",
+    "run": "https://github.com/mcranny/protocol-emulator-asic/actions/runs/35488919040",
+    "python_tests": 200,
+    "core_suites": 3,
+    "pin_suites": 3
+  },
+  "physical": {
+    "commit": "c22a3d440bb1bf25fe691259c937f95bc4e683c3",
+    "run": "https://github.com/mcranny/protocol-emulator-asic/actions/runs/35460188674",
+    "artifact_id": 10591300479,
+    "layout_archive_path": "runs/wokwi/final/render/tt_um_mcranny_protocol_emulator.png",
+    "status": "electrical gate failed; precheck, gatelevel and acceptance skipped"
+  },
+  "files": {
+    "layout-c22a3d4.png": "dfa52fc0892c3e59e781a8c491c758c1c48e5e288a2fb139dc2aa4ef0640f4b1",
+    "physical-metrics.json": "d6c733fc6996dc39d560e73bbabc5918292a0179aea36b35b9aba8614935f7e8",
+    "python-results.xml": "333f9a32317e14e92bda6cdb1477f57134631dbb143906e02f4534a1bc77c154",
+    "results.xml": "ffc9bb23c9dca056a2f9dbe9a78dc87cc06bbb2a52e6429e314ce51d35ef9930",
+    "results_core.xml": "6f606189e4f18c9f0be4ec7b2d75873f72ce6d9610d71f44f9387a48d5db6031",
+    "uart-25.json": "e049fef604f7dc739ae7f55da573fc1c206252da9f11f03bd525392c6d706bf5",
+    "rtl-results.json": "bd91ace0c7b4f10645fc89deba792e19e5415e514fe92a08a88c07d229e9326f",
+    "layout/render.json": "f03d245255bf64d169ac3bfc4a972d7ca71b07b992d19f17d8084b345f310079",
+    "layout/solid-fills.lyp": "e118120ac05c31cb6388dba225f7932fad4f3d133db9fe38cd2424f10d0f6208",
+    "layout/overview.png": "f28c5eaa6b5e7a5b686cebda11ec4b4d71590e95afdf633b9319b490a69708a1",
+    "layout/layout.dzi": "fdcb4fa7e79cdaa6b43dd199b286c9988681f2f0eb90a1302e84ecfbf82e1f34",
+    "uart-waveform.svg": "3fce271273141a827694188fa59042493e104b5c366c2a717df1df2edb672f36"
+  },
+  "reviewed_on": "2026-09-19"
+}

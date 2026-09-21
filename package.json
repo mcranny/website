@@ -1,0 +1,13 @@
+{
+  "name": "engineering-portfolio",
+  "private": true,
+  "scripts": {
+    "build": "python3 scripts/build_site.py",
+    "check:browser": "node scripts/check_browser.cjs",
+    "check:media": "node scripts/check_media.cjs",
+    "render:social": "node scripts/render_social.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

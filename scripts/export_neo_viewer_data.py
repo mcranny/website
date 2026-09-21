@@ -4,6 +4,7 @@ import json
 import sqlite3
 import sys
 from pathlib import Path
+from datetime import datetime, timezone
 
 NEO_REPO = Path("/Users/matthewcranny/Documents/GitHub/neo-updater")
 OUT_PATH = Path("assets/neo-missions")
@@ -120,6 +121,7 @@ def main() -> None:
 
     payload = {
         "mode": "Precomputed mission data",
+        "exported_at": datetime.now(timezone.utc).isoformat(),
         "counts": {
             table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             for table in [

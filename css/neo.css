@@ -106,7 +106,7 @@
   margin-top: 4px;
 }
 
-.object-button[aria-selected="true"] {
+.object-button[aria-pressed="true"] {
   background: var(--signal-dim);
   color: var(--signal);
 }
@@ -255,15 +255,15 @@ input[type="range"] {
   }
 
   .neo-page .viewer-panel {
-    order: 1;
-  }
-
-  .neo-page .data-panel {
     order: 2;
   }
 
-  .neo-page .object-panel {
+  .neo-page .data-panel {
     order: 3;
+  }
+
+  .neo-page .object-panel {
+    order: 1;
   }
 
   .neo-page .neo-readouts {
@@ -287,3 +287,5 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
 }
+
+.dataset-note { color: var(--graphite); font-size: 12px; }

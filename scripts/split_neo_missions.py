@@ -41,6 +41,8 @@ def write_payload(payload: dict, output: Path) -> None:
     index = {
         "mode": payload.get("mode", "static mission data"),
         "counts": payload.get("counts", {}),
+        "exported_at": payload.get("exported_at"),
+        "archived_on": payload.get("archived_on"),
         "objects": index_objects,
     }
     (output / "index.json").write_text(

@@ -5,21 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#fafaf8">
-    <script>
-      (() => {
-        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("theme");
-          if (stored === "dark" || stored === "light") theme = stored;
-        } catch (error) {}
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.backgroundColor = colors[theme];
-        document.documentElement.style.colorScheme = theme;
-        document.querySelector('meta[name="color-scheme"]').setAttribute("content", theme);
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
-      })();
-    </script>
+    <script src="js/theme.js"></script>
     <meta name="description" content="Resume for Matthew Cranny, a systems engineer focused on automated board qualification, custom test hardware, semiconductor manufacturing equipment, instrumentation, and firmware deployment.">
     <title>Resume | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/resume">
@@ -48,9 +34,7 @@
     <header class="topbar">
       <a class="wordmark" href="/">MCRANNY.NET</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
       <nav class="nav" aria-label="Primary">
         <a href="/">Home</a>
@@ -58,6 +42,8 @@
         <div class="nav-projects">
           <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
           <div class="project-menu">
+            <a href="/protocol-emulator">Protocol Emulator ASIC</a>
+            <a href="/testos">TestOS</a>
             <a href="/hardware">Hardware Verification</a>
             <a href="/scope">Scope Simulator</a>
             <a href="/neo">NEO Viewer</a>
@@ -70,15 +56,7 @@
       <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
           <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle>
-            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
-            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
-            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
-            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
-            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
-            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
+            <circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
           </g>
           <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
         </svg>
@@ -106,130 +84,45 @@
           <dt>Education</dt>
           <dd>B.A. Physics, UC Berkeley, May 2026</dd>
           <dt>Core tools</dt>
-          <dd>Python, Bash, SQL, VBA, Verilog, GitHub, SourceTree, AWS, Linux, LabVIEW, AMD Vivado, SolidWorks, Flask, PyQt6, SQLite</dd>
+          <dd>Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, GitHub Actions, Linux</dd>
           <dt>Hardware/test</dt>
-          <dd>Automated qualification, ATE, custom test hardware, SCPI/GPIB, NI-DAQmx, PyVISA, Keysight/Siglent/Rigol instruments, board calibration, firmware validation and deployment, SEM stage control</dd>
+          <dd>Oscilloscopes, custom test hardware, PyVISA, AMD Vivado, SolidWorks, cleanroom assembly</dd>
         </dl>
       </aside>
 
       <section class="resume-main">
-        <section class="resume-section">
-          <div class="section-rule">
-            <h2>Experience</h2>
-            <span>Professional experience</span>
-          </div>
-
-          <article class="resume-entry">
-            <div class="resume-entry-head">
-              <div>
-                <h3>PDF Solutions</h3>
-                <p>Systems Engineer</p>
-              </div>
-              <code>March 2026 - Present / San Jose, CA</code>
-            </div>
-            <ul>
-              <li>Own and continuously expand automated qualification across six board families, developing Python automation, PyQt6 interfaces, instrumentation drivers, and custom test hardware for electrical, analog, waveform, thermal, telemetry, and firmware validation.</li>
-              <li>Run acceptance testing before installation, use FPGA debugging and register-level analysis to resolve hardware and firmware issues that affect tool readiness, and lead coordinated firmware upgrades across installed semiconductor-tool fleets.</li>
-              <li>Designed a Flask/SQLite system of record for firmware and hardware revisions across 90+ boards, with admin CRUD and SQL/CSV export tools that exposed configuration conflicts and informed fleet deployment decisions.</li>
-              <li>Built signal-processing pipelines for SEM stage data and used measured settling dynamics to tune inertia compensation, reducing time to tolerance from 300 ns to 20 ns.</li>
-            </ul>
-          </article>
-
-          <article class="resume-entry">
-            <div class="resume-entry-head">
-              <div>
-                <h3>Amazon</h3>
-                <p>Data Analyst Intern</p>
-              </div>
-              <code>May 2025 - July 2025 / Turlock, CA</code>
-            </div>
-            <ul>
-              <li>Built Python API and scraper pipelines to detect anomalous inventory behavior across fulfillment center systems, migrating execution to AWS Lambda, EventBridge, and Secrets Manager while reducing estimated vendor transaction risk by $100,000 annually.</li>
-              <li>Extended anomaly detection models to predict which inventory items were likely to become anomalous, enabling preemptive inspection and intervention before issues escalated.</li>
-              <li>Developed VBA labor management automation deployed across fulfillment centers, eliminating over 120 hours of manual reporting per week.</li>
-            </ul>
-          </article>
-
-          <article class="resume-entry">
-            <div class="resume-entry-head">
-              <div>
-                <h3>Space Sciences Laboratory, UC Berkeley</h3>
-                <p>Aerospace Engineering Intern</p>
-              </div>
-              <code>June 2024 - May 2025 / Berkeley, CA</code>
-            </div>
-            <ul>
-              <li>Modeled and iterated flight-qualified structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar far side radio observatory mission that achieved flight certification.</li>
-              <li>Fabricated and assembled structural components across concurrent satellite programs in a cleanroom environment, maintaining contamination control and handling protocols.</li>
-              <li>Built and installed wiring harnesses, assembled high-voltage step-up converter circuits, and mounted passive electrical components across flight hardware subsystems.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="resume-section">
-          <div class="section-rule">
-            <h2>Projects</h2>
-            <span>Selected build work</span>
-          </div>
-          <article class="resume-entry">
-            <div class="resume-entry-head">
-              <div>
-                <h3>Combat Robotics at Berkeley</h3>
-                <p>Technical Lead</p>
-              </div>
-              <code>August 2023 - May 2025</code>
-            </div>
-            <ul>
-              <li>Built the complete power and control system for weapon and drive subsystems, integrating ESCs, brushless motors, custom PCB harnesses, and battery management into a compact, competition-ready electrical architecture.</li>
-              <li>Engineered armor and weapon assemblies from hardened steel and HDPE; designed internal component layout and wiring paths to isolate electronics from combat-induced shock, vibration, and packaging constraints.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="resume-section">
-          <div class="section-rule">
-            <h2>Education</h2>
-            <span>UC Berkeley</span>
-          </div>
-          <table>
-            <tbody>
-              <tr>
-                <th>Degree</th>
-                <td>B.A. Physics, University of California, Berkeley. May 2026.</td>
-              </tr>
-              <tr>
-                <th>Coursework</th>
-                <td>Quantum Mechanics, Electromagnetism, Optics, Advanced Electrical Laboratory, Thermal Physics.</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="resume-section">
-          <div class="section-rule">
-            <h2>Skills</h2>
-            <span>Technical readout</span>
-          </div>
-          <div class="readout-grid resume-skill-grid">
-            <article class="readout">
-              <span>Languages</span>
-              <strong>Python / SQL / Verilog</strong>
-              <code>Bash / VBA</code>
-            </article>
-            <article class="readout">
-              <span>Software</span>
-              <strong>PyQt6 / LabVIEW / Flask</strong>
-              <code>GitHub / SourceTree / AWS / Linux / AMD Vivado / SolidWorks / SQLite</code>
-            </article>
-            <article class="readout">
-              <span>Hardware</span>
-              <strong>Automated qualification / ATE</strong>
-              <code>Custom test hardware / SCPI / GPIB / NI-DAQmx / PyVISA / Keysight / Siglent / Rigol / board calibration / firmware validation and deployment / SEM stage control</code>
-            </article>
-          </div>
-        </section>
-      </section>
+<p class="resume-summary">Systems engineer developing automated hardware tests, custom bench electronics, and embedded C firmware. Experience spans board qualification, instrumentation, international firmware deployment, and aerospace hardware assembly.</p>
+<section class="resume-section"><div class="section-rule"><h2>Experience</h2></div>
+<article class="resume-entry"><div class="resume-entry-head"><div><h3>PDF Solutions</h3><p>Systems Engineer</p></div><div>
+<code class="resume-date">March 2026 - Present</code>
+<code class="resume-location">San Jose, CA</code>
+</div></div><ul><li>Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.</li><li>Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.</li><li>Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.</li><li>Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.</li><li>Coordinated overseas and field teams for firmware deployments, arranging scan comparisons before and after upgrades to verify equal or better performance, supplying updated hardware, and guiding remote installation.</li><li>Built a Flask and SQLite system of record covering hardware and firmware revisions for more than 90 boards; track configuration conflicts, deployment requirements, and upgrade progress.</li><li>Characterized SEM settling with Python signal analysis and tuned inertia compensation, reducing time for oscillations to fall below 2 nanometers from 300 to 20 nanoseconds.</li></ul></article>
+<article class="resume-entry"><div class="resume-entry-head"><div><h3>Amazon</h3><p>Area Manager Intern - ICQA</p></div><div>
+<code class="resume-date">May 2025 - July 2025</code>
+<code class="resume-location">Turlock, CA</code>
+</div></div><ul><li>Built Python API and analysis pipelines for Inventory Control and Quality Assurance; migrated anomaly detection to AWS Lambda, EventBridge, and Secrets Manager, reducing estimated annual vendor transaction risk by $100,000.</li><li>Automated labor reporting across fulfillment centers with VBA, eliminating over 120 hours of manual work each week.</li></ul></article>
+<article class="resume-entry"><div class="resume-entry-head"><div><h3>Space Sciences Laboratory, UC Berkeley</h3><p>Aerospace Engineering Intern</p></div><div>
+<code class="resume-date">June 2024 - May 2025</code>
+<code class="resume-location">Berkeley, CA</code>
+</div></div><ul><li>Modeled structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar radio observatory; fabricated and assembled satellite hardware in cleanrooms under contamination-control protocols.</li><li>Assembled high-voltage step-up converters and installed flight-hardware wiring harnesses and passive components.</li></ul></article>
+</section>
+<section class="resume-section"><div class="section-rule"><h2>Selected Engineering Projects</h2></div>
+<article class="resume-entry"><div class="resume-entry-head"><div><h3>Programmable Protocol Emulator ASIC</h3><p>Independent Project</p></div><div>
+</div></div><ul><li>Built a programmable Verilog timing engine with SPI host control, UART transmit firmware, and Python tooling for reproducible protocol debugging on IHP CMOS5L.</li><li>Validated with 200 Python tests, six RTL simulation suites, and formal safety checks; implemented a routed layout targeting 25 MHz, with electrical closure still in progress.</li></ul></article>
+<article class="resume-entry"><div class="resume-entry-head"><div><h3>Combat Robotics at Berkeley</h3><p>Technical Lead</p></div><div>
+<code class="resume-date">August 2023 - May 2025</code>
+</div></div><ul><li>Built weapon and drive power systems integrating motor controllers, brushless motors, wiring harnesses, and battery management; designed packaging to protect electronics from shock and vibration.</li></ul></article>
+</section>
+<section class="resume-section"><div class="section-rule"><h2>Education</h2></div><table><tbody>
+<tr><th>School</th><td>University of California, Berkeley</td></tr>
+<tr><th>Degree</th><td>Bachelor of Arts in Physics</td></tr>
+<tr><th>Date</th><td>May 2026</td></tr>
+<tr><th>Coursework</th><td>Instrumentation Laboratory, Advanced Experimental Laboratory, Electromagnetism and Optics, Quantum Mechanics, Statistical and Thermal Physics</td></tr>
+</tbody></table></section><section class="resume-section"><div class="section-rule"><h2>Technical Skills</h2></div><table><tbody>
+<tr><th>Hardware and Test</th><td>Oscilloscopes, custom test hardware, PyVISA, AMD Vivado, SolidWorks, cleanroom assembly</td></tr>
+<tr><th>Software</th><td>Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, GitHub Actions, Linux</td></tr>
+</tbody></table></section></section>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

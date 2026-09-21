@@ -5,21 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#fafaf8">
-    <script>
-      (() => {
-        const colors = { dark: "#0a0a0b", light: "#fafaf8" };
-        let theme = "light";
-        try {
-          const stored = localStorage.getItem("theme");
-          if (stored === "dark" || stored === "light") theme = stored;
-        } catch (error) {}
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.backgroundColor = colors[theme];
-        document.documentElement.style.colorScheme = theme;
-        document.querySelector('meta[name="color-scheme"]').setAttribute("content", theme);
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", colors[theme]);
-      })();
-    </script>
+    <script src="js/theme.js"></script>
     <meta name="description" content="An interactive view of an independent asteroid intercept planner using JPL close-approach data, validated Lambert transfer searches, and precomputed mission paths.">
     <title>Asteroid Intercept Planner | Matthew Cranny</title>
     <link rel="canonical" href="https://mcranny.net/neo">
@@ -50,9 +36,7 @@
     <header class="topbar">
       <a class="wordmark" href="/">MCRANNY.NET</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
       <nav class="nav" aria-label="Primary">
         <a href="/">Home</a>
@@ -60,6 +44,8 @@
         <div class="nav-projects">
           <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
           <div class="project-menu">
+            <a href="/protocol-emulator">Protocol Emulator ASIC</a>
+            <a href="/testos">TestOS</a>
             <a href="/hardware">Hardware Verification</a>
             <a href="/scope">Scope Simulator</a>
             <a aria-current="page" href="/neo">NEO Viewer</a>
@@ -72,15 +58,7 @@
       <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
           <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle>
-            <rect x="29" y="3" width="6" height="15" rx="3"></rect>
-            <rect x="29" y="46" width="6" height="15" rx="3"></rect>
-            <rect x="46" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="3" y="29" width="15" height="6" rx="3"></rect>
-            <rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect>
-            <rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect>
-            <rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect>
-            <rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
+            <circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
           </g>
           <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
         </svg>
@@ -90,30 +68,33 @@
 
     <main id="main-content" class="page-grid neo-page">
       <section class="page-heading">
-        <p class="eyebrow">Independent scientific-computing project</p>
+        <p class="eyebrow">Asteroid Intercept Planner</p>
         <h1>From JPL close approaches to validated intercept plans.</h1>
-        <p class="lede">I built a desktop pipeline that combines close-approach and orbital data, searches Earth-to-asteroid transfer windows, and rejects Lambert solutions that fail endpoint propagation checks. This browser viewer presents a small, precomputed set of those mission plans.</p>
+        <p class="lede">A planner that searches for Earth-to-asteroid transfers using JPL orbital data. Explore a stored plan below and follow the spacecraft to its arrival.</p>
         <div class="project-actions"><a class="button primary" href="https://github.com/mcranny/neo-updater">View source</a><a class="button" href="/#projects">View all projects</a></div>
       </section>
 
       <aside class="object-panel" aria-label="Asteroid selector">
         <div class="section-rule panel-title">
-          <h2>Stored Intercept Plans</h2>
-          <span data-plan-count>31</span>
+          <h2>Example missions</h2>
+          <span data-plan-count>Loading</span>
         </div>
+        <p class="dataset-note" data-export-date>Stored examples.</p>
         <label class="field-label" for="neo-search">Search missions</label>
         <input id="neo-search" class="text-input" type="search" placeholder="Search object" autocomplete="off">
-        <div class="object-list" data-object-list role="listbox" aria-label="Cached NEO objects"></div>
+        <div class="object-list" data-object-list role="group" aria-label="Example missions"></div>
       </aside>
 
       <section class="viewer-panel">
         <div class="section-rule">
-          <h2>Mission Viewer</h2>
+          <h2>Mission viewer</h2>
           <span data-load-status role="status" aria-live="polite">Loading mission data</span>
         </div>
-        <p class="viewer-help" id="viewer-help">Choose a stored mission, scrub mission time, or use the camera presets. Pointer controls pan and rotate the visualization; the controls below provide the same essential selection functions from a keyboard.</p>
+        <button type="button" data-load-retry hidden>Retry loading</button>
+        <p class="viewer-help" id="viewer-help">Choose a stored mission, scrub mission time, or use the camera presets. Pointer controls pan and rotate the visualization. The controls below provide the same selection functions from a keyboard.</p>
         <canvas id="neo-canvas" width="920" height="620" aria-label="Interactive canvas rendering Earth and selected near-earth object orbits" aria-describedby="viewer-help">A visual rendering of the selected Earth-to-asteroid transfer. Mission values remain available in the adjacent text readouts.</canvas>
         <div class="viewer-controls" aria-label="Viewer controls">
+          <button type="button" data-play-toggle>Play</button>
           <label>
             <span data-sim-label>Mission time</span>
             <input data-time-scrub type="range" min="0" max="180" value="0">
@@ -141,7 +122,7 @@
 
       <aside class="data-panel" aria-label="Orbital readouts">
         <div class="section-rule panel-title">
-          <h2>Selected Object</h2>
+          <h2>Selected object</h2>
           <span data-selected-kind>Precomputed plan</span>
         </div>
         <div class="readout tall">
@@ -155,18 +136,18 @@
       <section class="readout-grid neo-readouts">
         <article class="readout">
           <span>Asteroids</span>
-          <strong data-neo-count>27</strong>
+          <strong data-neo-count>Loading</strong>
           <code>Stored mission candidates</code>
         </article>
         <article class="readout">
           <span>Close approaches</span>
-          <strong>31</strong>
+          <strong data-close-count>Loading</strong>
           <code>JPL CAD rows</code>
         </article>
         <article class="readout">
           <span>Transfer plans</span>
-          <strong data-plan-count>31</strong>
-          <code>Lambert universal solver</code>
+          <strong data-stored-plan-count>Loading</strong>
+          <code>Stored plans in the source dataset</code>
         </article>
         <article class="readout">
           <span>Browser data</span>
@@ -178,9 +159,9 @@
       <section class="technical-panel">
         <div class="section-rule">
           <h2>How the plan is built</h2>
-          <span>Data, search, and validation</span>
+
         </div>
-        <p>The full desktop application performs data ingestion, database exploration, transfer search, and interactive inspection. This web version intentionally loads only the selected precomputed mission needed for the viewer.</p>
+        <p>The desktop application searches departure dates and travel times. Each result must reproduce the arrival state in a separate propagation check before it reaches this viewer.</p>
         <table>
           <tbody>
             <tr>
@@ -197,12 +178,12 @@
             </tr>
             <tr>
               <th>Validation</th>
-              <td>Endpoint propagation checks must reproduce the required arrival state before a candidate plan is retained for inspection.</td>
+              <td>Endpoint propagation checks must reproduce the required arrival state before a plan is retained for inspection.</td>
             </tr>
           </tbody>
         </table>
       </section>
     </main>
-    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
   </body>
 </html>

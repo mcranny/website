@@ -95,19 +95,21 @@
   margin-bottom: 8px;
 }
 
-.evidence-figure {
+.figure {
   border: 1px solid var(--rule);
   margin: 0;
 }
 
-.evidence-figure img {
+.figure img {
   background: #fff;
   display: block;
   height: auto;
   width: 100%;
 }
 
-.evidence-figure figcaption {
+.figure img[hidden] { display: none; }
+
+.figure figcaption {
   border-top: 1px solid var(--rule);
   color: var(--graphite);
   font-size: 13px;
@@ -281,4 +283,42 @@
   .project-shot figcaption {
     overflow-wrap: anywhere;
   }
+}
+
+.source-note { color: var(--graphite); font-size: 14px; margin-top: 16px; overflow-wrap: anywhere; }
+.architecture-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 0; list-style: none; counter-reset: layer; }
+.architecture-flow li { border: 1px solid var(--rule); padding: 18px; counter-increment: layer; }
+.architecture-flow li::before { content: counter(layer) " ↓"; display: block; color: var(--signal); margin-bottom: 12px; }
+.architecture-flow strong, .architecture-flow span { display: block; }
+.architecture-flow span { margin-top: 10px; color: var(--graphite); }
+@media (max-width: 860px) {
+  .architecture-flow { grid-template-columns: 1fr; }
+  .project-page .page-heading, .case-summary { grid-column: 1 / -1; }
+}
+
+.layout-viewer { width: min(100%, calc(80vh * 1.814)); aspect-ratio: 1289.28 / 710.64; margin-inline: auto; background: var(--paper); }
+.figure:fullscreen { display: flex; flex-direction: column; background: var(--paper); }
+.figure:fullscreen .layout-viewer { width: min(100%, calc((100vh - 160px) * 1.814)); flex: 0 0 auto; }
+.layout-controls { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; }
+.layout-controls[hidden] { display: none; }
+.layout-controls button { background: var(--paper); color: var(--ink); border: 1px solid var(--rule); min-height: 44px; padding: 8px 16px; cursor: pointer; }
+.layout-help { color: var(--graphite); padding: 0 14px; font-size: 13px; }
+.layout-help:empty { display: none; }
+.layout-help[hidden] { display: none; }
+.scope-page .page-heading, .hardware-page .page-heading, .btree-page.project-page .page-heading { grid-column: 1 / -1; max-width: 900px; border-bottom: 0; }
+.case-section > h2 { font-size: clamp(25px, 3vw, 36px); margin: 0 0 24px; }
+.case-section > p, .case-prose p { max-width: 80ch; }
+.case-section-heading:has(> h2:only-child) { display: block; }
+@media (max-width: 520px) {
+  .layout-viewer .navigator { width: 110px !important; height: 61px !important; }
+}
+.demo-video { display: block; width: 100%; height: auto; max-height: 80vh; background: #111; }
+.demo-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.demo-gallery .figure { min-width: 0; }
+.disk-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.disk-gallery img { min-width: 0; }
+@media (max-width: 860px) {
+  .demo-gallery, .disk-gallery { grid-template-columns: 1fr; }
+  .case-section table th { width: 32%; }
+  .case-section table th, .case-section table td { overflow-wrap: anywhere; padding: 12px 6px; }
 }

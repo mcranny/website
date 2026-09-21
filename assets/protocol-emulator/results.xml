@@ -1,0 +1,8 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1789878101" />
+    <testcase name="host_protocol_and_safety" classname="test" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test.py" lineno="95" time="4.7308290004730225" sim_time_ns="3825560.0" ratio_time="808644.7427327203" />
+    <testcase name="uart_firmware_acceptance" classname="test" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test.py" lineno="145" time="14.89389181137085" sim_time_ns="10982960.0" ratio_time="737413.7088611708" />
+    <testcase name="host_phase_and_interrupted_uart" classname="test" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/test.py" lineno="183" time="17.289173126220703" sim_time_ns="14363800.0" ratio_time="830797.3952910396" />
+  </testsuite>
+</testsuites>

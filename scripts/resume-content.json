@@ -1,0 +1,77 @@
+{
+  "summary": "Systems engineer developing automated hardware tests, custom bench electronics, and embedded C firmware. Experience spans board qualification, instrumentation, international firmware deployment, and aerospace hardware assembly.",
+  "experience": [
+    {
+      "company": "PDF Solutions",
+      "role": "Systems Engineer",
+      "date": "March 2026 - Present",
+      "location": "San Jose, CA",
+      "bullets": [
+        "Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.",
+        "Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.",
+        "Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.",
+        "Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.",
+        "Coordinated overseas and field teams for firmware deployments, arranging scan comparisons before and after upgrades to verify equal or better performance, supplying updated hardware, and guiding remote installation.",
+        "Built a Flask and SQLite system of record covering hardware and firmware revisions for more than 90 boards; track configuration conflicts, deployment requirements, and upgrade progress.",
+        "Characterized SEM settling with Python signal analysis and tuned inertia compensation, reducing time for oscillations to fall below 2 nanometers from 300 to 20 nanoseconds."
+      ]
+    },
+    {
+      "company": "Amazon",
+      "role": "Area Manager Intern - ICQA",
+      "date": "May 2025 - July 2025",
+      "location": "Turlock, CA",
+      "bullets": [
+        "Built Python API and analysis pipelines for Inventory Control and Quality Assurance; migrated anomaly detection to AWS Lambda, EventBridge, and Secrets Manager, reducing estimated annual vendor transaction risk by $100,000.",
+        "Automated labor reporting across fulfillment centers with VBA, eliminating over 120 hours of manual work each week."
+      ]
+    },
+    {
+      "company": "Space Sciences Laboratory, UC Berkeley",
+      "role": "Aerospace Engineering Intern",
+      "date": "June 2024 - May 2025",
+      "location": "Berkeley, CA",
+      "bullets": [
+        "Modeled structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar radio observatory; fabricated and assembled satellite hardware in cleanrooms under contamination-control protocols.",
+        "Assembled high-voltage step-up converters and installed flight-hardware wiring harnesses and passive components."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "company": "Programmable Protocol Emulator ASIC",
+      "role": "Independent Project",
+      "date": "",
+      "location": "",
+      "bullets": [
+        "Built a programmable Verilog timing engine with SPI host control, UART transmit firmware, and Python tooling for reproducible protocol debugging on IHP CMOS5L.",
+        "Validated with 200 Python tests, six RTL simulation suites, and formal safety checks; implemented a routed layout targeting 25 MHz, with electrical closure still in progress."
+      ]
+    },
+    {
+      "company": "Combat Robotics at Berkeley",
+      "role": "Technical Lead",
+      "date": "August 2023 - May 2025",
+      "location": "",
+      "bullets": [
+        "Built weapon and drive power systems integrating motor controllers, brushless motors, wiring harnesses, and battery management; designed packaging to protect electronics from shock and vibration."
+      ]
+    }
+  ],
+  "education": {
+    "school": "University of California, Berkeley",
+    "degree": "Bachelor of Arts in Physics",
+    "date": "May 2026"
+  },
+  "coursework": "Instrumentation Laboratory, Advanced Experimental Laboratory, Electromagnetism and Optics, Quantum Mechanics, Statistical and Thermal Physics",
+  "skills": [
+    [
+      "Hardware and Test",
+      "Oscilloscopes, custom test hardware, PyVISA, AMD Vivado, SolidWorks, cleanroom assembly"
+    ],
+    [
+      "Software",
+      "Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, GitHub Actions, Linux"
+    ]
+  ]
+}
