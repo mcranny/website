@@ -26,13 +26,26 @@ function updateThemeSurface(theme) {
   if (document.body) document.body.style.backgroundColor = color;
 }
 
-function setTheme(theme) {
+function applyTheme(theme, persist) {
   document.documentElement.dataset.theme = theme;
   updateThemeSurface(theme);
   updateThemeColor(theme);
-  try { localStorage.setItem("theme", theme); } catch {}
+  if (persist) {
+    try { localStorage.setItem("theme", theme); } catch {}
+  }
   updateThemeControls();
   document.dispatchEvent(new CustomEvent("site:themechange"));
+}
+
+function setTheme(theme) {
+  applyTheme(theme, true);
+}
+
+function syncStoredTheme() {
+  let stored;
+  try { stored = localStorage.getItem("theme"); } catch { return; }
+  const theme = stored === "dark" || stored === "light" ? stored : "light";
+  if (theme !== document.documentElement.dataset.theme) applyTheme(theme, false);
 }
 
 function initTheme() {
@@ -50,6 +63,13 @@ function initTheme() {
     button.addEventListener("click", () => {
       setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
     });
+  });
+
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) syncStoredTheme();
+  });
+  window.addEventListener("storage", (event) => {
+    if (event.key === "theme" || event.key === null) syncStoredTheme();
   });
 }
 

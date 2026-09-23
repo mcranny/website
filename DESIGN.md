@@ -14,7 +14,7 @@ The portfolio is organized around professional semiconductor test-system work. I
 
 ## Navigation
 
-Desktop navigation exposes Home, Work, Projects, Résumé, and Contact. Projects open an ordered menu: Hardware Verification, Scope Simulator, NEO Viewer, and B-Tree Engine. At mobile widths, the same navigation moves into the hamburger menu.
+Desktop navigation exposes Home, Work, Projects, Résumé, and Contact. Projects open an ordered menu: Protocol Emulator ASIC, TestOS, Hardware Verification, Scope Simulator, NEO Viewer, and B-Tree Engine. At mobile widths, the same navigation moves into the hamburger menu.
 
 ## Page hierarchy
 
@@ -29,7 +29,7 @@ Desktop navigation exposes Home, Work, Projects, Résumé, and Contact. Projects
 
 ### Independent project pages
 
-Each case study uses the structure most useful for its engineering story rather than a shared implementation inventory. Every page identifies the work as independent, describes evidence and limitations, and links to source with natural language.
+Each case study uses the structure most useful for its engineering story rather than a shared implementation inventory. Each page identifies the work as independent and links to its source. Pages with saved runs show the corresponding results and status.
 
 ### NEO viewer
 
@@ -41,4 +41,4 @@ The HTML résumé remains the complete chronological record. The homepage summar
 
 ### Contact
 
-The dedicated contact page keeps email, LinkedIn, GitHub, résumé, location, and role interests together. Every page retains the same Professional work, Résumé, GitHub, and Email footer links.
+The dedicated contact page keeps email, LinkedIn, GitHub, résumé, location, and role interests together. Every page retains the same Professional work, Résumé, GitHub, LinkedIn, and Email footer links.

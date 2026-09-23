@@ -49,7 +49,7 @@ def check(pdf_text=True):
                     assert target in docs and any(n.attrs.get('id') == unquote(url.fragment) for n in docs[target].find()), f'{name}: missing fragment {value}'
     assert len(set(headers)) == 1, 'Shared header drift'
     routes = {n.text.removeprefix('https://mcranny.net/') for n in ElementTree.parse(ROOT/'sitemap.xml').iter() if n.tag.endswith('loc')}
-    assert routes == {'' if p == 'index.html' else p[:-5] for p in docs}, 'Sitemap mismatch'
+    assert routes == {'' if p == 'index.html' else p[:-5] for p in docs if p != '404.html'}, 'Sitemap mismatch'
     for line in (ROOT/'_redirects').read_text().splitlines():
         if line and not line.startswith('#'):
             target = line.split()[1].lstrip('/') or 'index'

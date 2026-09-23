@@ -6,7 +6,7 @@ html {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 93.75%;
   line-height: 1.45;
   scroll-behavior: smooth;
 }
