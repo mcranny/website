@@ -45,7 +45,7 @@ npm run check:browser
 npm run check:media
 ```
 
-Static checks validate page links, the sitemap, public assets, layout tiles, artifact checksums, and résumé HTML/PDF consistency. Browser checks cover all nine pages at four viewport sizes in both themes, including navigation, contrast, keyboard focus, unavailable storage, and mission viewer recovery. Media checks cover layout zoom, panning, fullscreen, fallback behavior, and MP4/WebM playback.
+Static checks validate page links, the sitemap, public assets, layout tiles, artifact checksums, the custom 404 page, and résumé HTML/PDF consistency. Browser checks cover the nine site routes at four viewport sizes in both themes, including navigation, contrast, keyboard focus, unavailable storage, mission viewer recovery, and Content Security Policy violations. Media checks cover layout zoom, panning, fullscreen, fallback behavior, and MP4/WebM playback.
 
 GitHub Actions runs these checks on pull requests and pushes to `main`. The workflow does not deploy the site. Set `CHROME_PATH` to use an installed Chrome executable instead of Playwright's Chromium.
 
@@ -77,6 +77,6 @@ Third-party viewer libraries and their licenses are included with the correspond
 
 ## Deployment
 
-Cloudflare serves [mcranny.net](https://mcranny.net). `wrangler.jsonc` runs the build and publishes only `dist/`. Development scripts, dependencies, and local output are excluded. Redirects, cache rules, and security headers are defined in `_redirects` and `_headers`.
+Cloudflare serves [mcranny.net](https://mcranny.net). `wrangler.jsonc` runs the build and publishes only `dist/`. Development scripts, dependencies, and local output are excluded. `404.html` serves unknown paths. Redirects, cache rules, and security headers are defined in `_redirects` and `_headers`.
 
-The Content Security Policy is report-only, with no reporting collector configured. Check the deployed challenge and analytics integrations before enabling enforcement. Update the structured-data hash in `_headers` when the inline JSON-LD changes.
+The Content Security Policy remains report-only. The browser suite checks for violations in local builds. Cloudflare currently injects a per-request inline challenge script on the live site, which violates the policy; resolve that integration before enabling enforcement. No reporting collector is configured. Update the structured-data hash in `_headers` when the inline JSON-LD changes.

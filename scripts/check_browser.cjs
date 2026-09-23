@@ -8,6 +8,12 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 (async () => {
   const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_PATH ? {executablePath:process.env.CHROME_PATH} : {}) });
   const context = await browser.newContext();
+  await context.addInitScript(() => {
+    window.__policyViolations = [];
+    document.addEventListener('securitypolicyviolation', event => {
+      window.__policyViolations.push({directive:event.effectiveDirective,blocked:event.blockedURI});
+    });
+  });
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -37,6 +43,7 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
           for (const image of images) image.loading = 'eager';
           await Promise.all(images.map(image => image.decode()));
         });
+        assert.deepEqual(await page.evaluate(() => window.__policyViolations), [], `CSP violation on ${route || '/'} at ${viewport.width} ${theme}`);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${route} overflow at ${viewport.width} ${theme}`);
         if (route === 'neo') await page.locator('[data-selected-name]').filter({hasText:'2023 YO1'}).waitFor();
         if (viewport.width === 844) {
@@ -66,6 +73,26 @@ const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
   await blockedPage.locator('[data-theme-toggle]').click();
   assert.equal(await blockedPage.locator('html').getAttribute('data-theme'),'dark');
   await blocked.close();
+  const themeContext = await browser.newContext();
+  const themePage = await themeContext.newPage();
+  const otherThemePage = await themeContext.newPage();
+  await themePage.goto(base);
+  await otherThemePage.goto(base);
+  await otherThemePage.evaluate(() => setTheme('dark'));
+  await themePage.waitForFunction(() => document.documentElement.dataset.theme === 'dark');
+  assert.equal(await themePage.locator('meta[name="theme-color"]').getAttribute('content'),'#0a0a0b');
+  await themePage.evaluate(() => {
+    document.documentElement.dataset.theme = 'light';
+    dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true}));
+  });
+  assert.equal(await themePage.locator('html').getAttribute('data-theme'),'dark');
+  await otherThemePage.evaluate(() => localStorage.removeItem('theme'));
+  await themePage.waitForFunction(() => document.documentElement.dataset.theme === 'light');
+  await themeContext.close();
+  const missing = await page.goto(`${base}/does-not-exist`);
+  assert.equal(missing.status(),404);
+  assert.equal(await page.locator('h1').textContent(),'Page not found.');
+  assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex');
   await page.setViewportSize({width:1440,height:1000});
   await page.goto(`${base}/neo`);
   await page.locator('[data-selected-name]').filter({hasText:'2023 YO1'}).waitFor();
