@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">V2 UART duplex cycle-model example at 1 Mbaud</title>
+<desc id="desc">Engine 0 transmits 00, 55, A5, FF. Engine 1 receives external stimulus 81, 5A, 01, FE. Four-byte preloaded burst.</desc>
+<rect width="1200" height="360" fill="#101827"/>
+<g font-family="system-ui,sans-serif" fill="#e2e8f0"><text x="28" y="34" font-size="19">UART duplex · 1 Mbaud · 25 cycles per bit</text>
+<text x="28" y="59" font-size="13" fill="#b7c5d8">Python cycle model · software 881495c · external RX stimulus reconstructed from the released example</text>
+<path d="M180.0 80V298" stroke="#334155"/><text x="180.0" y="327" text-anchor="middle" font-size="13">0</text>
+<path d="M290.0 80V298" stroke="#334155"/><text x="290.0" y="327" text-anchor="middle" font-size="13">5</text>
+<path d="M400.0 80V298" stroke="#334155"/><text x="400.0" y="327" text-anchor="middle" font-size="13">10</text>
+<path d="M510.0 80V298" stroke="#334155"/><text x="510.0" y="327" text-anchor="middle" font-size="13">15</text>
+<path d="M620.0 80V298" stroke="#334155"/><text x="620.0" y="327" text-anchor="middle" font-size="13">20</text>
+<path d="M730.0 80V298" stroke="#334155"/><text x="730.0" y="327" text-anchor="middle" font-size="13">25</text>
+<path d="M840.0 80V298" stroke="#334155"/><text x="840.0" y="327" text-anchor="middle" font-size="13">30</text>
+<path d="M950.0 80V298" stroke="#334155"/><text x="950.0" y="327" text-anchor="middle" font-size="13">35</text>
+<path d="M1060.0 80V298" stroke="#334155"/><text x="1060.0" y="327" text-anchor="middle" font-size="13">40</text>
+<path d="M1170.0 80V298" stroke="#334155"/><text x="1170.0" y="327" text-anchor="middle" font-size="13">45</text>
+<text x="1168" y="348" text-anchor="end" font-size="13">time (µs)</text>
+<text x="28" y="123" font-size="15">Engine 0 TX</text>
+<path d="M180,108 H183.52 V148 H381.52 V108 H403.52 V148 H425.52 V108 H447.52 V148 H469.52 V108 H491.52 V148 H513.52 V108 H535.52 V148 H557.52 V108 H579.52 V148 H601.52 V108 H623.52 V148 H645.52 V108 H667.52 V148 H689.52 V108 H711.52 V148 H755.52 V108 H777.52 V148 H799.52 V108 H843.52 V148 H865.52 V108 H1170" stroke="#7dd3fc" stroke-width="2.5" fill="none"/>
+<text x="293.52" y="172" text-anchor="middle" font-family="monospace" font-size="15" fill="#7dd3fc">0x00</text>
+<text x="513.52" y="172" text-anchor="middle" font-family="monospace" font-size="15" fill="#7dd3fc">0x55</text>
+<text x="733.52" y="172" text-anchor="middle" font-family="monospace" font-size="15" fill="#7dd3fc">0xA5</text>
+<text x="953.52" y="172" text-anchor="middle" font-family="monospace" font-size="15" fill="#7dd3fc">0xFF</text>
+<text x="28" y="229" font-size="15">RX stimulus</text>
+<path d="M180,214 H180.00 V214 H197.60 V254 H219.60 V214 H241.60 V254 H373.60 V214 H417.60 V254 H461.60 V214 H483.60 V254 H505.60 V214 H549.60 V254 H571.60 V214 H593.60 V254 H615.60 V214 H637.60 V254 H659.60 V214 H681.60 V254 H835.60 V214 H857.60 V254 H901.60 V214 H1170" stroke="#c4b5fd" stroke-width="2.5" fill="none"/>
+<text x="307.6" y="278" text-anchor="middle" font-family="monospace" font-size="15" fill="#c4b5fd">0x81</text>
+<text x="527.5999999999999" y="278" text-anchor="middle" font-family="monospace" font-size="15" fill="#c4b5fd">0x5A</text>
+<text x="747.6" y="278" text-anchor="middle" font-family="monospace" font-size="15" fill="#c4b5fd">0x01</text>
+<text x="967.6" y="278" text-anchor="middle" font-family="monospace" font-size="15" fill="#c4b5fd">0xFE</text>
+</g></svg>

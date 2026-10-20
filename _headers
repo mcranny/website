@@ -12,3 +12,15 @@
 /assets/neo-missions/*
   Cache-Control: public, max-age=3600
   Content-Type: application/json; charset=utf-8
+
+/assets/protocol-emulator/v2/layout-447b3df/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform
+
+/assets/protocol-emulator/v2/layout-447b3df/tiles/*
+  Content-Type: application/octet-stream
+
+/assets/protocol-emulator/v2/*.asm
+  Content-Type: text/plain; charset=utf-8
+
+/assets/protocol-emulator/v2/raster-v1/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform

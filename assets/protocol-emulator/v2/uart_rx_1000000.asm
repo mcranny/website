@@ -1,0 +1,36 @@
+LI 1, 65535
+idle: WAITFOR 1, 1
+BRC idle, 2
+start: WAITFOR 1, 0
+BRC start, 2
+DELAY 10
+BRPIN start, 1, 1
+CLEARIS
+DELAY 23
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+IN 1, 0
+DELAY 24
+BRPIN good, 1, 1
+MOVIS 0
+BREQ zero_frame, 0, 0
+bad: RX 1
+JMP idle
+zero_frame: DELAY 9
+BRPIN bad, 1, 1
+RX 3
+JMP idle
+good: RX 0
+JMP start

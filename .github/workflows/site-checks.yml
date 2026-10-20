@@ -22,7 +22,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: python scripts/check_site.py
       - run: python scripts/build_site.py
-      - run: node --check js/site.js && node --check js/theme.js && node --check js/neo.js && node --check js/layout-viewer.js
+      - run: node --check js/site.js && node --check js/theme.js && node --check js/neo.js && node --check js/layout-viewer.js && node --check js/gds-viewer.js
       - name: Browser acceptance
         run: |
           python scripts/preview_site.py --port 5001 > /tmp/preview.log 2>&1 &
