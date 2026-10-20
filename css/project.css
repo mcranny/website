@@ -322,3 +322,131 @@
   .case-section table th { width: 32%; }
   .case-section table th, .case-section table td { overflow-wrap: anywhere; padding: 12px 6px; }
 }
+
+/* V2 case study: native geometry explorer and source-backed evidence. */
+.asic-page { row-gap: 56px; }
+.asic-page .page-heading h1 { max-width: 18ch; }
+.asic-page .page-heading .lede { font-size: clamp(22px, 2.5vw, 30px); max-width: 26ch; color: var(--ink); }
+.asic-intro { max-width: 62ch; color: var(--graphite); font-size: 16px; }
+.asic-intro a, .asic-notes a { text-decoration: underline; text-underline-offset: 3px; }
+.asic-page .case-fact p { color: var(--graphite); font-size: 13px; margin: 10px 0 0; }
+.asic-capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.asic-capabilities h3 { font-size: 22px; margin: 12px 0; }
+.asic-capabilities p { color: var(--graphite); line-height: 1.65; }
+.asic-capabilities .eyebrow { color: var(--signal); font-size: 11px; }
+.asic-architecture { border: 1px solid var(--rule); margin-top: 30px; padding: 24px; background: var(--panel); text-align: center; }
+.asic-architecture strong, .asic-architecture span { display: block; }
+.asic-architecture span { color: var(--graphite); font-size: 13px; margin-top: 6px; }
+.architecture-host { max-width: 550px; margin: auto; }
+.architecture-host strong { font-size: 21px; }
+.architecture-connector { font-size: 24px; color: var(--signal); padding: 8px; }
+.architecture-engines { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 750px; margin: auto; }
+.architecture-engines > div { border: 1px solid var(--rule); border-top: 3px solid var(--signal); padding: 20px; background: var(--paper); }
+.architecture-engines strong { font-size: 21px; }
+.architecture-interface { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; margin-top: 24px; }
+.architecture-interface > div { border-top: 1px solid var(--rule); padding: 18px 0; }
+.asic-architecture > p { color: var(--graphite); font-size: 13px; margin: 8px 0 0; }
+.asic-waveform { overflow: hidden; }
+.asic-evidence-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 30px; margin-bottom: 32px; }
+.asic-evidence-grid article { border-top: 2px solid var(--signal); padding-top: 18px; }
+.asic-evidence-grid h3 { font-size: 24px; margin: 10px 0; }
+.asic-evidence-grid .eyebrow { font-size: 11px; color: var(--steel); }
+.asic-evidence-grid p { color: var(--graphite); }
+.asic-physical { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.asic-physical .figure img { aspect-ratio: 1.5; object-fit: cover; }
+.asic-page table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.asic-page table th, .asic-page table td { padding: 13px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+.asic-page table th { font-family: var(--sans); font-weight: 600; width: auto; }
+.asic-page table td { color: var(--graphite); }
+.asic-page caption { color: var(--steel); text-align: left; font-size: 12px; padding: 0 0 12px; }
+.asic-provenance { border-left: 3px solid var(--signal); padding: 8px 0 8px 22px; margin: 32px 0 22px; }
+.asic-provenance h3 { font-size: 20px; margin: 0 0 10px; }
+.asic-provenance p { max-width: 90ch; color: var(--graphite); }
+.asic-notes { border: 1px solid var(--rule); padding: 18px 22px; }
+.asic-notes summary { cursor: pointer; font-weight: 600; }
+.asic-notes p { color: var(--graphite); max-width: 90ch; }
+.asic-comparison td:last-child, .asic-comparison th:last-child { background: var(--signal-dim); }
+.asic-comparison th:last-child { color: var(--signal); }
+.asic-timeline { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 22px; margin: 32px 0; counter-reset: milestone; }
+.asic-timeline li { border-top: 1px solid var(--rule); padding-top: 16px; counter-increment: milestone; }
+.asic-timeline li::before { content: '0' counter(milestone); color: var(--signal); font-family: var(--mono); font-size: 12px; }
+.asic-timeline strong, .asic-timeline span { display: block; margin-top: 10px; }
+.asic-timeline span { color: var(--graphite); font-size: 14px; }
+
+.gds-viewer { margin: 0; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); }
+.gds-viewer [hidden] { display: none !important; }
+.gds-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 24px; border-bottom: 1px solid var(--rule); }
+.gds-heading strong { font-size: 19px; display: block; }
+.gds-heading span { font-size: 12px; color: var(--graphite); }
+.gds-revision { font-family: var(--mono); border: 1px solid var(--rule); padding: 5px 9px; }
+.gds-fallback { padding: 22px; }
+.gds-fallback img { display: block; width: 100%; height: auto; max-height: 60vh; object-fit: contain; }
+.gds-preview-caption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--graphite); font-size: 12px; margin-top: 14px; }
+.gds-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--rule); }
+.gds-toolbar > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.gds-toolbar > span { font-size: 12px; color: var(--steel); }
+.gds-viewer button:not(.button) { background: transparent; border: 1px solid var(--rule); border-radius: 2px; color: var(--graphite); padding: 9px 13px; min-height: 44px; min-width: 44px; cursor: pointer; font-size: 13px; }
+.gds-viewer button:not(.button):hover, .gds-viewer button:not(.button):focus-visible { border-color: var(--signal); color: var(--signal); }
+.gds-viewer button[aria-pressed="true"] { background: var(--signal-dim); border-color: var(--signal); color: var(--signal); }
+.gds-viewer button:disabled { opacity: .7; cursor: progress; }
+.gds-body { display: flex; align-items: stretch; }
+.gds-workspace { flex: 1; min-width: 0; padding: 0 16px; }
+.gds-workspace canvas { display: block; width: 100%; height: min(58vh, 600px); min-height: 300px; background: #101827; border: 1px solid var(--rule); touch-action: none; cursor: grab; }
+.gds-workspace canvas:active { cursor: grabbing; }
+.gds-layer-panel { flex: 0 0 250px; border-left: 1px solid var(--rule); padding: 0 16px 16px; }
+.gds-layer-panel:not([open]) { flex-basis: 170px; }
+.gds-layer-panel summary { cursor: pointer; min-height: 44px; padding: 12px 0; font-size: 14px; font-weight: 700; }
+.gds-layer-panel summary span { display: block; color: var(--graphite); font-size: 11px; font-weight: 400; margin-top: 5px; }
+.gds-layer-actions { display: flex; gap: 8px; margin: 12px 0; }
+.gds-layers { max-height: 430px; overflow-y: auto; }
+.gds-layer { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.gds-layer label { display: flex; align-items: center; flex: 1; gap: 7px; font-family: var(--mono); font-size: 12px; min-height: 44px; cursor: pointer; }
+.gds-layer input { width: 16px; height: 16px; accent-color: var(--signal); }
+.gds-layer button { padding: 6px 10px; }
+.gds-swatch { width: 9px; height: 9px; flex-shrink: 0; }
+.gds-small, .gds-help, .gds-status { color: var(--graphite); font-size: 12px; line-height: 1.6; }
+.gds-help, .gds-status { margin: 0; padding: 10px 20px; }
+.gds-status:empty { display: none; }
+.gds-viewer figcaption { border-top: 1px solid var(--rule); padding: 18px 22px; font-size: 13px; color: var(--graphite); }
+.gds-viewer figcaption > span { color: var(--ink); font-weight: 600; }
+.gds-viewer figcaption p { max-width: 95ch; }
+.gds-viewer .project-links { flex-wrap: wrap; }
+.gds-viewer:fullscreen, .gds-expanded { width: 100%; height: 100dvh; overflow: auto; }
+.gds-expanded { position: fixed; inset: 0; z-index: 1000; }
+.gds-viewer:fullscreen .gds-workspace canvas, .gds-expanded .gds-workspace canvas { height: calc(100dvh - 320px); }
+@media (max-width: 860px) {
+  .asic-capabilities, .asic-evidence-grid, .asic-physical { grid-template-columns: 1fr; }
+  .asic-capabilities, .asic-evidence-grid { gap: 20px; }
+  .asic-capabilities article { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+  .asic-timeline { grid-template-columns: 1fr 1fr; }
+  .asic-page { row-gap: 36px; }
+  .gds-body { flex-direction: column; }
+  .gds-layer-panel { flex-basis: auto; border-left: 0; border-top: 1px solid var(--rule); margin-top: 14px; }
+  .gds-layer-panel:not([open]) { flex-basis: auto; }
+  .gds-layer-panel summary span { display: inline; margin-left: 10px; }
+  .gds-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+  .gds-heading { padding: 16px; }
+  .gds-fallback { padding: 12px; }
+  .gds-toolbar { padding: 12px; }
+  .gds-workspace { padding: 0 10px; }
+  .gds-workspace canvas { height: 48vh; }
+  .gds-viewer:fullscreen .gds-workspace canvas, .gds-expanded .gds-workspace canvas { height: 52dvh; }
+}
+@media (max-width: 520px) {
+  .asic-architecture { padding: 16px; }
+  .architecture-engines { gap: 10px; }
+  .architecture-engines > div { padding: 14px 8px; }
+  .architecture-interface { grid-template-columns: 1fr; gap: 0; }
+  .asic-page table { font-size: 12px; }
+  .asic-page table th, .asic-page table td { padding: 12px 7px; }
+  .asic-timeline { gap: 16px; }
+  .gds-toolbar > span { flex-basis: 100%; }
+  .gds-heading strong { font-size: 16px; }
+  .gds-heading { gap: 8px; }
+}
+.waveform-scroll { overflow-x: auto; }
+.asic-waveform .waveform-scroll img { min-width: 1000px; }
+.waveform-hint { display: none; }
+@media (max-width: 860px) {
+  .waveform-hint { display: block; font-weight: 600; margin-bottom: 10px; }
+}

@@ -1,0 +1,19 @@
+{
+  "gds_sha256": "902c78fce4a69fde56dbf209b34d5c809e2d44610e6b1e790f03963bb97322c6",
+  "overview": "Multi-resolution original-coordinate raster; source-over compositing; all 16 layers",
+  "detail": {
+    "bounds_um": [
+      614.4225,
+      340.21125,
+      674.8575,
+      370.42875
+    ],
+    "size_px": [
+      1400,
+      700
+    ],
+    "source": "original gzip polygon records; tile-boundary clipping"
+  },
+  "examples_archive_sha256": "50303a5042a66fc440c759680a0b63ffb9b9d5786be3dd38a732c20a5f173ef1",
+  "raster_manifest": "raster-v1/manifest.json"
+}

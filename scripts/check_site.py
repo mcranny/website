@@ -2,7 +2,6 @@
 """Validate published routes, references, shared chrome, evidence, and résumé."""
 import hashlib
 import json
-import math
 import re
 import sys
 from pathlib import Path
@@ -11,6 +10,50 @@ from xml.etree import ElementTree
 from site_html import parse
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def check_v2_assets(files, page):
+    base = ROOT/'assets/protocol-emulator/v2'
+    provenance = json.loads((base/'checksums.json').read_text())
+    for name, expected in provenance['files'].items():
+        path = base/name
+        assert path.is_file() and path.resolve().is_relative_to(base), name
+        assert str(path.relative_to(ROOT)) in files, f'Unpublished V2 asset: {name}'
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, f'V2 checksum: {name}'
+    layout = base/'layout-447b3df'
+    manifest = json.loads((layout/'manifest.json').read_text())
+    summary = json.loads((base/'summary.json').read_text())
+    assert manifest['source_sha256'] == summary['gds_sha256']
+    assert manifest['provenance']['physical_source_commit'] == summary['physical_source_commit']
+    assert manifest['independent_inventory_matches'] is True
+    assert manifest['geometry_simplified'] is False
+    assert manifest['hierarchy_depth_limit'] is None and manifest['layers_omitted'] == []
+    assert sum(layer['polygons'] for layer in manifest['layers']) == manifest['expanded_polygons']
+    for key, tile in manifest['tiles'].items():
+        path = layout/'tiles'/f'{key}.jsonl.gz'
+        assert path.stat().st_size == tile['bytes']
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == tile['sha256'], key
+    raster = json.loads((base/'raster-v1/manifest.json').read_text())
+    assert raster['source_sha256'] == manifest['source_sha256']
+    assert raster['bounds'] == manifest['bounds']
+    assert raster['layers'] == [layer['key'] for layer in manifest['layers']]
+    assert [level['width'] for level in raster['levels']] == [1024,2048,4096,8192,16384,32768]
+    for level in raster['levels']:
+        for y in range(level['rows']):
+            for x in range(level['columns']):
+                assert f"{level['z']}/all/{x}-{y}.webp" in raster['tiles']
+    for name, expected in raster['tiles'].items():
+        path = base/'raster-v1'/name
+        assert path.stat().st_size == expected['bytes'], name
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected['sha256'], name
+    archive = layout/'selected-layout.tar.gz'
+    assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['provenance']['archive_sha256']
+    viewers = [n for n in page.find() if 'data-gds-viewer' in n.attrs]
+    assert len(viewers) == 1 and viewers[0].attrs['data-gds-hash'] == manifest['source_sha256']
+    assert not page.find('iframe'), 'The V2 viewer must run natively'
+    assert 'layout/' not in ''.join(n.attrs.get('src', '') for n in page.find('script'))
+    for old in ['200 tests', 'draft PR #9', 'Electrical gate failing']:
+        assert old not in page.text, f'Stale V1 status: {old}'
+
 
 def check(pdf_text=True):
     files = json.loads((ROOT / 'scripts/public-files.json').read_text())
@@ -56,9 +99,7 @@ def check(pdf_text=True):
             assert target + '.html' in docs, f'Redirect: {line}'
     for p in (ROOT/'css').glob('*.css'):
         assert p.read_text().count('{') == p.read_text().count('}'), f'CSS braces: {p}'
-    provenance = json.loads((ROOT/'assets/protocol-emulator/checksums.json').read_text())
-    for name, expected in provenance['files'].items():
-        assert hashlib.sha256((ROOT/'assets/protocol-emulator'/name).read_bytes()).hexdigest() == expected, name
+    check_v2_assets(files, docs['protocol-emulator.html'])
     for folder in ('testos', 'scope'):
         manifest = json.loads((ROOT/'assets'/folder/'checksums.json').read_text())
         for name, expected in manifest['files'].items():
@@ -67,20 +108,6 @@ def check(pdf_text=True):
             if video.suffix in ('.mp4', '.webm'):
                 assert video.stat().st_size < 5_000_000, video
         assert manifest['frame_count'] / manifest['frames_per_second'] <= 30
-    layout = ROOT/'assets/protocol-emulator/layout'
-    dzi = ElementTree.parse(layout/'layout.dzi').getroot()
-    size = dzi.find('{http://schemas.microsoft.com/deepzoom/2008}Size')
-    width, height = int(size.attrib['Width']), int(size.attrib['Height'])
-    tile_size, count = int(dzi.attrib['TileSize']), 0
-    max_level = math.ceil(math.log2(max(width, height)))
-    for level in range(max_level + 1):
-        scale = 2 ** (max_level - level)
-        for x in range(math.ceil(math.ceil(width / scale) / tile_size)):
-            for y in range(math.ceil(math.ceil(height / scale) / tile_size)):
-                tile = layout/'layout_files'/str(level)/f'{x}_{y}.png'
-                assert str(tile.relative_to(ROOT)) in files, f'Missing layout tile: {tile}'
-                count += 1
-    assert count == json.loads((layout/'render.json').read_text())['tile_count']
     fingerprint = json.loads((ROOT/'scripts/resume-fingerprint.json').read_text())
     for name in ('scripts/resume-content.json', 'resume.html', 'assets/Matthew-Cranny-Resume.pdf'):
         assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == fingerprint[name], f'Regenerate résumé: {name}'

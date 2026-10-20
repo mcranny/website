@@ -1,0 +1,96 @@
+{
+  "release": "v2",
+  "package_version": "2.0.0rc1",
+  "published_at": "2026-10-18",
+  "reviewed_repository_commit": "856a1ea25f6b0ff47a268d7c4719616e3f562f9e",
+  "software_source_commit": "881495cb4d5a6270f5dd7625b1787d83f3059827",
+  "physical_source_commit": "447b3dfd0986d473c71afa28efafb3a5cff48da7",
+  "viewer_source_commit": "856a1ea25f6b0ff47a268d7c4719616e3f562f9e",
+  "execution_path": "local_tt_flow_checkpoint_rerun",
+  "fresh_hosted_qualification": false,
+  "gds_sha256": "902c78fce4a69fde56dbf209b34d5c809e2d44610e6b1e790f03963bb97322c6",
+  "physical_results": {
+    "stdcell_area_um2": 793932,
+    "core_area_um2": 902417,
+    "utilization_fraction": 0.879784,
+    "timing": {
+      "nom_fast_1p32V_m40C": {
+        "setup_slack_ns": 21.597826360891993,
+        "setup_r2r_slack_ns": 37.762009,
+        "hold_slack_ns": 0.054472650154615214,
+        "hold_r2r_slack_ns": 0.054473
+      },
+      "nom_slow_1p08V_125C": {
+        "setup_slack_ns": 18.456291239929307,
+        "setup_r2r_slack_ns": 22.579845,
+        "hold_slack_ns": 0.4861888806942092,
+        "hold_r2r_slack_ns": 0.486189
+      },
+      "nom_typ_1p20V_25C": {
+        "setup_slack_ns": 20.453920025526248,
+        "setup_r2r_slack_ns": 36.664883,
+        "hold_slack_ns": 0.2078951514227675,
+        "hold_r2r_slack_ns": 0.207895
+      }
+    },
+    "electrical": {
+      "slew": {
+        "aggregate": 0,
+        "nom_fast_1p32V_m40C": 0,
+        "nom_slow_1p08V_125C": 0,
+        "nom_typ_1p20V_25C": 0
+      },
+      "fanout": {
+        "aggregate": 0,
+        "nom_fast_1p32V_m40C": 0,
+        "nom_slow_1p08V_125C": 0,
+        "nom_typ_1p20V_25C": 0
+      },
+      "cap": {
+        "aggregate": 0,
+        "nom_fast_1p32V_m40C": 0,
+        "nom_slow_1p08V_125C": 0,
+        "nom_typ_1p20V_25C": 0
+      }
+    },
+    "passing_tests": {
+      "precheck": 9,
+      "gatelevel": 14
+    }
+  },
+  "software_evidence": {
+    "pytest": 699,
+    "v1_core": 3,
+    "v1_pins": 3,
+    "v2_core": 3,
+    "v2_pins": 14,
+    "capture": 1,
+    "rtl_reset_suites": 2,
+    "initialization_elaborations": 7,
+    "induction_proofs": 5,
+    "detected_mutations": 6,
+    "examples": 14,
+    "strict_docs": true,
+    "source_commit": "881495cb4d5a6270f5dd7625b1787d83f3059827"
+  },
+  "configuration": {
+    "tiles": [
+      6,
+      4
+    ],
+    "clock_ns": 40,
+    "maximum_transition_ns": 1.5,
+    "clock_uncertainty_ns": 0.25,
+    "capture_records": 32
+  },
+  "source_correspondence": {
+    "elaboration_equal": true,
+    "prepared_settings_equal": true
+  },
+  "sources": {
+    "release": "https://github.com/mcranny/protocol-emulator-asic/releases/tag/v2",
+    "selection": "https://github.com/mcranny/protocol-emulator-asic/blob/856a1ea25f6b0ff47a268d7c4719616e3f562f9e/evidence/v2-release-selection/selection.json",
+    "physical_evidence": "https://evidence.mcranny.net/recovery-447b3df"
+  },
+  "scope": "Selected local checkpoint recovery. Functional gate-level models; extracted timing checked separately. No silicon/FPGA operation or competition acceptance claimed."
+}

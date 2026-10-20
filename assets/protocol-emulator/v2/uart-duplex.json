@@ -1,0 +1,232 @@
+{
+  "software_source": "881495cb4d5a6270f5dd7625b1787d83f3059827",
+  "example_archive_sha256": "50303a5042a66fc440c759680a0b63ffb9b9d5786be3dd38a732c20a5f173ef1",
+  "simulation": "Python cycle model; no SPI host service simulated",
+  "tx_transitions_ns": [
+    [
+      160,
+      254
+    ],
+    [
+      9160,
+      255
+    ],
+    [
+      10160,
+      254
+    ],
+    [
+      11160,
+      255
+    ],
+    [
+      12160,
+      254
+    ],
+    [
+      13160,
+      255
+    ],
+    [
+      14160,
+      254
+    ],
+    [
+      15160,
+      255
+    ],
+    [
+      16160,
+      254
+    ],
+    [
+      17160,
+      255
+    ],
+    [
+      18160,
+      254
+    ],
+    [
+      19160,
+      255
+    ],
+    [
+      20160,
+      254
+    ],
+    [
+      21160,
+      255
+    ],
+    [
+      22160,
+      254
+    ],
+    [
+      23160,
+      255
+    ],
+    [
+      24160,
+      254
+    ],
+    [
+      26160,
+      255
+    ],
+    [
+      27160,
+      254
+    ],
+    [
+      28160,
+      255
+    ],
+    [
+      30160,
+      254
+    ],
+    [
+      31160,
+      255
+    ]
+  ],
+  "rx_stimulus_transitions_ns": [
+    [
+      0,
+      1
+    ],
+    [
+      800,
+      0
+    ],
+    [
+      1800,
+      1
+    ],
+    [
+      2800,
+      0
+    ],
+    [
+      8800,
+      1
+    ],
+    [
+      10800,
+      0
+    ],
+    [
+      12800,
+      1
+    ],
+    [
+      13800,
+      0
+    ],
+    [
+      14800,
+      1
+    ],
+    [
+      16800,
+      0
+    ],
+    [
+      17800,
+      1
+    ],
+    [
+      18800,
+      0
+    ],
+    [
+      19800,
+      1
+    ],
+    [
+      20800,
+      0
+    ],
+    [
+      21800,
+      1
+    ],
+    [
+      22800,
+      0
+    ],
+    [
+      29800,
+      1
+    ],
+    [
+      30800,
+      0
+    ],
+    [
+      32800,
+      1
+    ]
+  ],
+  "rx_stimulus_origin": "Reconstructed from examples/v2/run.py uart(): cycle 20, 25 cycles per bit, 40 ns clock",
+  "result": {
+    "name": "uart_duplex_1000000",
+    "programs": [
+      {
+        "program": "uart_tx_1000000",
+        "words": 25,
+        "sha256": "e0204c94360bb41bcf9d51b6c704375f1fd4f1e1692b643bf3cc29a98a091c4f",
+        "owner": 1,
+        "open_drain": 0
+      },
+      {
+        "program": "uart_rx_1000000",
+        "words": 36,
+        "sha256": "04d7d636bc18738556ef1f19bd55770752f629335a74b3d9ade39f18fa655b56",
+        "owner": 0,
+        "open_drain": 0
+      }
+    ],
+    "checks": {
+      "tx": [
+        0,
+        85,
+        165,
+        255
+      ],
+      "rx": [
+        129,
+        90,
+        1,
+        254
+      ],
+      "period_cycles": 25,
+      "tx_frames": [
+        {
+          "start_ns": 160,
+          "value": 0,
+          "framing_error": false
+        },
+        {
+          "start_ns": 10160,
+          "value": 85,
+          "framing_error": false
+        },
+        {
+          "start_ns": 20160,
+          "value": 165,
+          "framing_error": false
+        },
+        {
+          "start_ns": 30160,
+          "value": 255,
+          "framing_error": false
+        }
+      ],
+      "service": "four-byte preloaded burst; no SPI host service simulated"
+    },
+    "passed": true
+  }
+}
