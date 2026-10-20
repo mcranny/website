@@ -18,8 +18,8 @@ export function createViewer(root) {
   const bounds = () => [view.x-view.w/2, view.y-view.w*canvas.height/canvas.width/2,
     view.x+view.w/2, view.y+view.w*canvas.height/canvas.width/2];
 
-  async function response(path) {
-    const result = await fetch(new URL(path, base));
+  async function response(path, signal) {
+    const result = await fetch(new URL(path, base), {signal});
     if (!result.ok) throw new Error(`Layout asset returned HTTP ${result.status}.`);
     return result;
   }
@@ -77,16 +77,18 @@ export function createViewer(root) {
     }
     return keys;
   }
-  async function tile(key) {
+  async function tile(key, signal) {
+    signal.throwIfAborted();
     if (cache.has(key)) {
       const records = cache.get(key); cache.delete(key); cache.set(key,records); return records;
     }
-    const raw = await (await response(`tiles/${key}.jsonl.gz`)).arrayBuffer();
+    const raw = await (await response(`tiles/${key}.jsonl.gz`, signal)).arrayBuffer();
     const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw)),
       v => v.toString(16).padStart(2,'0')).join('');
     if (digest !== meta.tiles[key].sha256) throw new Error('Geometry checksum mismatch.');
     const stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'));
     const text = await new Response(stream).text();
+    signal.throwIfAborted();
     const records = text.trim() ? text.trim().split('\n').map(JSON.parse) : [];
     cache.set(key, records);
     while (cache.size > 12) cache.delete(cache.keys().next().value);
@@ -202,7 +204,7 @@ export function createViewer(root) {
       mode.textContent = 'Loading original geometry…'; canvas.dataset.mode = 'loading';
       const data = [];
       for (const entry of keys) {
-        data.push([entry, await tile(entry.key)]);
+        data.push([entry, await tile(entry.key, signal)]);
         if (version !== epoch) return;
       }
       clear();

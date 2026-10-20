@@ -9,11 +9,13 @@ const {gunzipSync}=require('node:zlib'), {createHash}=require('node:crypto');
 const {spawnSync}=require('node:child_process');
 const root=path.resolve(__dirname,'..');
 const source=path.join(root,'assets/protocol-emulator/v2/layout-447b3df');
-const scratch=process.env.GDS_RASTER_SCRATCH || path.join(os.tmpdir(),'website-gds-raster-v1');
+const scratchBase=process.env.GDS_RASTER_SCRATCH || os.tmpdir();
 const meta=JSON.parse(fs.readFileSync(path.join(source,'manifest.json')));
 const digest=buffer=>createHash('sha256').update(buffer).digest('hex');
 (async()=>{
- fs.mkdirSync(scratch,{recursive:true});
+ fs.mkdirSync(scratchBase,{recursive:true});
+ const scratch=fs.mkdtempSync(path.join(scratchBase,'website-gds-raster-'));
+ console.log(`Raster scratch directory: ${scratch}`);
  const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
  try {
   const page=await browser.newPage();

@@ -115,6 +115,25 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   await ready('preview');
   assert.equal(await pixels(),allRaster,'Rapid zoom cancellation must leave the final requested view');
 
+  // Returning to Fit must finish even while a geometry download is stalled.
+  await page.reload(); await page.locator('[data-gds-start]').click(); await ready('preview');
+  let releaseGeometry;
+  const geometryHeld = new Promise(resolve => { releaseGeometry = resolve; });
+  await page.route('**/tiles/*.jsonl.gz', async route => {
+    await geometryHeld;
+    await route.abort().catch(() => {});
+  });
+  const geometryRequested = page.waitForRequest('**/tiles/*.jsonl.gz');
+  await page.locator('[data-gds-detail]').click(); await geometryRequested;
+  try {
+    await page.locator('[data-gds-fit]').click();
+    await page.waitForFunction(() => document.querySelector('[data-gds-canvas]').dataset.mode === 'preview', null, {timeout:5000});
+    assert.equal(await pixels(),allRaster,'Stalled geometry must not block the latest view');
+  } finally {
+    releaseGeometry();
+    await page.unroute('**/tiles/*.jsonl.gz');
+  }
+
   // Initial manifest and preview failures retain the static preview and retry.
   for (const pattern of ['**/layout-447b3df/manifest.json','**/raster-v1/0/all/0-0.webp']) {
     await page.route(pattern, route => route.fulfill({status:503,body:'unavailable'}));

@@ -71,7 +71,9 @@ To regenerate the multi-resolution tiles, install Pillow in the Python environme
 and use Chromium through Playwright. The generator checks every original geometry
 tile, rasterizes its polygons with 2× supersampling, and builds lossless per-layer
 and combined WebP tiles with neighboring-pixel gutters. It writes intermediate
-PNGs under the temporary directory, then publishes `raster-v1/` and `overview.webp`.
+PNGs in a fresh directory for each run, then publishes `raster-v1/` and
+`overview.webp`. Set `GDS_RASTER_SCRATCH` to choose the parent directory for these
+temporary renders; each run prints its unique scratch path.
 
 ```sh
 CHROME_PATH=/path/to/chrome PYTHON=/path/to/python node scripts/render_gds_pyramid.cjs

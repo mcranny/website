@@ -100,3 +100,17 @@ See [zoom investigation and implementation](gds-zoom-investigation.md).
 
 Production DPR 2 checks also passed at 1440 px and 390 px widths, exercising
 progressive raster selection, the transition to polygons and the cache budget.
+
+## Publication follow-up
+
+GitHub browser validation identified an asynchronous fullscreen assertion; the
+media suite now waits for fullscreen entry and exit before checking the result.
+The full GitHub site suite passed on `c8bd531`.
+
+Geometry downloads now use the render cancellation signal. A browser regression
+holds a geometry response open, returns to Fit, and verifies that the overview
+finishes before releasing the stalled response. The full media suite passed.
+
+Each raster-generation run allocates a unique empty scratch directory. A focused
+check ran scratch allocation twice under a parent containing an old tile and
+verified distinct empty outputs while retaining the parent's existing files.
