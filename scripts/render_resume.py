@@ -51,7 +51,7 @@ class AlignedLine(Flowable):
         if self.right:
             self.right.drawOn(self.canv, self.width - self.right_width, self.height - self.right_height)
 
-contact_pdf = '<link href="mailto:crannymatthew@gmail.com">crannymatthew@gmail.com</link><br/><link href="https://mcranny.net">mcranny.net</link> &#160;&#160; <link href="https://linkedin.com/in/matthew-cranny">linkedin.com/in/matthew-cranny</link> &#160;&#160; <link href="https://github.com/mcranny">github.com/mcranny</link>'
+contact_pdf = '<link href="mailto:crannymatthew@gmail.com">crannymatthew@gmail.com</link> &#160;&#160; <link href="https://mcranny.net">mcranny.net</link> &#160;&#160; <link href="https://linkedin.com/in/matthew-cranny">linkedin.com/in/matthew-cranny</link> &#160;&#160; <link href="https://github.com/mcranny">github.com/mcranny</link>'
 story = [Paragraph('Matthew Cranny', styles['name']), Paragraph(contact_pdf, styles['contact']), Paragraph(esc(data['summary']), styles['body'])]
 
 def section(title):

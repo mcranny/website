@@ -1,5 +1,5 @@
 {
-  "summary": "Systems engineer developing automated hardware tests, custom bench electronics, and embedded C firmware. Experience spans board qualification, instrumentation, international firmware deployment, and aerospace hardware assembly.",
+  "summary": "Systems engineer developing automated hardware tests, custom electronics, and embedded C firmware. Experience spans board qualification, instrumentation, firmware deployment, aerospace hardware assembly, and ASIC design and verification.",
   "experience": [
     {
       "company": "PDF Solutions",
@@ -40,12 +40,12 @@
   "projects": [
     {
       "company": "Programmable Protocol Emulator ASIC",
-      "role": "Independent Project",
+      "role": "Jane Street Tiny Tapeout Competition",
       "date": "",
       "location": "",
       "bullets": [
-        "Built a programmable Verilog timing engine with SPI host control, UART transmit firmware, and Python tooling for reproducible protocol debugging on IHP CMOS5L.",
-        "Validated with 200 Python tests, six RTL simulation suites, and formal safety checks; implemented a routed layout targeting 25 MHz, with electrical closure still in progress."
+        "Designed a dual-engine Verilog ASIC targeting 48 MHz on IHP CMOS5L, with 256x32 SRAM per engine, a shared 24-bit timebase, eight deadline-driven pin cells, and timestamped capture.",
+        "Built a Python assembler, SPI image loader, and cycle-accurate model; developed cocotb differential tests, Yosys induction proofs, and UART, SPI, I2C, and WS2812 waveform peers."
       ]
     },
     {
@@ -71,7 +71,7 @@
     ],
     [
       "Software",
-      "Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, GitHub Actions, Linux"
+      "Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, Yosys, GitHub Actions, Linux"
     ]
   ]
 }
