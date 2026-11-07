@@ -450,3 +450,20 @@
 @media (max-width: 860px) {
   .waveform-hint { display: block; font-weight: 600; margin-bottom: 10px; }
 }
+
+/* Version panels use the existing full-width case-study rhythm. */
+.asic-version-panel { grid-column: 1 / -1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+.asic-version-panel > * { min-width: 0; }
+.asic-version-panel[hidden] { display: none; }
+.asic-version-tabs { grid-column: 1 / -1; display: flex; gap: 8px; border-bottom: 1px solid var(--rule); }
+.asic-version-tabs a { padding: 14px 28px; text-decoration: none; font-weight: 700; border-bottom: 3px solid transparent; }
+.asic-version-tabs a[aria-selected="true"] { color: var(--signal); border-bottom-color: var(--signal); }
+.asic-version-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.asic-version-heading h2 { margin: 0; }
+.asic-version-heading p { margin: 0; color: var(--steel); }
+.asic-fpga-result { border-left: 3px solid var(--signal); padding: 4px 0 4px 24px; }
+@media (max-width: 860px) { .asic-version-panel { gap: 36px; } .asic-version-tabs { margin-bottom: 36px; } }
+
+.asic-page > .page-heading { grid-column: 1 / -1; max-width: 1000px; border-bottom: 0; }
+.asic-version-panel > .case-summary { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 860px) { .asic-version-panel > .case-summary { grid-template-columns: 1fr; } }

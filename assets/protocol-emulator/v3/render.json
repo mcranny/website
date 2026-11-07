@@ -1,0 +1,14 @@
+{
+  "source_sha256": "050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f",
+  "detail_bounds_um": [
+    420.0,
+    90.0,
+    620.0,
+    190.0
+  ],
+  "detail_pixels": [
+    1400,
+    700
+  ],
+  "source": "checksum-verified original-coordinate raster pyramid"
+}

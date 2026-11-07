@@ -3,30 +3,33 @@
 import hashlib
 import json
 import math
-import shutil
 from pathlib import Path
 import sys
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = ROOT/'assets/protocol-emulator/v2'
-SOURCE = BASE/'layout-447b3df'
-OUT = BASE/'raster-v1'
-W, H, GUTTER = 1024, 1129, 1
+SOURCE = Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT/'assets/protocol-emulator/v2/layout-447b3df'
+BASE = SOURCE.parent
+OUT = Path(sys.argv[3]) if len(sys.argv) > 3 else BASE/'raster-v1'
+W, GUTTER = 1024, 1
 
 
 def main(scratch):
     meta = json.loads((SOURCE/'manifest.json').read_text())
-    if OUT.exists(): shutil.rmtree(OUT)
+    max_level = int(math.log2(meta['columns']))
+    assert 2**max_level == meta['columns'] and meta['rows'] == meta['columns']//2
+    H = round(2048*(meta['bounds'][3]-meta['bounds'][1])/(meta['bounds'][2]-meta['bounds'][0]))
+    if OUT.exists():
+        raise ValueError('Use a new raster output directory; published assets are immutable')
     OUT.mkdir(parents=True)
     layers = list(map(str, range(len(meta['layers']))))
     levels = [{'z':z, 'columns':2**z, 'rows':max(1,2**(z-1)),
-               'width':W*2**z, 'height':math.ceil(H*2**(z-1))} for z in range(6)]
+               'width':W*2**z, 'height':math.ceil(H*2**(z-1))} for z in range(max_level+1)]
     def load(z, layer, x, y):
         p = scratch/str(z)/layer/f'{x}-{y}.png'
         return Image.open(p).convert('RGBA') if p.exists() else None
     # Downsample adjacent children together, preserving all layers and opacity.
-    for z in range(4,-1,-1):
+    for z in range(max_level-1,-1,-1):
         level = levels[z]
         for layer in layers:
             dest = scratch/str(z)/layer

@@ -1,0 +1,25 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1793247064" />
+    <testcase name="test_v3_full_chip_differential" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="220" time="703.3521523475647" sim_time_ns="8437186.648" ratio_time="11995.679006368811" />
+    <testcase name="test_v3_txpush_feeds_pull_matching_the_model" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="403" time="169.8082458972931" sim_time_ns="2197611.988" ratio_time="12941.727160465485" />
+    <testcase name="test_v3_rxpop_returns_records_then_rejects_when_empty" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="468" time="167.5542871952057" sim_time_ns="2172579.936999999" ratio_time="12966.424037057788" />
+    <testcase name="test_v3_host_read_returns_the_addressed_word" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="508" time="3.866055965423584" sim_time_ns="49845.34500000067" ratio_time="12893.073831780232" />
+    <testcase name="test_v3_partial_start_rejects_and_starts_neither_engine" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="545" time="165.94912719726562" sim_time_ns="2157277.364" ratio_time="12999.630672571238" />
+    <testcase name="test_v3_open_drain_preserves_latched_state_across_set_and_oe" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="618" time="165.87071585655212" sim_time_ns="2147693.7239999995" ratio_time="12947.99816175727" />
+    <testcase name="test_v3_clear_invalidates_so_a_partial_reload_cannot_start" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="712" time="332.63726019859314" sim_time_ns="4321471.616" ratio_time="12991.544042360043" />
+    <testcase name="test_v3_clear_is_rejected_while_the_engine_runs" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="750" time="165.7190704345703" sim_time_ns="2155964.8220000006" ratio_time="13009.75691178056" />
+    <testcase name="test_v3_shared_crc_collision_stalls_the_losing_engine" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="805" time="331.4471483230591" sim_time_ns="4282887.048" ratio_time="12921.779745787711" />
+    <testcase name="test_v3_filter_defaults_to_every_pin_and_reads_back" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="916" time="3.230037212371826" sim_time_ns="41553.4130000025" ratio_time="12864.685533913618" />
+    <testcase name="test_v3_filter_write_is_rejected_while_an_engine_runs" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="937" time="166.99333024024963" sim_time_ns="2172579.9370000027" ratio_time="13009.980302053738" />
+    <testcase name="test_v3_an_unfiltered_pin_sees_a_glitch_the_filter_rejects" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="960" time="0" sim_time_ns="0" ratio_time="0">
+      <skipped />
+    </testcase>
+    <testcase name="test_v3_caparm_arms_stops_and_records_read_back" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="984" time="10.156579494476318" sim_time_ns="132952.1710000001" ratio_time="13090.250617573216" />
+    <testcase name="test_v3_start_does_not_arm_capture" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="1039" time="165.17128157615662" sim_time_ns="2155996.0730000027" ratio_time="13053.09284051249" />
+    <testcase name="test_v3_status_reports_engines_and_capture_and_rejects_others" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="1052" time="333.0937240123749" sim_time_ns="4336774.189000003" ratio_time="13019.681478114207" />
+    <testcase name="test_v3_reconfigure_drops_the_previous_watchers" classname="v3.test_project" file="/home/runner/work/protocol-emulator-asic/protocol-emulator-asic/test/v3/test_project.py" lineno="1122" time="0" sim_time_ns="0" ratio_time="0">
+      <skipped />
+    </testcase>
+  </testsuite>
+</testsuites>

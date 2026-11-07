@@ -1,0 +1,47 @@
+{
+  "accepted": true,
+  "issues": [],
+  "source_commit": "8b95d90b2fbbe5d742700884a49f2b89f1150904",
+  "pdk_commit": "2bbec755dc67ca3db0261c3d6163e15735d66710",
+  "support_tools_commit": "d66cf179e7bc4d296362ab7e2e3b344dc3c4f665",
+  "image": "ghcr.io/librelane/librelane@sha256:d109140b8f17fc54f4fca998beb8124f4949404ec52e339eebd2250854a18b5a",
+  "margins": {
+    "timing__setup_r2r__ws__corner:nom_slow_1p08V_125C": 2.578094,
+    "timing__hold__ws__corner:nom_fast_1p32V_m40C": 0.1120732427472736
+  },
+  "precheck": {
+    "KLayout pin label overlapping drawing": "pass",
+    "KLayout SG13CMOS5L DRC": "pass",
+    "KLayout zero area": "pass",
+    "KLayout Checks": "pass",
+    "Pin check": "pass",
+    "Boundary check": "pass",
+    "Layer check": "pass",
+    "Cell name check": "pass",
+    "Analog pin check": "pass"
+  },
+  "gatelevel": {
+    "test_v3_full_chip_differential": "pass",
+    "test_v3_txpush_feeds_pull_matching_the_model": "pass",
+    "test_v3_rxpop_returns_records_then_rejects_when_empty": "pass",
+    "test_v3_host_read_returns_the_addressed_word": "pass",
+    "test_v3_partial_start_rejects_and_starts_neither_engine": "pass",
+    "test_v3_open_drain_preserves_latched_state_across_set_and_oe": "pass",
+    "test_v3_clear_invalidates_so_a_partial_reload_cannot_start": "pass",
+    "test_v3_clear_is_rejected_while_the_engine_runs": "pass",
+    "test_v3_shared_crc_collision_stalls_the_losing_engine": "pass",
+    "test_v3_filter_defaults_to_every_pin_and_reads_back": "pass",
+    "test_v3_filter_write_is_rejected_while_an_engine_runs": "pass",
+    "test_v3_an_unfiltered_pin_sees_a_glitch_the_filter_rejects": "skip",
+    "test_v3_caparm_arms_stops_and_records_read_back": "pass",
+    "test_v3_start_does_not_arm_capture": "pass",
+    "test_v3_status_reports_engines_and_capture_and_rejects_others": "pass",
+    "test_v3_reconfigure_drops_the_previous_watchers": "skip"
+  },
+  "sha256": {
+    "gds": "050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f",
+    "lef": "3a1aa7c3b71f2fb679f99f27685369b05db3d8f83e2d647c37b93a6df7735b76",
+    "netlist": "c15033da675ad044495a87ee29bead06aa945d237cd1a9f7b3b71363a48eb758",
+    "metrics": "062e6f47a0a42a06ce6d12caed08bd64d3ad33b0ca4e056b626d80f490629678"
+  }
+}

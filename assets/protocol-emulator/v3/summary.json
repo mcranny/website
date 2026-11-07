@@ -1,0 +1,39 @@
+{
+  "physical_source_commit": "8b95d90b2fbbe5d742700884a49f2b89f1150904",
+  "workflow_source_commit": "61065cf777e1d2eb9f641a00c6e28ff034f0014a",
+  "workflow_run": "https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147",
+  "artifacts": {
+    "build": {
+      "id": 12872272288,
+      "sha256": "dd2257117a9cbf81a3c7fd42e80ea3e97b97f11474d4f3057d50188e60e0c857"
+    },
+    "acceptance": {
+      "id": 12873954682,
+      "sha256": "c865d63660199e2ecd8572f49695a8cbd774afede0174721bdbdf0b509826136"
+    },
+    "gatelevel": {
+      "id": 12874411749,
+      "sha256": "fb29f0d995abeca5239ea63c9143d2f09037e69a00d2045b43b5b565dd8caec6"
+    }
+  },
+  "archive_file": "layout.gds.gz",
+  "archive_sha256": "1645fca4fdcbd939edcc53dda9bb3607496a758fff8e32695f4fc4d7f4d59ce8",
+  "gds_sha256": "050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f",
+  "exporter_commit": "0ff3c61217fbe6909750814c19e7100b2ddf1038",
+  "clock_mhz": 48,
+  "tiles": [
+    8,
+    4
+  ],
+  "die_um": [
+    1724.16,
+    710.64
+  ],
+  "standard_cell_area_um2": 660587,
+  "sram_area_um2": 98977,
+  "core_utilization": 0.628688,
+  "setup_r2r_slow_ns": 2.578094,
+  "hold_fast_ns": 0.1120732427472736,
+  "prechecks_passed": 9,
+  "gatelevel_passed": 14
+}

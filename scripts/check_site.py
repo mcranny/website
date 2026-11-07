@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate published routes, references, shared chrome, evidence, and résumé."""
+import gzip
 import hashlib
 import json
 import re
@@ -11,15 +12,15 @@ from site_html import parse
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def check_v2_assets(files, page):
-    base = ROOT/'assets/protocol-emulator/v2'
+def check_asic_assets(files, page, version):
+    base = ROOT/f'assets/protocol-emulator/{version}'
     provenance = json.loads((base/'checksums.json').read_text())
     for name, expected in provenance['files'].items():
         path = base/name
         assert path.is_file() and path.resolve().is_relative_to(base), name
-        assert str(path.relative_to(ROOT)) in files, f'Unpublished V2 asset: {name}'
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, f'V2 checksum: {name}'
-    layout = base/'layout-447b3df'
+        assert str(path.relative_to(ROOT)) in files, f'Unpublished {version} asset: {name}'
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected, f'{version} checksum: {name}'
+    layout = base/('layout-447b3df' if version == 'v2' else 'layout-8b95d90')
     manifest = json.loads((layout/'manifest.json').read_text())
     summary = json.loads((base/'summary.json').read_text())
     assert manifest['source_sha256'] == summary['gds_sha256']
@@ -36,7 +37,7 @@ def check_v2_assets(files, page):
     assert raster['source_sha256'] == manifest['source_sha256']
     assert raster['bounds'] == manifest['bounds']
     assert raster['layers'] == [layer['key'] for layer in manifest['layers']]
-    assert [level['width'] for level in raster['levels']] == [1024,2048,4096,8192,16384,32768]
+    assert [level['width'] for level in raster['levels']] == ([1024,2048,4096,8192,16384,32768] if version == 'v2' else [1024,2048,4096,8192,16384])
     for level in raster['levels']:
         for y in range(level['rows']):
             for x in range(level['columns']):
@@ -45,11 +46,21 @@ def check_v2_assets(files, page):
         path = base/'raster-v1'/name
         assert path.stat().st_size == expected['bytes'], name
         assert hashlib.sha256(path.read_bytes()).hexdigest() == expected['sha256'], name
-    archive = layout/'selected-layout.tar.gz'
+    archive = layout/('selected-layout.tar.gz' if version == 'v2' else 'layout.gds.gz')
     assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['provenance']['archive_sha256']
-    viewers = [n for n in page.find() if 'data-gds-viewer' in n.attrs]
+    viewers = [n for n in page.find() if 'data-gds-viewer' in n.attrs and n.attrs.get('data-version') == version]
     assert len(viewers) == 1 and viewers[0].attrs['data-gds-hash'] == manifest['source_sha256']
-    assert not page.find('iframe'), 'The V2 viewer must run natively'
+    assert not page.find('iframe'), 'The layout viewers must run natively'
+    if version == 'v3':
+        assert hashlib.sha256(gzip.decompress(archive.read_bytes())).hexdigest() == summary['gds_sha256']
+        acceptance = json.loads((base/'acceptance.json').read_text())
+        assert acceptance['accepted'] and acceptance['source_commit'] == summary['physical_source_commit']
+        assert acceptance['sha256']['gds'] == summary['gds_sha256']
+        assert hashlib.sha256((base/'metrics.json').read_bytes()).hexdigest() == acceptance['sha256']['metrics']
+        assert summary['gatelevel_passed'] == sum(v == 'pass' for v in acceptance['gatelevel'].values()) == 14
+        assert summary['prechecks_passed'] == sum(v == 'pass' for v in acceptance['precheck'].values()) == 9
+        assert summary['setup_r2r_slow_ns'] == acceptance['margins']['timing__setup_r2r__ws__corner:nom_slow_1p08V_125C']
+        assert summary['hold_fast_ns'] == acceptance['margins']['timing__hold__ws__corner:nom_fast_1p32V_m40C']
     assert 'layout/' not in ''.join(n.attrs.get('src', '') for n in page.find('script'))
     for old in ['200 tests', 'draft PR #9', 'Electrical gate failing']:
         assert old not in page.text, f'Stale V1 status: {old}'
@@ -99,7 +110,11 @@ def check(pdf_text=True):
             assert target + '.html' in docs, f'Redirect: {line}'
     for p in (ROOT/'css').glob('*.css'):
         assert p.read_text().count('{') == p.read_text().count('}'), f'CSS braces: {p}'
-    check_v2_assets(files, docs['protocol-emulator.html'])
+    for version in ('v2', 'v3'):
+        check_asic_assets(files, docs['protocol-emulator.html'], version)
+    page = docs['protocol-emulator.html']
+    assert len([n for n in page.find() if 'data-gds-viewer' in n.attrs]) == 2
+    assert {n.attrs['data-version-panel'] for n in page.find() if 'data-version-panel' in n.attrs} == {'v2', 'v3'}
     for folder in ('testos', 'scope'):
         manifest = json.loads((ROOT/'assets'/folder/'checksums.json').read_text())
         for name, expected in manifest['files'].items():

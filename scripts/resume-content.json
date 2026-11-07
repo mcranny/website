@@ -8,11 +8,11 @@
       "location": "San Jose, CA",
       "bullets": [
         "Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.",
-        "Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.",
         "Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.",
+        "Built an integrated hardware and software system of record, scaling to over 1,000 items with Rust microservices and PostgreSQL across frontend and backend workflows for boards, serialized parts, installations, software, firmware, and configurations.",
+        "Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.",
         "Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.",
         "Coordinated overseas and field teams for firmware deployments, arranging scan comparisons before and after upgrades to verify equal or better performance, supplying updated hardware, and guiding remote installation.",
-        "Built a Flask and SQLite system of record covering hardware and firmware revisions for more than 90 boards; track configuration conflicts, deployment requirements, and upgrade progress.",
         "Characterized SEM settling with Python signal analysis and tuned inertia compensation, reducing time for oscillations to fall below 2 nanometers from 300 to 20 nanoseconds."
       ]
     },
@@ -45,7 +45,7 @@
       "location": "",
       "bullets": [
         "Designed a dual-engine Verilog ASIC targeting 48 MHz on IHP CMOS5L, with 256x32 SRAM per engine, a shared 24-bit timebase, eight deadline-driven pin cells, and timestamped capture.",
-        "Built a Python assembler, SPI image loader, and cycle-accurate model; developed cocotb differential tests, Yosys induction proofs, and UART, SPI, I2C, and WS2812 waveform peers."
+        "Built a Python assembler and SPI loader with model-based RTL tests and formal proofs; ran V3 on an Artix-7 Cmod A7-35T and captured output timing with Vivado ILA."
       ]
     },
     {
@@ -71,7 +71,7 @@
     ],
     [
       "Software",
-      "Python, C, Verilog, SQL, LabVIEW, pytest, cocotb, Icarus Verilog, Yosys, GitHub Actions, Linux"
+      "Python, C, Rust, Verilog, SQL, PostgreSQL, LabVIEW, pytest, cocotb, Icarus Verilog, Yosys, GitHub Actions, Linux"
     ]
   ]
 }

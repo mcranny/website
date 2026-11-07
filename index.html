@@ -105,7 +105,7 @@
       <section id="work" class="professional-work" aria-labelledby="work-title">
         <div class="section-heading">
           <div><p class="eyebrow">PDF Solutions · Systems Engineer</p><h2 id="work-title">Board qualification and firmware validation</h2></div>
-          <div><p>I qualify six board families with Python, OpenTAP/OpenHTF, and bench instrumentation. I developed a four-board selector with embedded C and SCPI-style commands over RS-485, and use Vivado and register-level analysis to investigate power-up connectivity faults.</p><p>I coordinate firmware deployments using before and after scan comparisons and track revisions across 90+ boards. Tuning SEM stage inertia compensation cut settling time below 2 nm from 300 ns to 20 ns.</p><a href="/resume">Experience and résumé →</a></div>
+          <div><p>I qualify six board families with Python, OpenTAP/OpenHTF, and bench instrumentation. I developed a four-board selector with embedded C and SCPI-style commands over RS-485, and use Vivado and register-level analysis to investigate power-up connectivity faults.</p><p>I built an integrated system of record with Rust microservices and PostgreSQL, scaling to over 1,000 items across boards, serialized parts, installations, software, firmware, and configurations. I coordinate firmware deployments using before and after scan comparisons. Tuning SEM stage inertia compensation cut settling time below 2 nm from 300 ns to 20 ns.</p><a href="/resume">Experience and résumé →</a></div>
         </div>
       </section>
 
@@ -118,14 +118,14 @@
           <p>Independent engineering projects with source code and test results.</p>
         </div>
         <article class="project-card flagship-project">
-          <div class="flagship-media"><img src="assets/protocol-emulator/v2/overview.webp" width="1024" height="565" loading="lazy" alt="Selected V2 protocol emulator layout"><p>V2 layout · 6 × 4 tiles · IHP 130 nm</p></div>
+          <div class="flagship-media"><img src="assets/protocol-emulator/v3/overview.webp" width="1024" height="422" loading="lazy" alt="V3 protocol emulator layout with two SRAM macros"><p>V3 layout · 8 × 4 tiles · IHP 130 nm</p></div>
           <div class="project-card-body">
             <span class="project-type">Flagship independent project · Verilog + Python</span>
-            <h3>Programmable Protocol Emulator ASIC — V2</h3>
-            <p>Two programmable timing engines generate and observe UART, SPI, and I²C traffic, with triggered capture for repeatable hardware debugging.</p>
-            <p class="project-status">V2 milestone released. Selected layout validated through local checkpoint recovery.</p>
-            <ul class="project-facts"><li><strong>2</strong><span>Timing engines</span></li><li><strong>25 MHz</strong><span>System clock</span></li><li><strong>32</strong><span>Capture records</span></li></ul>
-            <div class="project-links"><a href="/protocol-emulator">Read V2 case study</a><a href="/protocol-emulator#explore-layout">Explore the chip</a></div>
+            <h3>Programmable Protocol Emulator ASIC — V3</h3>
+            <p>Two engines with SRAM program memory schedule protocol edges on a shared 48 MHz timebase. Eight pin cells apply those edges at their programmed deadlines.</p>
+            <p class="project-status">Running on an Artix-7 Cmod A7-35T, with output timing captured in Vivado ILA. Explore both chip layouts and the V2 → V3 design progression.</p>
+            <ul class="project-facts"><li><strong>2</strong><span>Timing engines</span></li><li><strong>48 MHz</strong><span>System clock</span></li><li><strong>32</strong><span>Capture records</span></li></ul>
+            <div class="project-links"><a href="/protocol-emulator">Read V3 case study</a><a href="/protocol-emulator?version=v3#v3-explore-layout">Explore the chip</a><a href="/protocol-emulator#design-progress">V2 → V3</a></div>
           </div>
         </article>
         <div class="featured-project-grid">

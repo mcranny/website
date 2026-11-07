@@ -24,3 +24,16 @@
 
 /assets/protocol-emulator/v2/raster-v1/*
   Cache-Control: public, max-age=31536000, immutable, no-transform
+
+/assets/protocol-emulator/v3/layout-8b95d90/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform
+
+/assets/protocol-emulator/v3/layout-8b95d90/tiles/*
+  Content-Type: application/octet-stream
+
+/assets/protocol-emulator/v3/layout-8b95d90/layout.gds.gz
+  Content-Type: application/gzip
+  Content-Disposition: attachment; filename="protocol-emulator-v3-8b95d90.gds.gz"
+
+/assets/protocol-emulator/v3/raster-v1/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform

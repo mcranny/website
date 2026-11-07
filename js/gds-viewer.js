@@ -24,7 +24,7 @@ export function createViewer(root) {
     return result;
   }
   function request() {
-    if (!ready) return;
+    if (!ready || root.closest('[hidden]')) return;
     epoch++;
     renderAbort?.abort();
     canvas.dataset.mode = 'pending';
@@ -182,7 +182,7 @@ export function createViewer(root) {
     canvas.dataset.rasterCacheBytes=String(rasterBytes);canvas.dataset.mode='preview';
   }
   async function draw() {
-    if (!ready || !view) return;
+    if (!ready || !view || root.closest('[hidden]')) return;
     running = true;
     const version = epoch, b = bounds(), keys = visibleTiles(b), dx = (meta.bounds[2]-meta.bounds[0])/meta.columns;
     const detail = view.w <= dx*2 && keys.length <= 12;
@@ -309,6 +309,10 @@ export function createViewer(root) {
   });
   document.addEventListener('fullscreenchange',fullState);
   new ResizeObserver(resize).observe(canvas);
+  window.addEventListener('asicversionchange', () => {
+    if (root.closest('[hidden]')) { epoch++; renderAbort?.abort(); }
+    else resize();
+  });
 
   return {
     async start() {
@@ -319,7 +323,7 @@ export function createViewer(root) {
       const nextMeta = await (await response('manifest.json')).json();
       if (nextMeta.source_sha256 !== root.dataset.gdsHash || nextMeta.geometry_simplified ||
           !nextMeta.independent_inventory_matches || nextMeta.layers_omitted.length || nextMeta.hierarchy_depth_limit !== null) {
-        throw new Error('The layout manifest does not match the selected V2 geometry.');
+        throw new Error('The layout manifest does not match the selected geometry.');
       }
       const rasterResponse = await fetch(new URL('manifest.json',rasterBase));
       if (!rasterResponse.ok) throw new Error(`Raster manifest returned HTTP ${rasterResponse.status}.`);
@@ -327,7 +331,7 @@ export function createViewer(root) {
       if (nextRaster.source_sha256 !== nextMeta.source_sha256 ||
           JSON.stringify(nextRaster.bounds) !== JSON.stringify(nextMeta.bounds) ||
           JSON.stringify(nextRaster.layers) !== JSON.stringify(nextMeta.layers.map(layer=>layer.key))) {
-        throw new Error('Raster manifest does not match the selected V2 geometry.');
+        throw new Error('Raster manifest does not match the selected geometry.');
       }
       rasterMeta=nextRaster;
       await rasterImage('0/all/0-0.webp');
