@@ -37,3 +37,9 @@
 
 /assets/protocol-emulator/v3/raster-v1/*
   Cache-Control: public, max-age=31536000, immutable, no-transform
+
+/assets/protocol-emulator/v2/display-v1/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform
+
+/assets/protocol-emulator/v3/display-v1/*
+  Cache-Control: public, max-age=31536000, immutable, no-transform

@@ -10,6 +10,8 @@ export function createViewer(root) {
   const status = find('status'), mode = find('mode'), retry = find('retry');
   let meta, rasterMeta, view, selected = new Set();
   const rasterBase = new URL(root.dataset.raster, location.href);
+  const indexBase = new URL(root.dataset.index, location.href);
+  const loadedIndexes = new Set();
   const rasterCache = new Map();
   let rasterBytes = 0, renderAbort, lastFrame, lastBounds;
   let epoch = 0, scheduled = false, running = false, ready = false;
@@ -50,8 +52,9 @@ export function createViewer(root) {
     const r = canvas.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const ratio = Math.min(devicePixelRatio || 1, 2, 2048/r.width, 2048/r.height);
-    canvas.width = Math.max(1, Math.round(r.width*ratio));
-    canvas.height = Math.max(1, Math.round(r.height*ratio));
+    const width = Math.max(1, Math.round(r.width*ratio)), height = Math.max(1, Math.round(r.height*ratio));
+    if (view && width === canvas.width && height === canvas.height) return;
+    canvas.width = width; canvas.height = height;
     if (meta) { if (!view) fit(); else request(); }
   }
   function screenPoint(x, y) {
@@ -89,7 +92,12 @@ export function createViewer(root) {
     const stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'));
     const text = await new Response(stream).text();
     signal.throwIfAborted();
-    const records = text.trim() ? text.trim().split('\n').map(JSON.parse) : [];
+    const lines = text.trim() ? text.trim().split('\n') : [], records = [];
+    for (let offset = 0; offset < lines.length; offset += 2000) {
+      signal.throwIfAborted();
+      records.push(...lines.slice(offset, offset+2000).map(JSON.parse));
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
     cache.set(key, records);
     while (cache.size > 12) cache.delete(cache.keys().next().value);
     return records;
@@ -104,7 +112,7 @@ export function createViewer(root) {
     }
     const record=rasterMeta.tiles[name];
     if (!record) return null;
-    const result=await fetch(new URL(name,rasterBase),{signal});
+    const result=await fetch(new URL(record.url || name,rasterBase),{signal});
     if (!result.ok) throw new Error(`Raster tile returned HTTP ${result.status}.`);
     const raw=await result.arrayBuffer();
     const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw)),v=>v.toString(16).padStart(2,'0')).join('');
@@ -118,6 +126,20 @@ export function createViewer(root) {
       rasterBytes-=entry.bytes;entry.image.close();rasterCache.delete(oldest);
     }
     return image;
+  }
+  async function ensureIndex(level, layer, signal) {
+    const key = `${level.z}/${layer}`;
+    if (loadedIndexes.has(key)) return;
+    const record = rasterMeta.indexes[key];
+    if (!record) throw new Error('Raster index is missing.');
+    const result = await fetch(new URL(`index/${key}.json`, indexBase), {signal});
+    if (!result.ok) throw new Error(`Raster index returned HTTP ${result.status}.`);
+    const raw = await result.arrayBuffer();
+    const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw)),v=>v.toString(16).padStart(2,'0')).join('');
+    if (digest !== record.sha256) throw new Error('Raster index checksum mismatch.');
+    signal.throwIfAborted();
+    Object.assign(rasterMeta.tiles, JSON.parse(new TextDecoder().decode(raw)));
+    loadedIndexes.add(key);
   }
   function rasterLevel() {
     const needed=(meta.bounds[2]-meta.bounds[0])*canvas.width/view.w;
@@ -158,6 +180,7 @@ export function createViewer(root) {
     const layers=selected.size===meta.layers.length?['all']:[...selected].sort((a,b)=>a-b);
     let count=0;
     for(const layer of layers) {
+      await ensureIndex(level,layer,signal);
       const entries=rasterEntries(level,b,layer);
       // Bound concurrent downloads and decode memory. Draw in stable layer order.
       for(let offset=0;offset<entries.length;offset+=4) {
@@ -203,8 +226,9 @@ export function createViewer(root) {
       }
       mode.textContent = 'Loading original geometry…'; canvas.dataset.mode = 'loading';
       const data = [];
-      for (const entry of keys) {
-        data.push([entry, await tile(entry.key, signal)]);
+      for (let offset = 0; offset < keys.length; offset += 4) {
+        const batch = keys.slice(offset, offset+4);
+        data.push(...await Promise.all(batch.map(async entry => [entry, await tile(entry.key, signal)])));
         if (version !== epoch) return;
       }
       clear();
@@ -311,7 +335,7 @@ export function createViewer(root) {
   new ResizeObserver(resize).observe(canvas);
   window.addEventListener('asicversionchange', () => {
     if (root.closest('[hidden]')) { epoch++; renderAbort?.abort(); }
-    else resize();
+    else { resize(); request(); }
   });
 
   return {
@@ -320,12 +344,14 @@ export function createViewer(root) {
         throw new Error('This browser does not support the geometry decoder.');
       }
       // Readiness means all previews are available, not just an HTML load event.
-      const nextMeta = await (await response('manifest.json')).json();
+      const [nextMeta, rasterResponse] = await Promise.all([
+        response('manifest.json').then(result => result.json()),
+        fetch(new URL('manifest.json',indexBase))
+      ]);
       if (nextMeta.source_sha256 !== root.dataset.gdsHash || nextMeta.geometry_simplified ||
           !nextMeta.independent_inventory_matches || nextMeta.layers_omitted.length || nextMeta.hierarchy_depth_limit !== null) {
         throw new Error('The layout manifest does not match the selected geometry.');
       }
-      const rasterResponse = await fetch(new URL('manifest.json',rasterBase));
       if (!rasterResponse.ok) throw new Error(`Raster manifest returned HTTP ${rasterResponse.status}.`);
       const nextRaster = await rasterResponse.json();
       if (nextRaster.source_sha256 !== nextMeta.source_sha256 ||
@@ -333,7 +359,7 @@ export function createViewer(root) {
           JSON.stringify(nextRaster.layers) !== JSON.stringify(nextMeta.layers.map(layer=>layer.key))) {
         throw new Error('Raster manifest does not match the selected geometry.');
       }
-      rasterMeta=nextRaster;
+      rasterMeta=nextRaster; loadedIndexes.clear();
       await rasterImage('0/all/0-0.webp');
       meta=nextMeta;
       selected=new Set(meta.layers.map((_,i)=>i));

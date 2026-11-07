@@ -9,7 +9,7 @@
       "bullets": [
         "Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.",
         "Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.",
-        "Built an integrated hardware and software system of record, scaling to over 1,000 items with Rust microservices and PostgreSQL across frontend and backend workflows for boards, serialized parts, installations, software, firmware, and configurations.",
+        "Built a system of record for over 1,000 items using Rust microservices and PostgreSQL, integrating frontend and backend workflows to track boards, serialized parts, installations, software, firmware, and configurations.",
         "Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.",
         "Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.",
         "Coordinated overseas and field teams for firmware deployments, arranging scan comparisons before and after upgrades to verify equal or better performance, supplying updated hardware, and guiding remote installation.",

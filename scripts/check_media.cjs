@@ -106,14 +106,14 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await page.locator('[data-version-panel]:not([hidden]) [data-gds-all]').click(); await ready('preview');
     assert.equal(await pixels(),allRaster,'Returning to all layers must restore the combined raster');
     await page.reload(); await page.locator('[data-version-panel]:not([hidden]) [data-gds-start]').click(); await ready('preview');
-    await page.route('**/raster-v1/2/all/*.webp',route=>route.fulfill({status:503,body:'unavailable'}));
+    await page.route('**/display-v1/2/all/*.webp',route=>route.fulfill({status:503,body:'unavailable'}));
     await page.locator('[data-version-panel]:not([hidden]) [data-gds-in]').click();
     await page.waitForFunction(()=>['preview','error'].includes(document.querySelector('[data-version-panel]:not([hidden]) [data-gds-canvas]').dataset.mode));
     // At DPR 1 the first zoom is level 1, the following zoom is level 2.
     if(await canvas.getAttribute('data-mode')!=='error')await page.locator('[data-version-panel]:not([hidden]) [data-gds-in]').click();
     await ready('error');
     assert.equal(await page.locator('[data-version-panel]:not([hidden]) [data-gds-retry]').isVisible(),true);
-    await page.unroute('**/raster-v1/2/all/*.webp');
+    await page.unroute('**/display-v1/2/all/*.webp');
     await page.locator('[data-version-panel]:not([hidden]) [data-gds-retry]').click(); await ready('preview');
     await page.evaluate(()=>{for(let i=0;i<3;i++)document.querySelector('[data-version-panel]:not([hidden]) [data-gds-in]').click();document.querySelector('[data-version-panel]:not([hidden]) [data-gds-fit]').click();});
     await ready('preview');
@@ -139,7 +139,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     }
 
     // Initial manifest and preview failures retain the static preview and retry.
-    for (const pattern of [`**/layout-${layoutId}/manifest.json`,'**/raster-v1/0/all/0-0.webp']) {
+    for (const pattern of [`**/layout-${layoutId}/manifest.json`,'**/display-v1/0/all/0-0.webp']) {
       await page.route(pattern, route => route.fulfill({status:503,body:'unavailable'}));
       await page.reload(); await page.locator('[data-version-panel]:not([hidden]) [data-gds-start]').click();
       await page.getByRole('button',{name:'Retry explorer',exact:true}).waitFor();
@@ -159,18 +159,27 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     }
     // Raster corruption uses the same verified retry path as geometry.
     await page.reload(); await page.locator('[data-version-panel]:not([hidden]) [data-gds-start]').click(); await ready('preview');
-    await page.route('**/raster-v1/1/all/*.webp',route=>route.fulfill({status:200,body:'corrupt raster'}));
+    await page.route('**/display-v1/1/all/*.webp',route=>route.fulfill({status:200,body:'corrupt raster'}));
     await page.locator('[data-version-panel]:not([hidden]) [data-gds-in]').click(); await ready('error');
     assert.match(await page.locator('[data-version-panel]:not([hidden]) [data-gds-status]').textContent(),/Raster checksum mismatch/);
-    await page.unroute('**/raster-v1/1/all/*.webp');
+    await page.unroute('**/display-v1/1/all/*.webp');
     await page.locator('[data-version-panel]:not([hidden]) [data-gds-retry]').click(); await ready('preview');
-    await page.route('**/raster-v1/manifest.json',async route=>{
+    await page.route('**/display-v1/manifest.json',async route=>{
       const response=await route.fetch(),data=await response.json();data.source_sha256='wrong';await route.fulfill({json:data});
     });
     await page.reload();await page.locator('[data-version-panel]:not([hidden]) [data-gds-start]').click();
     await page.getByRole('button',{name:'Retry explorer',exact:true}).waitFor();
     assert.match(await page.locator('[data-version-panel]:not([hidden]) [data-gds-status]').textContent(),/Raster manifest does not match/);
-    await page.unroute('**/raster-v1/manifest.json');
+    await page.unroute('**/display-v1/manifest.json');
+    // Lazy tile indexes are verified before their entries become usable.
+    for (const corrupt of [false,true]) {
+      await page.reload(); await page.locator('[data-version-panel]:not([hidden]) [data-gds-start]').click(); await ready('preview');
+      await page.route('**/display-v1/index/1/all.json',route=>route.fulfill({status:corrupt?200:503,body:'invalid index'}));
+      await page.locator('[data-version-panel]:not([hidden]) [data-gds-in]').click(); await ready('error');
+      assert.match(await page.locator('[data-version-panel]:not([hidden]) [data-gds-status]').textContent(),corrupt?/index checksum mismatch/:/HTTP 503/);
+      await page.unroute('**/display-v1/index/1/all.json');
+      await page.locator('[data-version-panel]:not([hidden]) [data-gds-retry]').click(); await ready('preview');
+    }
     // Mismatched source manifests cannot silently change the displayed revision.
     await page.route(`**/layout-${layoutId}/manifest.json`, async route => {
       const response=await route.fetch(), data=await response.json(); data.source_sha256='wrong'; await route.fulfill({json:data});

@@ -44,9 +44,12 @@ python3 scripts/check_site.py
 npm run check:browser
 npm run check:media
 npm run check:versions
+npm run check:performance
 ```
 
 Static checks validate page links, the sitemap, public assets, V2/V3 geometry inventories and tile hashes, artifact checksums, the custom 404 page, and résumé HTML/PDF consistency. Browser checks cover the nine site routes at four viewport sizes in both themes, including navigation, contrast, keyboard focus, unavailable storage, mission viewer recovery, and Content Security Policy violations. Media checks cover both versions’ native geometry, same-origin lazy loading, layer isolation, keyboard/touch navigation, fullscreen, HTTP/checksum/source mismatch recovery, unsupported browsers, no-JavaScript fallback, CSP, and MP4/WebM playback. Version checks cover shareable selections, browser history, keyboard navigation, legacy section links, both themes and viewport sizes, independent viewer state, and cancellation when changing tabs.
+
+Performance checks enforce cold mobile download budgets for the homepage chip preview and both viewer startups at 1.6 Mbps and 150 ms latency.
 
 GitHub Actions runs these checks on pull requests and pushes to `main`. The workflow does not deploy the site. Set `CHROME_PATH` to use an installed Chrome executable instead of Playwright's Chromium.
 
@@ -79,6 +82,8 @@ temporary renders; each run prints its unique scratch path. To resume an interru
 ```sh
 CHROME_PATH=/path/to/chrome PYTHON=/path/to/python node scripts/render_gds_pyramid.cjs
 ```
+
+`scripts/optimize_layout_delivery.py` derives `display-v1/` from the verified lossless pyramids. It creates responsive article images and quality-85 WebP composites, plus a compact startup manifest and checksummed indexes per resolution and layer. The viewer requests only the needed indexes; individual layer tiles and close-view polygon geometry retain their original files. Existing `raster-v1/` assets remain published unchanged. The generator requires Pillow and refuses to overwrite a published display directory. Run `python3 scripts/update_asic_manifest.py` after generating a new display revision.
 
 Use a new revisioned raster directory when changing already-published raster
 content, and update the page configuration and cache rule together.

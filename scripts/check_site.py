@@ -12,6 +12,21 @@ from site_html import parse
 
 ROOT = Path(__file__).resolve().parents[1]
 
+def webp_dimensions(path):
+    """Read dimensions without adding image libraries to the deployment build."""
+    with path.open('rb') as stream:
+        header = stream.read(30)
+    assert header[:4] == b'RIFF' and header[8:12] == b'WEBP'
+    kind = header[12:16]
+    if kind == b'VP8X':
+        return (int.from_bytes(header[24:27], 'little')+1, int.from_bytes(header[27:30], 'little')+1)
+    if kind == b'VP8L':
+        packed = int.from_bytes(header[21:25], 'little')
+        return ((packed & 0x3fff)+1, ((packed >> 14) & 0x3fff)+1)
+    assert kind == b'VP8 ' and header[23:26] == b'\x9d\x01\x2a'
+    return (int.from_bytes(header[26:28], 'little') & 0x3fff, int.from_bytes(header[28:30], 'little') & 0x3fff)
+
+
 def check_asic_assets(files, page, version):
     base = ROOT/f'assets/protocol-emulator/{version}'
     provenance = json.loads((base/'checksums.json').read_text())
@@ -46,6 +61,29 @@ def check_asic_assets(files, page, version):
         path = base/'raster-v1'/name
         assert path.stat().st_size == expected['bytes'], name
         assert hashlib.sha256(path.read_bytes()).hexdigest() == expected['sha256'], name
+    # Display derivatives must retain every source tile and use bounded startup metadata.
+    display = base/'display-v1'
+    bootstrap = json.loads((display/'manifest.json').read_text())
+    assert (display/'manifest.json').stat().st_size < 16_000
+    assert bootstrap['source_sha256'] == raster['source_sha256']
+    assert bootstrap['bounds'] == raster['bounds'] and bootstrap['layers'] == raster['layers']
+    assert bootstrap['levels'] == raster['levels']
+    indexed = {}
+    for key, expected in bootstrap['indexes'].items():
+        index_path = display/'index'/f'{key}.json'
+        assert hashlib.sha256(index_path.read_bytes()).hexdigest() == expected['sha256']
+        indexed.update(json.loads(index_path.read_text()))
+    assert indexed.keys() == raster['tiles'].keys()
+    for name, expected in indexed.items():
+        source = base/'raster-v1'/name
+        if '/all/' in name:
+            derivative = base/'raster-v1'/expected['url']
+            assert derivative.resolve().is_relative_to(display.resolve())
+            assert hashlib.sha256(derivative.read_bytes()).hexdigest() == expected['sha256']
+            assert webp_dimensions(source) == webp_dimensions(derivative)
+        else:
+            assert expected == raster['tiles'][name], 'Individual layers retain lossless sources'
+    assert (display/'overview-640.webp').stat().st_size < 50_000
     archive = layout/('selected-layout.tar.gz' if version == 'v2' else 'layout.gds.gz')
     assert hashlib.sha256(archive.read_bytes()).hexdigest() == manifest['provenance']['archive_sha256']
     viewers = [n for n in page.find() if 'data-gds-viewer' in n.attrs and n.attrs.get('data-version') == version]

@@ -33,3 +33,4 @@ jobs:
           npm run check:browser
           npm run check:media
           npm run check:versions
+          npm run check:performance

@@ -6,7 +6,8 @@
     "check:browser": "node scripts/check_browser.cjs",
     "check:media": "node scripts/check_media.cjs",
     "render:social": "node scripts/render_social.cjs",
-    "check:versions": "node scripts/check_versions.cjs"
+    "check:versions": "node scripts/check_versions.cjs",
+    "check:performance": "node scripts/check_performance.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
