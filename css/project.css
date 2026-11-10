@@ -9,15 +9,15 @@
 .asic-version-panel[hidden] { display: none; }
 .version-title { margin-bottom: 0; padding-top: 8px; }
 .fragment-alias { display: block; }
-.gds-viewer { margin: 0; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); }
+.gds-viewer { margin: 0; background: var(--paper); color: var(--ink); border-block: 1px solid var(--rule); }
 .gds-viewer [hidden] { display: none; }
-.gds-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 24px; border-bottom: 1px solid var(--rule); }
+.gds-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--rule); }
 .gds-heading strong { font-size: 20px; font-weight: 600; display: block; }
 .gds-heading span { font-size: 14px; color: var(--graphite); }
-.gds-fallback { padding: 22px; }
+.gds-fallback { padding: 22px 0; }
 .gds-fallback img { display: block; width: 100%; height: auto; max-height: 60vh; object-fit: contain; }
 .gds-preview-caption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--graphite); font-size: 14px; margin-top: 14px; }
-.gds-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--rule); }
+.gds-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid var(--rule); }
 .gds-toolbar > div { display: flex; flex-wrap: wrap; gap: 8px; }
 .gds-toolbar > span { font-size: 14px; color: var(--steel); }
 .gds-viewer button:not(.button) { background: transparent; border: 1px solid var(--rule); border-radius: 2px; color: var(--graphite); padding: 9px 13px; min-height: 44px; min-width: 44px; cursor: pointer; font-size: 14px; }
@@ -40,9 +40,9 @@
 .gds-layer button { padding: 6px 10px; }
 .gds-swatch { width: 9px; height: 9px; flex-shrink: 0; }
 .gds-small, .gds-help, .gds-status { color: var(--graphite); font-size: 14px; line-height: 1.6; }
-.gds-help, .gds-status { margin: 0; padding: 10px 20px; }
+.gds-help, .gds-status { margin: 0; padding: 10px 0; }
 .gds-status:empty { display: none; }
-.gds-viewer figcaption { border-top: 1px solid var(--rule); padding: 18px 22px; font-size: 14px; color: var(--graphite); }
+.gds-viewer figcaption { border-top: 1px solid var(--rule); padding: 18px 0; font-size: 14px; color: var(--graphite); }
 .gds-viewer figcaption > span { color: var(--ink); font-weight: 600; }
 .gds-viewer figcaption p { max-width: 95ch; }
 .gds-viewer:fullscreen, .gds-expanded { width: 100%; height: 100dvh; overflow: auto; }
@@ -55,8 +55,8 @@
  .gds-layer-panel:not([open]) { flex-basis: auto; }
  .gds-layer-panel summary span { display: inline; margin-left: 10px; }
  .gds-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
- .gds-heading { padding: 16px; }
- .gds-fallback, .gds-toolbar { padding: 12px; }
+ .gds-heading { padding: 16px 0; }
+ .gds-fallback, .gds-toolbar { padding: 12px 0; }
  .gds-workspace { padding: 0 10px; }
  .gds-workspace canvas { height: 48vh; }
  .gds-viewer:fullscreen .gds-workspace canvas, .gds-expanded .gds-workspace canvas { height: 52dvh; }

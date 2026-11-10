@@ -143,8 +143,10 @@ checksums, and both video formats remain in `assets/testos/`.
 article crops of boot, download, and NVMe output. It selects the terminal commands described in each caption and leaves originals unchanged.
 The crops use a 720 × 450 frame and focus on the operations described by their captions.
 `python scripts/prepare_testos_video.py --ffmpeg /path/to/ffmpeg` produces 16:10
-MP4/WebM derivatives. It checks every decoded frame before trimming only empty
-bottom rows and extending the terminal background. Original captures remain unchanged.
+MP4/WebM derivatives. It crops around the latest terminal output, widens the crop for long lines,
+and scales glyphs with nearest-neighbor sampling. Playback keeps the original
+50 frames at 4 fps, and the uncropped recording remains linked. Original captures
+remain unchanged.
 
 ## Deployment
 

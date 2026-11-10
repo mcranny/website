@@ -19,13 +19,17 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await page.setViewportSize({width, height:1000});
     for (const route of ['', 'projects', 'testos', 'btree']) {
       await page.goto(`${base}/${route}`);
+      await page.locator('.technical-figure img').evaluateAll(images => Promise.all(images.map(image => { image.loading='eager'; return image.decode(); })));
       const frames = await page.locator('.technical-figure .figure-frame').evaluateAll(nodes => nodes.map(node => {
         const frame = node.getBoundingClientRect();
         const column = node.closest('.section-content').getBoundingClientRect();
-        return {ratio:frame.width/frame.height, width:frame.width, column:column.width};
+        const natural = !!node.closest('.chip-preview');
+        const image = node.querySelector('img');
+        return {ratio:frame.width/frame.height, width:frame.width, column:column.width, natural,
+          emptyHeight:natural ? node.clientHeight-image.getBoundingClientRect().height : 0};
       }));
       assert.ok(frames.length, `Missing figure: ${route}`);
-      assert.ok(frames.every(f => Math.abs(f.ratio-1.6)<0.01 && Math.abs(f.width-f.column)<1), `16:10 content-column figures: ${route} ${width}`);
+      assert.ok(frames.every(f => (f.natural ? Math.abs(f.emptyHeight)<1 : Math.abs(f.ratio-1.6)<0.01) && Math.abs(f.width-f.column)<1), `Content-column figures and unletterboxed ASIC previews: ${route} ${width}`);
       if (route === 'projects') assert.equal(frames.length, 3);
     }
   }
@@ -65,6 +69,15 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
       }
     };
     await page.goto(`${base}/protocol-emulator?version=${version}`);
+    for (const width of [1440,390]) {
+      await page.setViewportSize({width,height:1000});
+      const aligned = await page.locator('[data-version-panel]:not([hidden]) .gds-viewer').evaluate(viewer => {
+        const edge=document.querySelector('main').getBoundingClientRect().left;
+        return ['.gds-heading','.gds-heading strong','.gds-fallback','.gds-fallback img','.gds-toolbar','figcaption'].every(selector => Math.abs(viewer.querySelector(selector).getBoundingClientRect().left-edge)<0.5);
+      });
+      assert.ok(aligned, `${version} viewer left-edge alignment at ${width}`);
+    }
+    await page.setViewportSize({width:1440,height:1000});
     assert.equal(await page.locator('iframe').count(),0);
     assert.equal(await page.locator('[data-version-panel]:not([hidden]) [data-gds-fallback]').isVisible(),true);
     assert.ok(!requests.some(url => /gds-viewer\.js|manifest\.json|jsonl\.gz/.test(url)), 'Geometry must stay unloaded before activation');

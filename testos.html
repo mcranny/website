@@ -69,12 +69,12 @@
 <h2>QEMU operation</h2>
 <div class="section-content">
 <p>The recording shows the system reaching its shell, inspecting disks, and downloading a file. It was captured from the same boot image used for the retained tests. The screenshots isolate the terminal regions needed to read the network configuration, HTTP transfer, and filesystem listing.</p>
-<figure class="technical-figure"><div class="figure-frame"><video controls muted loop playsinline preload="metadata" poster="assets/testos/boot-framed.webp" width="1152" height="720" aria-label="TestOS boot and download recording">
+<figure class="technical-figure"><div class="figure-frame"><video controls muted loop playsinline preload="metadata" poster="assets/testos/boot-framed.webp" width="960" height="600" aria-label="TestOS boot and download recording">
 <source src="assets/testos/boot-framed.mp4" type="video/mp4">
 <source src="assets/testos/boot-framed.webm" type="video/webm">
 <p><a href="assets/testos/boot.mp4">Download the recording</a>
 </p>
-</video></div><figcaption>QEMU boot, disk commands, and HTTP download. <a href="/assets/testos/boot.mp4">Original recording</a>.</figcaption></figure>
+</video></div><figcaption>Zoomed terminal view of QEMU boot, disk commands, and HTTP download. <a href="/assets/testos/boot.mp4">Original recording</a>.</figcaption></figure>
 <div class="figure-list">
 <figure class="technical-figure"><div class="figure-frame"><img src="assets/testos/download.webp" width="720" height="450" alt="TestOS DHCP configuration and HTTP file download" loading="lazy" decoding="async"></div>
 <figcaption>The shell obtains a DHCP lease and downloads a 1,400-byte file.</figcaption>
@@ -90,13 +90,13 @@
 <div class="section-content">
 <p>The retained CI run includes a boot-image build, shell checks against ATA, AHCI, and NVMe data disks, and separate network and HTTP tests. The TCP check opens 25 connections carrying 1,021 bytes each. Packet inspection checks the handshake, data acknowledgments, echoed payload, and connection close, rather than relying only on a successful shell command.</p>
 <p>These results were recorded in QEMU. The boot processor runs the workload while additional CPUs remain parked. USB support currently initializes the xHCI controller.</p>
-<div class="actions"><a class="button primary" href="https://github.com/mcranny/TestOS/actions/runs/34529923221">CI run</a><a class="button" href="assets/testos/tcp-packets.txt">Packet checks</a><a class="button" href="assets/testos/checksums.json">Capture records</a>
-</div>
+
 </div>
 </section>
 <section class="content-section ">
 <h2>References</h2>
 <div class="section-content">
+<p>Test records: <a href="https://github.com/mcranny/TestOS/actions/runs/34529923221">CI run</a>, <a href="assets/testos/tcp-packets.txt">packet checks</a>, <a href="assets/testos/checksums.json">capture records</a>.</p>
 <p>Original captures: <a href="/assets/testos/boot.png">boot</a>, <a href="/assets/testos/download.png">download</a>, <a href="/assets/testos/disk-nvme.png">NVMe test</a>, <a href="/assets/testos/disk-ata.png">ATA test</a>, <a href="/assets/testos/disk-ahci.png">AHCI test</a>.</p>
 <p>The <a href="https://github.com/mcranny/TestOS/tree/ef72e557af2d91763b5eb75c888eaba20e4993e9">source used for the recording</a> and its <a href="https://github.com/mcranny/TestOS/blob/ef72e557af2d91763b5eb75c888eaba20e4993e9/.github/workflows/uefi-pr.yml">test workflow</a> identify the implementation described here. Original screenshots, serial logs, and recording checksums remain available in the capture records.</p>
 </div>
