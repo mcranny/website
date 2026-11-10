@@ -28,21 +28,18 @@
 <main id="main-content" class="experience-page">
 <header class="page-heading">
 <h1>Experience</h1>
+<p>I build board qualification systems at PDF Solutions. Earlier work includes production reporting at Amazon and mechanical and electrical assembly for aerospace instruments at UC Berkeley.</p>
 </header>
-<section class="content-section">
-<h2>Overview</h2>
-<div class="section-content">
-<p>My professional work spans semiconductor test systems, production data infrastructure, and aerospace hardware assembly. The common requirement is to connect a test or operational result to the behavior of the underlying system, then make the procedure repeatable for the people who use it.</p>
-</div>
-</section>
+
 <section class="content-section ">
 <h2>PDF Solutions</h2>
 <div class="section-content">
 <h3>Systems Engineer</h3>
 <p class="meta">San Jose, CA, March 2026 to present</p>
 <p>I own qualification, calibration, and production acceptance across six board families, using Python, PyQt6, SCPI, GPIB, and NI-DAQmx to coordinate bench instruments and collect electrical, analog, thermal, telemetry, and firmware measurements. I have also transitioned test procedures to an OpenTAP front end and OpenHTF back end, so that individual procedures can share instrument interfaces and reporting behavior.</p>
-<p>For measurements across four electrostatic correction boards, I developed a custom selector and its embedded C firmware. The selector uses SCPI-style commands over RS-485 to route measurement outputs and Ethernet control to the active board. When faster automated testing exposed power-up connectivity and IP-assignment failures, I used Vivado and register-level analysis to investigate the interaction between hardware initialization and firmware.</p>
+<p>For measurements across four electrostatic correction boards, I developed a custom selector and its embedded C firmware. The selector uses SCPI-style commands over RS-485 to route measurement outputs and Ethernet control to the active board. When faster automated testing exposed power-up connectivity and IP-assignment failures, I used Vivado and register-level analysis to debug hardware initialization and firmware.</p>
 <p>A separate part of this work concerns configuration control. I built a system of record for more than 1,000 items using Rust microservices and PostgreSQL, linking serialized boards and parts with installations, software, firmware, and configurations. During field and overseas deployments, I coordinate hardware changes and compare scans before and after firmware upgrades.</p>
+<p>I also used Python signal analysis to characterize SEM stage settling and tune inertia compensation. The measured time for oscillations to fall below 2 nm decreased from 300 ns to 20 ns.</p>
 </div>
 </section>
 <section class="content-section ">

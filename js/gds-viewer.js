@@ -258,7 +258,7 @@ export function createViewer(root) {
       canvas.dataset.mode = 'geometry'; remember();
     } catch (error) {
       if (error.name === 'AbortError' || version !== epoch) return;
-      mode.textContent = 'Layout tiles unavailable; previous view retained';
+      mode.textContent = 'Layout tiles unavailable, previous view retained';
       status.textContent = `${errorText(error)} Retry to reload the visible layout.`;
       canvas.dataset.mode = 'error'; retry.hidden = false;
     } finally {

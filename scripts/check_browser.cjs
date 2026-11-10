@@ -25,6 +25,8 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:5001';
       assert.equal(response.status(),route==='missing-page'?404:200);
       await page.locator('img:visible').evaluateAll(images=>Promise.all(images.map(i=>{i.loading='eager';return i.decode();})));
       assert.equal(await page.locator('h1').count(),1);
+      const typography = await page.locator('body *').evaluateAll(nodes => nodes.filter(n => n.children.length===0 && n.textContent.trim() && n.getClientRects().length && !['SCRIPT','STYLE'].includes(n.tagName)).map(n => { const s=getComputedStyle(n); return [s.fontSize,s.fontWeight,n.tagName]; }));
+      assert.ok(typography.every(([size,weight]) => ['14px','16px','18px','20px','32px'].includes(size) && ['400','600'].includes(weight)), JSON.stringify({route,typography:typography.filter(([size,weight]) => !['14px','16px','18px','20px','32px'].includes(size) || !['400','600'].includes(weight))}));
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${route} overflow ${width}`);
       assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).colorScheme),'light');
       assert.equal(await page.locator('[data-theme-toggle], [data-projects-toggle], [data-nav-toggle]').count(),0);

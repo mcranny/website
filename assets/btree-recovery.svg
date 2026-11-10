@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="720" height="450" role="img" aria-labelledby="title desc">
+<title id="title">B-tree write and recovery sequence</title><desc id="desc">A transaction writes page images and a checksum to the redo log, synchronizes the log, writes and synchronizes database pages, then clears the log. Recovery replays a complete retained record.</desc>
+<rect width="720" height="450" fill="white"/>
+<g font-family="Arial, sans-serif" fill="#202124" font-size="18">
+<text x="40" y="48" font-size="20" font-weight="600">Commit sequence</text>
+<line x1="40" y1="85" x2="680" y2="85" stroke="#c6c9cc"/><text x="40" y="114" font-weight="600">1</text><text x="80" y="114" font-weight="600">Write redo log</text><text x="80" y="140" font-size="16">Changed 4,096-byte page images and checksum</text>
+<line x1="40" y1="161" x2="680" y2="161" stroke="#c6c9cc"/><text x="40" y="190" font-weight="600">2</text><text x="80" y="190" font-weight="600">Synchronize log</text><text x="80" y="216" font-size="16">Persist the record before changing database pages</text>
+<line x1="40" y1="237" x2="680" y2="237" stroke="#c6c9cc"/><text x="40" y="266" font-weight="600">3</text><text x="80" y="266" font-weight="600">Checkpoint pages</text><text x="80" y="292" font-size="16">Write and synchronize the changed database pages</text>
+<line x1="40" y1="313" x2="680" y2="313" stroke="#c6c9cc"/><text x="40" y="342" font-weight="600">4</text><text x="80" y="342" font-weight="600">Clear redo log</text><text x="80" y="368" font-size="16">Finish the commit after the checkpoint is durable</text>
+<text x="40" y="424" font-size="16">Recovery replays a complete retained redo record.</text></g></svg>

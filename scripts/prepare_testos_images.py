@@ -1,13 +1,16 @@
-"""Produce lossless article crops without changing original capture records.
-
-Requires Pillow. The rectangles retain all non-background terminal content.
-"""
+"""Crop article details to 16:10. Full capture records remain unchanged."""
 from pathlib import Path
-from PIL import Image, ImageChops
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-for name, height in [('boot', 480), ('download', 700), ('disk-nvme', 560)]:
+# The selected regions show shell startup, network configuration/download, and
+# the root directory listing. Captions link to the complete original records.
+REGIONS = {'boot': (0, 300, 320, 500), 'download': (0, 500, 320, 700),
+           'disk-nvme': (0, 360, 320, 560)}
+for name, box in REGIONS.items():
     source = Image.open(ROOT / f'assets/testos/{name}.png').convert('RGB')
-    bounds = ImageChops.difference(source, Image.new('RGB', source.size, source.getpixel((1023, 767)))).getbbox()
-    assert bounds and bounds[2] <= 600 and bounds[3] <= height, f'Crop would remove terminal content: {name}'
-    source.crop((0, 0, 600, height)).save(ROOT / f'assets/testos/{name}.webp', lossless=True)
+    assert 0 <= box[0] < box[2] <= source.width
+    assert 0 <= box[1] < box[3] <= source.height
+    crop = source.crop(box)
+    assert crop.width * 10 == crop.height * 16
+    crop.resize((720, 450), Image.Resampling.NEAREST).save(ROOT / f'assets/testos/{name}.webp', lossless=True)

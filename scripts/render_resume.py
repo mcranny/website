@@ -77,7 +77,11 @@ SimpleDocTemplate(str(pdf), pagesize=(612, 792), rightMargin=46.8, leftMargin=46
 # Synchronize the website entries while retaining its shared header and page layout.
 page = ROOT / 'resume.html'
 source = page.read_text()
-parts = ['      <section class="resume-main">', '<section class="content-section"><h2>Overview</h2><div class="section-content"><p class="resume-summary">' + esc(data['summary']) + '</p><div class="actions"><a class="button primary" href="/assets/Matthew-Cranny-Resume.pdf">Download PDF</a></div></div></section>']
+# Keep the generated summary directly below the page title.
+heading_start = source.index('<header class="page-heading">')
+heading_end = source.index('</header>', heading_start) + len('</header>')
+source = source[:heading_start] + '<header class="page-heading"><h1>Résumé</h1><p class="resume-summary">' + esc(data['summary']) + '</p><div class="actions"><a class="button primary" href="/assets/Matthew-Cranny-Resume.pdf">Download PDF</a></div></header>' + source[heading_end:]
+parts = ['      <section class="resume-main">']
 for key, title in [('experience', 'Experience'), ('projects', 'Selected Engineering Projects')]:
     parts.append('<section class="resume-section"><div class="section-rule"><h2>' + title + '</h2></div>')
     for item in data[key]:

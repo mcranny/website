@@ -10,6 +10,14 @@ from urllib.parse import urlsplit, unquote
 from xml.etree import ElementTree
 from site_html import parse
 
+def page_text(node):
+    """Read copy without treating script contents or HTML entities as prose."""
+    if isinstance(node, str):
+        return node
+    if node.tag in ('script', 'style'):
+        return ''
+    return ' '.join(page_text(child) for child in node.children)
+
 ROOT = Path(__file__).resolve().parents[1]
 
 def webp_dimensions(path):
@@ -123,6 +131,15 @@ def check(pdf_text=True):
         ids = [n.attrs['id'] for n in nodes if 'id' in n.attrs]
         assert len(ids) == len(set(ids)), f'Duplicate ID in {name}'
         assert len(doc.find('h1')) == 1, name
+        copy = page_text(doc)
+        assert not re.search(r'[;—·←→↗↘⇒➜]', copy), f'Disallowed punctuation in page copy: {name}'
+        assert not re.search(r'\b(?:examin\w*|investigat\w*)\b', copy, re.I), f'Use a concrete verb: {name}'
+        assert not any(n.text == 'Overview' for n in doc.find('h2')), f'Overview heading: {name}'
+        previous = 0
+        for heading in (n for n in nodes if re.fullmatch(r'h[1-6]', n.tag)):
+            level = int(heading.tag[1])
+            assert level <= previous + 1, f'Heading level skipped: {name}: {heading.text}'
+            previous = level
         assert 'data-theme' not in text and 'js/theme.js' not in text, f'Obsolete theme code: {name}'
         primary = next(n for n in doc.find('nav') if n.attrs.get('aria-label') == 'Primary')
         assert [n.attrs['href'] for n in primary.find('a')] == ['/experience', '/projects', '/resume'], f'Page navigation: {name}'

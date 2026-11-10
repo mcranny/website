@@ -1,15 +1,10 @@
 /* Article-specific figures and the retained native layout viewer. */
-video { display: block; width: 100%; height: auto; background: var(--canvas); margin: 24px 0; }
 .figure-list { display: grid; gap: 24px; }
 .figure-list figure { margin: 0; }
-.figure-list img { width: min(100%, 600px); }
-.architecture > div { border: 1px solid var(--rule); padding: 16px; }
-.architecture span, .architecture strong { display: block; }
-.architecture .engine-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border: 0; padding: 16px 0; }
-.engine-pair > div { border: 1px solid var(--rule); padding: 16px; }
-.sequence { border-block: 1px solid var(--rule); padding-block: 16px; }
 .asic-version-tabs { display: flex; gap: 12px; margin: 24px 0 32px; padding-top: 24px; border-top: 1px solid var(--rule); }
-.asic-version-tabs a[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.asic-version-tabs a { padding: 10px 0; color: var(--steel); text-decoration: none; border-bottom: 2px solid transparent; min-height: 44px; }
+.asic-version-tabs a[aria-selected="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 600; }
+.asic-version-tabs a:hover { color: var(--signal); }
 .asic-version-panel { min-width: 0; }
 .asic-version-panel[hidden] { display: none; }
 .version-title { margin-bottom: 0; padding-top: 8px; }
@@ -17,7 +12,7 @@ video { display: block; width: 100%; height: auto; background: var(--canvas); ma
 .gds-viewer { margin: 0; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); }
 .gds-viewer [hidden] { display: none; }
 .gds-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 24px; border-bottom: 1px solid var(--rule); }
-.gds-heading strong { font-size: 19px; display: block; }
+.gds-heading strong { font-size: 20px; font-weight: 600; display: block; }
 .gds-heading span { font-size: 14px; color: var(--graphite); }
 .gds-fallback { padding: 22px; }
 .gds-fallback img { display: block; width: 100%; height: auto; max-height: 60vh; object-fit: contain; }
@@ -67,8 +62,6 @@ video { display: block; width: 100%; height: auto; background: var(--canvas); ma
  .gds-viewer:fullscreen .gds-workspace canvas, .gds-expanded .gds-workspace canvas { height: 52dvh; }
 }
 @media (max-width: 520px) {
- .architecture .engine-pair { grid-template-columns: 1fr; }
  .gds-toolbar > span { flex-basis: 100%; }
- .gds-heading strong { font-size: 16px; }
  .gds-heading { gap: 8px; }
 }

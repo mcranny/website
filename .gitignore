@@ -10,3 +10,6 @@ dist/
 node_modules/
 __pycache__/
 .venv/
+
+# Deferred local R2 implementation
+.r2-draft/

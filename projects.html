@@ -28,13 +28,9 @@
 <main id="main-content" class="projects-page">
 <header class="page-heading">
 <h1>Projects</h1>
+<p>Three projects: a programmable protocol ASIC, an x86-64 operating system, and a persistent B-tree storage engine. The pages include architecture, implementation details, simulation and test results, and source code.</p>
 </header>
-<section class="content-section">
-<h2>Overview</h2>
-<div class="section-content">
-<p>These projects investigate systems in which correctness depends on the relationship between a software model and its implementation. The ASIC uses programmable engines to generate digital interfaces; TestOS implements operating-system services over device drivers; the storage engine maintains tree invariants while updating persistent pages. Each project page describes the design, the tests used to examine it, and the limits of the reported results.</p>
-</div>
-</section>
+
 <section class="content-section ">
 <h2>Programmable Protocol Emulator ASIC</h2>
 <div class="section-content">
@@ -44,7 +40,7 @@
 <div class="actions"><a class="button primary" href="/protocol-emulator">Technical details</a><a class="button" href="https://github.com/mcranny/protocol-emulator-asic">Source</a>
 </div>
 </div>
-<figure class="chip-preview"><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="/assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, /assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 520px) calc(100vw - 36px), (max-width: 860px) calc(100vw - 64px), 726px" width="1024" height="422" alt="V3 protocol emulator physical layout with two SRAM macros" loading="lazy" decoding="async">
+<figure class="technical-figure chip-preview"><div class="figure-frame"><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="/assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, /assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 520px) calc(100vw - 36px), (max-width: 860px) calc(100vw - 64px), 720px" width="1024" height="422" alt="V3 protocol emulator physical layout with two SRAM macros" loading="lazy" decoding="async"></div>
 <figcaption>V3 protocol emulator layout in IHP 130 nm CMOS5L.</figcaption>
 </figure>
 </div>
@@ -55,11 +51,11 @@
 <div class="section-content">
 <div class="project-row">
 <div>
-<p>TestOS is an x86-64 operating system booted through UEFI by Limine. Its storage and network services are exercised in QEMU through shell operations, disk persistence, HTTP transfers, and packet-level TCP checks. The project provides a way to examine how user-space requests propagate through kernel services and device interfaces.</p>
+<p>TestOS is an x86-64 operating system booted through UEFI by Limine. Its storage and network services are exercised in QEMU through shell operations, disk persistence, HTTP transfers, and packet-level TCP checks. The kernel provides preemptive multitasking, a persistent filesystem, and a TCP/IP stack.</p>
 <div class="actions"><a class="button primary" href="/testos">Technical details</a><a class="button" href="https://github.com/mcranny/TestOS">Source</a>
 </div>
 </div>
-<figure><img src="/assets/testos/boot.webp" width="600" height="480" alt="TestOS boot messages and shell in QEMU" loading="lazy" decoding="async">
+<figure class="technical-figure"><div class="figure-frame"><img src="/assets/testos/boot.webp" width="720" height="450" alt="TestOS boot messages and shell in QEMU" loading="lazy" decoding="async"></div>
 <figcaption>Booting TestOS to its interactive shell.</figcaption>
 </figure>
 </div>
@@ -74,17 +70,7 @@
 <div class="actions"><a class="button primary" href="/btree">Technical details</a><a class="button" href="https://github.com/mcranny/btree-storage-engine">Source</a>
 </div>
 </div>
-<figure>
-<dl class="page-types">
-<dt>Metadata page</dt>
-<dd>Root, page count, free-list head</dd>
-<dt>Node page</dt>
-<dd>Keys, records, child references</dd>
-<dt>Reusable page</dt>
-<dd>Next free page reference</dd>
-</dl>
-<figcaption>Database pages have a fixed size of 4,096 bytes.</figcaption>
-</figure>
+<figure class="technical-figure"><div class="figure-frame"><img src="/assets/btree-recovery.svg" width="720" height="450" alt="Four-step B-tree commit sequence from redo log to synchronized database pages" loading="lazy" decoding="async"></div><figcaption>Commit sequence in the default durability mode.</figcaption></figure>
 </div>
 </div>
 </section>

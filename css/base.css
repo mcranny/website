@@ -8,11 +8,11 @@
   --signal-fill: #174b81;
   --rule: #c6c9cc;
   --surface: #f3f4f5;
-  --canvas: #101827;
+  --canvas: #0b1d34;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --mono: "SFMono-Regular", Consolas, monospace;
   --max: 1040px;
-  --reading-width: 72ch;
+  --reading-width: 720px;
 }
 * { box-sizing: border-box; }
 html { background: var(--paper); color: var(--ink); font: 16px/1.55 var(--sans); }
@@ -47,23 +47,24 @@ p { max-width: var(--reading-width); margin: 0 0 16px; }
 .button.primary { color: var(--paper); background: var(--ink); }
 .button:hover, .button:focus-visible { color: var(--signal); border-color: var(--signal); }
 .button.primary:hover, .button.primary:focus-visible { color: var(--paper); background: var(--signal-fill); }
-.index-page .contact-line { margin-top: 24px; }
 .project-row { display: block; }
-.project-row img { width: auto; max-width: 100%; }
 figure { margin: 24px 0; }
+strong, b { font-weight: 600; }
+.technical-figure { width: 100%; }
+.figure-frame { display: block; width: 100%; aspect-ratio: 8 / 5; border: 1px solid var(--rule); overflow: hidden; }
+.figure-frame > img, .figure-frame > video { display: block; width: 100%; height: 100%; object-fit: contain; margin: 0; }
+.figure-frame > video { background: var(--canvas); }
 img { display: block; width: 100%; height: auto; }
 figcaption { margin-top: 8px; }
 dl { margin: 16px 0; }
 dt { font-weight: 600; }
 dd { margin: 0 0 12px; }
-.page-types { border-block: 1px solid var(--rule); padding-block: 12px; font-size: 14px; margin: 0; }
-.page-types dd:last-child { margin-bottom: 0; }
 table { width: 100%; border-collapse: collapse; text-align: left; }
 caption { text-align: left; padding-bottom: 12px; }
 th, td { padding: 10px 14px 10px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th { font-weight: 600; }
 tbody th { width: 30%; }
-code { font: .9em/1.5 var(--mono); overflow-wrap: anywhere; }
+code { font: 14px/1.5 var(--mono); overflow-wrap: anywhere; }
 ul, ol { padding-left: 22px; margin: 16px 0; max-width: 78ch; }
 li + li { margin-top: 8px; }
 .site-footer { border-top: 1px solid var(--rule); padding-block: 20px 32px; margin-top: 40px; }
@@ -89,7 +90,6 @@ li + li { margin-top: 8px; }
  .topbar, main, .site-footer { width: calc(100% - 36px); }
  .topbar { gap: 8px; padding-block: 16px; }
  .nav { gap: 20px; }
- h1 { font-size: 28px; }
  .page-heading { padding-block: 28px 20px; }
  .content-section { padding-block: 24px; }
  th, td { padding: 10px 10px 10px 0; }

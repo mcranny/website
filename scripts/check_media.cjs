@@ -15,6 +15,21 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   const errors = [], requests = [];
   page.on('pageerror', e => errors.push(e.message));
   page.on('request', r => requests.push(r.url()));
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({width, height:1000});
+    for (const route of ['', 'projects', 'testos', 'btree']) {
+      await page.goto(`${base}/${route}`);
+      const frames = await page.locator('.technical-figure .figure-frame').evaluateAll(nodes => nodes.map(node => {
+        const frame = node.getBoundingClientRect();
+        const column = node.closest('.section-content').getBoundingClientRect();
+        return {ratio:frame.width/frame.height, width:frame.width, column:column.width};
+      }));
+      assert.ok(frames.length, `Missing figure: ${route}`);
+      assert.ok(frames.every(f => Math.abs(f.ratio-1.6)<0.01 && Math.abs(f.width-f.column)<1), `16:10 content-column figures: ${route} ${width}`);
+      if (route === 'projects') assert.equal(frames.length, 3);
+    }
+  }
+  await page.setViewportSize({width:1440, height:1000});
   for (const version of ['v3','v2']) {
     requests.length=0;
     const layoutId=version==='v3'?'8b95d90':'447b3df';
@@ -246,7 +261,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     if(process.env.SITE_SCREENSHOTS) await tp.screenshot({path:`${process.env.SITE_SCREENSHOTS}/${version}-mobile-active.png`,fullPage:true});
     await touch.close();
   }
-  for(const [route,name] of [['testos','boot']]) {
+  for(const [route,name] of [['testos','boot-framed'],['testos','boot']]) {
     await page.goto(`${base}/${route}`);
     // Exercise the browser-selected source through the visible player as well
     // as loading each encoding directly below.

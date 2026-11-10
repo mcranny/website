@@ -50,30 +50,30 @@
 <header class="page-heading">
 <h1>Matthew Cranny</h1>
 <p class="role">Systems Engineer, PDF Solutions</p>
+<p>I develop automated test systems and embedded hardware for semiconductor manufacturing equipment. At PDF Solutions, I qualify six board families, write instrument-control software, and debug board and firmware faults.</p>
 </header>
-<section class="content-section" id="overview">
-<h2>Overview</h2>
-<div class="section-content">
-<p>I develop automated test systems and embedded hardware for semiconductor manufacturing equipment. My work combines board qualification, instrument control, and firmware debugging, with an emphasis on tracing observed failures to the electrical or software behavior that produces them.</p>
-</div>
-</section>
+
 <section class="content-section " id="work">
 <h2>Current work</h2>
 <div class="section-content">
-<p>At PDF Solutions, I qualify and calibrate six board families using Python and bench instrumentation. This includes developing custom switching hardware, integrating test workflows, and investigating faults that appear during power-up or firmware deployment. I also built a Rust and PostgreSQL system for tracking boards, serialized parts, and their associated software and configurations.</p>
+<p>At PDF Solutions, I qualify and calibrate six board families using Python and bench instrumentation. This includes developing custom switching hardware, integrating test workflows, and debugging faults that appear during power-up or firmware deployment. I also built a Rust and PostgreSQL system for tracking boards, serialized parts, and their associated software and configurations. My <a href="/experience">experience page</a> describes the test hardware and production systems.</p>
 </div>
 </section>
 <section class="content-section " id="projects">
 <h2>Independent projects</h2>
 <div class="section-content">
-<p>My independent work examines programmable digital interfaces, operating-system services, and persistent storage. The protocol emulator ASIC is the largest of these projects: its third revision replaces instruction-dependent output timing with scheduled pin transitions and moves program memory into SRAM. TestOS and the B-tree engine address the interaction between software abstractions and the storage or network behavior beneath them.</p>
-<figure class="chip-preview"><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="/assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, /assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 520px) calc(100vw - 36px), (max-width: 860px) calc(100vw - 64px), 720px" width="1024" height="422" alt="V3 protocol emulator physical layout with two SRAM macros" loading="lazy" decoding="async">
+<p>The <a href="/projects">project pages</a> cover three implementations and their test results.</p>
+<ul>
+<li><a href="/protocol-emulator">Protocol Emulator ASIC</a>: two programmable engines, eight scheduled pin cells, and 256 × 32-bit SRAM per engine at 48 MHz.</li>
+<li><a href="/testos">TestOS</a>: an x86-64 operating system with persistent storage, TCP, and HTTP, tested in QEMU.</li>
+<li><a href="/btree">B-Tree Storage Engine</a>: a Rust key-value store with 4,096-byte pages and redo-log recovery.</li>
+</ul>
+
+<figure class="technical-figure chip-preview"><a class="figure-frame" href="/protocol-emulator"><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="/assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, /assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 520px) calc(100vw - 36px), (max-width: 860px) calc(100vw - 64px), 720px" width="1024" height="422" alt="V3 protocol emulator physical layout with two SRAM macros" loading="lazy" decoding="async"></a>
 <figcaption>V3 protocol emulator layout in IHP 130 nm CMOS5L.</figcaption>
 </figure>
 </div>
 </section>
-<p id="contact" class="contact-line">Contact: <a href="mailto:crannymatthew@gmail.com">crannymatthew@gmail.com</a>
-</p>
 </main>
 <footer class="site-footer">
 <nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>

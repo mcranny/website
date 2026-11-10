@@ -8,10 +8,10 @@
       "location": "San Jose, CA",
       "bullets": [
         "Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.",
-        "Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.",
+        "Developed a custom selector for four electrostatic correction boards, writing C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.",
         "Built a system of record for over 1,000 items using Rust microservices and PostgreSQL, integrating frontend and backend workflows to track boards, serialized parts, installations, software, firmware, and configurations.",
         "Transitioned board testing to a custom OpenTAP front end and OpenHTF back end, standardizing test workflows and interfaces to improve reliability and scalability.",
-        "Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.",
+        "Debugged power-up IP assignment and connectivity failures surfaced by faster automated testing, using AMD Vivado and register-level analysis to diagnose hardware and firmware faults.",
         "Coordinated overseas and field teams for firmware deployments, arranging scan comparisons before and after upgrades to verify equal or better performance, supplying updated hardware, and guiding remote installation.",
         "Characterized SEM settling with Python signal analysis and tuned inertia compensation, reducing time for oscillations to fall below 2 nanometers from 300 to 20 nanoseconds."
       ]
@@ -22,7 +22,7 @@
       "date": "May 2025–July 2025",
       "location": "Turlock, CA",
       "bullets": [
-        "Built Python API and analysis pipelines for Inventory Control and Quality Assurance; migrated anomaly detection to AWS Lambda, EventBridge, and Secrets Manager, reducing estimated annual vendor transaction risk by $100,000.",
+        "Built Python API and analysis pipelines for Inventory Control and Quality Assurance, migrating anomaly detection to AWS Lambda, EventBridge, and Secrets Manager, reducing estimated annual vendor transaction risk by $100,000.",
         "Automated labor reporting across fulfillment centers with VBA, eliminating over 120 hours of manual work each week."
       ]
     },
@@ -32,7 +32,7 @@
       "date": "June 2024–May 2025",
       "location": "Berkeley, CA",
       "bullets": [
-        "Modeled structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar radio observatory; fabricated and assembled satellite hardware in cleanrooms under contamination-control protocols.",
+        "Modeled structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar radio observatory, fabricating and assembled satellite hardware in cleanrooms under contamination-control protocols.",
         "Assembled high-voltage step-up converters and installed flight-hardware wiring harnesses and passive components."
       ]
     }
@@ -45,7 +45,7 @@
       "location": "",
       "bullets": [
         "Designed a dual-engine Verilog ASIC targeting 48 MHz on IHP CMOS5L, with 256 × 32 SRAM per engine, a shared 24-bit timebase, eight deadline-driven pin cells, and timestamped capture.",
-        "Built a Python assembler and SPI loader with model-based RTL tests and formal proofs; ran V3 on an Artix-7 Cmod A7-35T and captured output timing with Vivado ILA."
+        "Built a Python assembler and SPI loader with model-based RTL tests and formal proofs. Ran V3 on an Artix-7 Cmod A7-35T and captured output timing with Vivado ILA."
       ]
     },
     {
@@ -54,7 +54,7 @@
       "date": "August 2023–May 2025",
       "location": "",
       "bullets": [
-        "Built weapon and drive power systems integrating motor controllers, brushless motors, wiring harnesses, and battery management; designed packaging to protect electronics from shock and vibration."
+        "Built weapon and drive power systems integrating motor controllers, brushless motors, wiring harnesses, and battery management, designing packaging to protect electronics from shock and vibration."
       ]
     }
   ],

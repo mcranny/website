@@ -23,10 +23,9 @@ extensionless routes, retired-page redirects, response headers, and custom 404.
 Scope, NEO, and Hardware Verification redirect to `/projects`; Contact redirects
 to `/`. Their independent source repositories and Git history are retained.
 
-Prototype designs and their screenshots remain in `prototypes/redesign/` for
-reference and are excluded from publication. Design B was selected; the final
-site adds separate-page navigation, filled/outlined buttons, and connected
-technical prose. See `DESIGN.md` for the current conventions.
+The final design uses separate-page navigation, direct technical prose, and
+16:10 article figures. The original three prototypes are retained in Git history
+at `23e92fea`. See `DESIGN.md` for typography and component conventions.
 
 ## Validation
 
@@ -56,7 +55,7 @@ Media and version checks retain the two viewers' lazy loading, layer isolation,
 keyboard/touch navigation, fullscreen, checksum/source/network failure recovery,
 version selection and history, legacy fragments, independent state, cancellation,
 and no-JavaScript fallback. Performance checks retain the cold mobile image and
-viewer startup budgets. CI checks the site; deployment automation remains open.
+viewer startup budgets. CI checks the site. Automatic deployment remains deferred.
 
 ## Content and assets
 
@@ -72,7 +71,7 @@ The case study defaults to V3, with V2 retained in its own tab. `?version=v3` an
 
 The native canvas viewer adapts the project's Apache-2.0 static renderer at `856a1ea`. All runtime assets are served by this website; it uses no external iframe or viewer service. `js/layout-viewer.js` loads `js/gds-viewer.js` after activation. The renderer selects among six V2 raster resolutions (1,024–32,768 pixels across the die) or five V3 resolutions (1,024–16,384) at broad and intermediate scales, then loads original polygon coordinates for close views. It provides layer selection, keyboard/touch controls and fullscreen, with a 64 MiB decoded raster cache and a 12-tile geometry cache. Tile-boundary copies are clipped; polygons are not simplified. GDS text labels are retained in the original file but not drawn online.
 
-`assets/protocol-emulator/v2/layout-447b3df/` contains the pinned manifest, 16 layer previews, 512 gzip geometry tiles (about 105 MB total), and the original selected-layout archive (about 6.5 MB). Geometry loads only for the visible region after zooming. The 40.3 MB uncompressed GDS exceeds the 25 MiB asset limit, so its checksum-verified original release archive provides the download. The complete site is checked against the asset count and per-file size limits during every build.
+`assets/protocol-emulator/v2/layout-447b3df/` contains the pinned manifest, 16 layer previews, 512 gzip geometry tiles (about 105 MB total), and the original selected-layout archive (about 6.5 MB). Geometry loads only for the visible region after zooming. The 40.3 MB uncompressed GDS exceeds the 25 MiB asset limit, so its checksum-verified original release archive provides the download. The published inventory is checked on every build. Large immutable files are served through the R2 binding.
 
 To rebuild the V2 imported assets, run `python3 scripts/import_v2_layout.py`. This checks the pinned published manifest, all geometry tile checksums, release archive, and original GDS hash; it refuses a changed upstream manifest. The upstream export records independent KLayout/gdstk polygon inventory agreement.
 
@@ -141,21 +140,39 @@ from the `ef72e55` boot image. Original screenshots, serial logs, packet data,
 checksums, and both video formats remain in `assets/testos/`.
 
 `python3 scripts/prepare_testos_images.py` uses Pillow to create lossless WebP
-article crops of boot, download, and NVMe output. It verifies that each crop
-contains all non-background terminal content and leaves originals unchanged.
-The crops retain their content-driven proportions; video is not cropped.
+article crops of boot, download, and NVMe output. It selects the terminal commands described in each caption and leaves originals unchanged.
+The crops use a 720 × 450 frame and focus on the operations described by their captions.
+`python scripts/prepare_testos_video.py --ffmpeg /path/to/ffmpeg` produces 16:10
+MP4/WebM derivatives. It checks every decoded frame before trimming only empty
+bottom rows and extending the terminal background. Original captures remain unchanged.
 
 ## Deployment
 
-Cloudflare serves [mcranny.net](https://mcranny.net). `wrangler.jsonc` runs the build and publishes only `dist/`. Development scripts, dependencies, and local output are excluded. `404.html` serves unknown paths. Redirects, cache rules, and security headers are defined in `_redirects` and `_headers`.
+Cloudflare serves [mcranny.net](https://mcranny.net) through the existing static
+asset deployment. `wrangler.jsonc` runs the build and publishes only `dist/`.
+Development scripts, local output, and the deferred R2 draft are excluded.
+`404.html` serves unknown paths. Redirects and security headers remain in
+`_redirects` and `_headers`.
 
-The Content Security Policy remains report-only. The browser suite checks for violations in local builds. Cloudflare currently injects a per-request inline challenge script on the live site, which violates the policy; resolve that integration before enabling enforcement. No reporting collector is configured. Update the structured-data hash in `_headers` when the inline JSON-LD changes.
+Run `npx --yes wrangler@4.159.0 deploy` after validation, then run
+`python scripts/verify_deployment.py`. This checks page content and headings,
+redirects, cache headers, the résumé, recordings, and representative immutable
+assets against the checkout. GitHub main and the deployed release must match.
 
-## Open follow-up work
+HTML and mutable assets revalidate (`max-age=0, must-revalidate`). Revisioned
+layout paths retain one-year immutable/no-transform caching. The four header
+lines removed in the first redesign applied only to the retired NEO datasets.
+Security headers and the report-only CSP remain. Cloudflare's injected challenge
+script must be reconciled with the CSP before enforcement is enabled.
 
-- Migrate large layout assets to R2 while preserving same-origin delivery,
-  checksums, immutable caching, and viewer compatibility.
-- Choose and configure automatic deployment through Workers Builds or GitHub
-  Actions, followed by verification against the deployed release.
+## Deferred infrastructure
 
-These are follow-ups to the redesign, not completed infrastructure changes.
+R2 migration and automatic deployment are deferred at the user's request.
+All layout files remain tracked and served by the existing static deployment.
+A private `website-layout-assets` bucket was created during preparation and may
+contain partial copies. It is not bound to the production website. The temporary
+transfer Worker and route were removed. A local ignored `.r2-draft/` directory
+preserves the incomplete implementation for later review.
+
+The three design prototypes were removed from main after selection. Their
+source and screenshots remain available in Git history at `23e92fea`.

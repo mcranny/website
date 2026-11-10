@@ -29,15 +29,11 @@
 <main id="main-content" class="testos-page">
 <header class="page-heading">
 <h1>TestOS</h1>
-</header>
-<section class="content-section">
-<h2>Overview</h2>
-<div class="section-content">
 <p>TestOS is an x86-64 operating system written in C and booted through UEFI by Limine. It implements persistent storage, networking, and user-space utilities so that file and socket operations can be followed from the shell through kernel services to the device interface. QEMU provides the test environment for disk operations, DHCP, TCP, and HTTP interoperability.</p>
 <div class="actions"><a class="button primary" href="https://github.com/mcranny/TestOS">Source repository</a>
 </div>
-</div>
-</section>
+</header>
+
 <section class="content-section ">
 <h2>System architecture</h2>
 <div class="section-content">
@@ -59,11 +55,11 @@
 </tr>
 <tr>
 <th scope="row">Input</th>
-<td>PS/2 keyboard interaction; xHCI controller bring-up</td>
+<td>PS/2 keyboard interaction. XHCI controller bring-up</td>
 </tr>
 <tr>
 <th scope="row">Multiple CPUs</th>
-<td>Application processors initialize and then park; the boot processor runs the workload</td>
+<td>Application processors initialize and then park. The boot processor runs the workload</td>
 </tr>
 </tbody>
 </table>
@@ -72,22 +68,19 @@
 <section class="content-section ">
 <h2>QEMU operation</h2>
 <div class="section-content">
-<p>The recording shows the system reaching its shell, inspecting disks, and downloading a file. It was captured from the same boot image used for the retained tests. The screenshots isolate the terminal regions needed to examine boot output, the HTTP transfer, and a mounted data disk.</p>
-<video controls muted loop playsinline preload="metadata" poster="assets/testos/boot-poster.png" width="1024" height="768" aria-label="TestOS boot and download recording">
-<source src="assets/testos/boot.mp4" type="video/mp4">
-<source src="assets/testos/boot.webm" type="video/webm">
+<p>The recording shows the system reaching its shell, inspecting disks, and downloading a file. It was captured from the same boot image used for the retained tests. The screenshots isolate the terminal regions needed to read the network configuration, HTTP transfer, and filesystem listing.</p>
+<figure class="technical-figure"><div class="figure-frame"><video controls muted loop playsinline preload="metadata" poster="assets/testos/boot-framed.webp" width="1152" height="720" aria-label="TestOS boot and download recording">
+<source src="assets/testos/boot-framed.mp4" type="video/mp4">
+<source src="assets/testos/boot-framed.webm" type="video/webm">
 <p><a href="assets/testos/boot.mp4">Download the recording</a>
 </p>
-</video>
+</video></div><figcaption>QEMU boot, disk commands, and HTTP download. <a href="/assets/testos/boot.mp4">Original recording</a>.</figcaption></figure>
 <div class="figure-list">
-<figure><img src="assets/testos/boot.webp" width="600" height="480" alt="UEFI boot messages ending at the TestOS shell" loading="lazy" decoding="async">
-<figcaption>UEFI boot and shell initialization.</figcaption>
-</figure>
-<figure><img src="assets/testos/download.webp" width="600" height="700" alt="TestOS DHCP configuration and HTTP file download" loading="lazy" decoding="async">
+<figure class="technical-figure"><div class="figure-frame"><img src="assets/testos/download.webp" width="720" height="450" alt="TestOS DHCP configuration and HTTP file download" loading="lazy" decoding="async"></div>
 <figcaption>The shell obtains a DHCP lease and downloads a 1,400-byte file.</figcaption>
 </figure>
-<figure><img src="assets/testos/disk-nvme.webp" width="600" height="560" alt="TestOS directory listing on an NVMe data disk" loading="lazy" decoding="async">
-<figcaption>An NVMe data disk mounted and listed from the shell.</figcaption>
+<figure class="technical-figure"><div class="figure-frame"><img src="assets/testos/disk-nvme.webp" width="720" height="450" alt="TestOS shell listing the files in its root directory" loading="lazy" decoding="async"></div>
+<figcaption>Root-directory listing from the retained NVMe test capture.</figcaption>
 </figure>
 </div>
 </div>
@@ -96,7 +89,7 @@
 <h2>Testing and results</h2>
 <div class="section-content">
 <p>The retained CI run includes a boot-image build, shell checks against ATA, AHCI, and NVMe data disks, and separate network and HTTP tests. The TCP check opens 25 connections carrying 1,021 bytes each. Packet inspection checks the handshake, data acknowledgments, echoed payload, and connection close, rather than relying only on a successful shell command.</p>
-<p>These checks establish the reported behavior in QEMU. The multiple-CPU and USB work remains limited to the initialization behavior described above; the results do not establish general hardware compatibility.</p>
+<p>These results were recorded in QEMU. The boot processor runs the workload while additional CPUs remain parked. USB support currently initializes the xHCI controller.</p>
 <div class="actions"><a class="button primary" href="https://github.com/mcranny/TestOS/actions/runs/34529923221">CI run</a><a class="button" href="assets/testos/tcp-packets.txt">Packet checks</a><a class="button" href="assets/testos/checksums.json">Capture records</a>
 </div>
 </div>
@@ -104,6 +97,7 @@
 <section class="content-section ">
 <h2>References</h2>
 <div class="section-content">
+<p>Original captures: <a href="/assets/testos/boot.png">boot</a>, <a href="/assets/testos/download.png">download</a>, <a href="/assets/testos/disk-nvme.png">NVMe test</a>, <a href="/assets/testos/disk-ata.png">ATA test</a>, <a href="/assets/testos/disk-ahci.png">AHCI test</a>.</p>
 <p>The <a href="https://github.com/mcranny/TestOS/tree/ef72e557af2d91763b5eb75c888eaba20e4993e9">source used for the recording</a> and its <a href="https://github.com/mcranny/TestOS/blob/ef72e557af2d91763b5eb75c888eaba20e4993e9/.github/workflows/uefi-pr.yml">test workflow</a> identify the implementation described here. Original screenshots, serial logs, and recording checksums remain available in the capture records.</p>
 </div>
 </section>

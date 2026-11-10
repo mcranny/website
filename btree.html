@@ -29,19 +29,15 @@
 <main id="main-content" class="btree-page">
 <header class="page-heading">
 <h1>B-Tree Storage Engine</h1>
-</header>
-<section class="content-section">
-<h2>Overview</h2>
-<div class="section-content">
-<p>This Rust key-value engine uses a fixed-page database file to examine insertion, deletion, and recovery without the additional layers of a SQL interface. Records pair a signed 64-bit key with up to 256 bytes of data. The implementation maintains tree structure and a persistent free list while using a checksummed redo log to recover interrupted page updates.</p>
+<p>This Rust key-value engine stores records in a fixed-page database file and supports insertion, deletion, point lookups, and range scans. Records pair a signed 64-bit key with up to 256 bytes of data. The implementation maintains tree structure and a persistent free list while using a checksummed redo log to recover interrupted page updates.</p>
 <div class="actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine">Source repository</a>
 </div>
-</div>
-</section>
+</header>
+
 <section class="content-section ">
 <h2>Page organization</h2>
 <div class="section-content">
-<p>Every database page occupies 4,096 bytes, with integers encoded explicitly in little-endian order. Page zero stores the file metadata; subsequent pages contain either tree nodes or free-list entries. A bounded 64-page LRU cache holds recently used pages, so the in-memory working set is separate from the total size of the file.</p>
+<p>Every database page occupies 4,096 bytes, with integers encoded explicitly in little-endian order. Page zero stores the file metadata. Subsequent pages contain either tree nodes or free-list entries. A bounded 64-page LRU cache holds recently used pages, so the in-memory working set is separate from the total size of the file.</p>
 <table>
 <caption>Database page types</caption>
 <tbody>
@@ -65,23 +61,15 @@
 <h2>Write recovery</h2>
 <div class="section-content">
 <p>A put or delete operation records the changed page images in a redo log before updating the database file. In the default durability mode, the engine synchronizes the log before checkpointing dirty pages and clears it after the page writes have been synchronized. On reopening, a complete log record can therefore be replayed to restore the intended page images.</p>
-<figure>
-<ol class="sequence">
-<li>Write changed page images and their checksum to the redo log.</li>
-<li>Synchronize the log before updating database pages.</li>
-<li>Write and synchronize the changed database pages.</li>
-<li>Clear the log after checkpoint completion.</li>
-</ol>
-<figcaption>Commit sequence in the default durability mode. Recovery replays a complete retained log record.</figcaption>
-</figure>
-<p>The API also provides a deferred mode for bulk workloads whose durability boundary is a successful close. The engine supports one writer; multi-operation transactions, locking, and concurrent access are outside its current scope.</p>
+<figure class="technical-figure"><div class="figure-frame"><img src="/assets/btree-recovery.svg" width="720" height="450" alt="Four-step B-tree commit sequence from redo log to synchronized database pages" loading="lazy" decoding="async"></div><figcaption>Commit sequence in the default durability mode.</figcaption></figure>
+<p>The API also provides a deferred mode for bulk workloads whose durability boundary is a successful close. Each operation commits independently, and access is serialized through a single writer.</p>
 </div>
 </section>
 <section class="content-section ">
 <h2>Correctness testing</h2>
 <div class="section-content">
 <p>Generated sequences of insertions and deletions exercise splits, merges, and root contraction. After relevant operations, point lookups and inclusive range scans are compared with an in-memory reference and a live SQLite table. Property-based tests shrink failing sequences, making a discrepancy easier to reduce to the operation that violates an invariant.</p>
-<p>Separate checks examine key ordering, parent pointers, close/reopen persistence, and reuse of freed pages. Recovery tests distinguish complete log records from truncated or corrupt records. The CI workflow runs formatting checks, Clippy, and tests with all targets and features enabled.</p>
+<p>Separate tests check key ordering, parent pointers, close/reopen persistence, and reuse of freed pages. Recovery tests distinguish complete log records from truncated or corrupt records. The CI workflow runs formatting checks, Clippy, and tests with all targets and features enabled.</p>
 <div class="actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine/actions/runs/27920557937">CI results</a>
 </div>
 </div>
@@ -89,7 +77,7 @@
 <section class="content-section ">
 <h2>References</h2>
 <div class="section-content">
-<p>The <a href="https://github.com/mcranny/btree-storage-engine/tree/bcab607b681cae4683695a8ec1042cd7a644e804">reviewed implementation</a> and its <a href="https://github.com/mcranny/btree-storage-engine/blob/bcab607b681cae4683695a8ec1042cd7a644e804/.github/workflows/ci.yml">CI workflow</a> define the behavior described here. Local benchmark suites measure insertion, lookup, range scans, and deletion, but do not establish a performance comparison with SQLite or another engine.</p>
+<p>The <a href="https://github.com/mcranny/btree-storage-engine/tree/bcab607b681cae4683695a8ec1042cd7a644e804">reviewed implementation</a> and its <a href="https://github.com/mcranny/btree-storage-engine/blob/bcab607b681cae4683695a8ec1042cd7a644e804/.github/workflows/ci.yml">CI workflow</a> define the behavior described here. Local benchmark suites measure insertion, lookup, range scans, and deletion within this implementation.</p>
 </div>
 </section>
 </main>

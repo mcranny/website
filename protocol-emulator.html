@@ -28,20 +28,16 @@
 <main id="main-content" class="protocol-emulator-page">
 <header class="page-heading">
 <h1>Programmable Protocol Emulator ASIC</h1>
-</header>
-<section class="content-section">
-<h2>Overview</h2>
-<div class="section-content">
 <p>This project implements digital communication protocols as programs running on a small dual-engine processor. The engines share a pin interface and a capture unit, while Python tools assemble programs, load memory, and compare execution with a reference model. The design was developed for the Jane Street Protocol Emulator ASIC Competition.</p>
-<p>The principal change from V2 to V3 is the separation of instruction execution from output timing. V2 expresses timing through instruction delays; V3 allows an engine to schedule a transition against a shared clock, leaving a pin cell to apply the transition at the specified deadline.</p>
+<p>The principal change from V2 to V3 is the separation of instruction execution from output timing. V2 expresses timing through instruction delays. V3 allows an engine to schedule a transition against a shared clock, leaving a pin cell to apply the transition at the specified deadline.</p>
 <div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic">Source repository</a><a class="button" href="https://mcranny.github.io/protocol-emulator-asic/">Documentation</a>
 </div>
-</div>
-</section>
+</header>
+
 <section class="content-section " id="design-progress">
 <h2>V2 and V3</h2>
 <div class="section-content">
-<p id="progress-title">In V2, a firmware author must account for the number of cycles taken by the path leading to an output instruction. Conditional paths can therefore require different delay compensation. V3 assigns each engine a private time cursor and gives each pin a pending transition slot. Firmware advances the cursor by the desired interval; the pin cell applies the change when the shared timebase reaches that deadline, provided the engine schedules it in time.</p>
+<p id="progress-title">In V2, a firmware author must account for the number of cycles taken by the path leading to an output instruction. Conditional paths can therefore require different delay compensation. V3 assigns each engine a private time cursor and gives each pin a pending transition slot. Firmware advances the cursor by the desired interval. The pin cell applies the change when the shared timebase reaches that deadline, provided the engine schedules it in time.</p>
 <p>Moving each program from flip-flops to SRAM also increases the available instruction storage. The wider instruction format and larger memory support the additional scheduling operations without making program storage a proportional collection of standard-cell registers.</p>
 <table>
 <caption>Architectural changes between the two revisions</caption>
@@ -92,40 +88,32 @@
 </table>
 </div>
 </section>
-<nav class="asic-version-tabs" data-version-tabs aria-label="ASIC design version"><a class="button" id="tab-v3" href="?version=v3" data-version-tab="v3" aria-controls="version-v3">V3 implementation</a><a class="button" id="tab-v2" href="?version=v2" data-version-tab="v2" aria-controls="version-v2">V2 implementation</a>
+<nav class="asic-version-tabs" data-version-tabs aria-label="ASIC design version"><a id="tab-v3" href="?version=v3" data-version-tab="v3" aria-controls="version-v3">V3 implementation</a><a id="tab-v2" href="?version=v2" data-version-tab="v2" aria-controls="version-v2">V2 implementation</a>
 </nav>
 <section id="version-v3" class="asic-version-panel" data-version-panel="v3" aria-label="V3 case study"><span id="v3-results" class="fragment-alias"></span><span id="v3-results-title" class="fragment-alias"></span>
 <h2 class="version-title">V3 implementation</h2>
 <section class="content-section " id="v3-architecture">
-<h2>Execution and timing</h2>
+<h3>Execution and timing</h3>
 <div class="section-content">
 <p id="v3-architecture-title">Each engine reads a 32-bit instruction from its 256-word SRAM and maintains a private cursor on the shared 24-bit timebase. Output instructions schedule pin values or output enables, while timestamped input events provide a reference for receive operations. The host uses a 48-clock SPI frame to load and read back programs, service queues, and inspect status.</p>
-<figure class="architecture">
-<div><strong>SPI host interface</strong><span>Program loading and readback, queues, status</span>
-</div>
-<div class="engine-pair">
-<div><strong>Engine 0</strong><span>256 × 32-bit SRAM, private cursor</span>
-</div>
-<div><strong>Engine 1</strong><span>256 × 32-bit SRAM, private cursor</span>
-</div>
-</div>
-<div><strong>Shared 24-bit timebase at 48 MHz</strong><span>Eight deadline-driven pin cells and 32-record timestamped capture</span>
-</div>
-<figcaption>Functional organization of V3. The engines prepare transitions and the pin cells apply them against the shared timebase.</figcaption>
-</figure>
+<table><caption>V3 functional organization</caption><tbody>
+<tr><th scope="row">Host interface</th><td>SPI program loading and readback, queues, and status</td></tr>
+<tr><th scope="row">Engines 0 and 1</th><td>Each has 256 × 32-bit SRAM and a private time cursor</td></tr>
+<tr><th scope="row">Shared timing</th><td>24-bit timebase at 48 MHz, eight deadline-driven pin cells, and 32-record timestamped capture</td></tr>
+</tbody></table>
 </div>
 </section>
 <section class="content-section " id="v3-firmware">
-<h2>Protocol firmware</h2>
+<h3>Protocol firmware</h3>
 <div class="section-content">
 <p id="v3-firmware-title">The UART transmitter uses 8N1 framing and takes bytes from the host transmit queue. Its data-dependent paths take nine or ten clocks per bit, but both advance the cursor by the same bit period. At 1 Mbaud, each bit occupies 48 core clocks, leaving time to prepare the next transition. The receiver places samples relative to the timestamp of the start edge, rather than estimating sample position from the instruction path.</p>
-<p>The supplied programs include 115,200-baud UART examples, with the requested period rounded to representable clock intervals. The documented 1-Mbaud timing describes firmware operation; sustained transfers also require the host to service the queues. The FPGA result below establishes program execution and a captured digital output, not a measured 1-Mbaud UART loopback.</p>
+<p>The supplied programs include 115,200-baud UART examples, with the requested period rounded to representable clock intervals. The 1-Mbaud figure comes from firmware timing analysis. Sustained transfers require the host to service the queues. The FPGA test loaded and ran a program that produced a captured 25 kHz digital output.</p>
 <table>
 <caption>Protocol implementations</caption>
 <tbody>
 <tr>
 <th scope="row">UART</th>
-<td>8N1 transmit and receive; 115,200-baud examples and 1-Mbaud timing</td>
+<td>8N1 transmit and receive, 115,200-baud examples and 1-Mbaud timing</td>
 </tr>
 <tr>
 <th scope="row">SPI</th>
@@ -133,7 +121,7 @@
 </tr>
 <tr>
 <th scope="row">I²C</th>
-<td>Controller and target at 100 and 400 kHz; open-drain signaling, stretching, arbitration detection, and bus clear</td>
+<td>Controller and target at 100 and 400 kHz. Open-drain signaling, stretching, arbitration detection, and bus clear</td>
 </tr>
 <tr>
 <th scope="row">WS2812</th>
@@ -144,23 +132,23 @@
 </div>
 </section>
 <section class="content-section " id="v3-verification">
-<h2>Verification</h2>
+<h3>Verification</h3>
 <div class="section-content">
-<p id="v3-verification-title">The programmable core is checked by comparing model and RTL execution, by observing its protocol pins with independent peers, and by proving selected control and queue properties with Yosys induction. These methods examine different aspects of the design: a matching architectural trace does not, by itself, establish the timing or framing of an external protocol.</p>
-<p>The selected routed netlist passed 14 functional scenarios covering loading and readback, synchronized starts, queues, arbitration, filtering, capture, and status. The physical implementation passed nine prechecks. Extracted timing reports a slow-corner register setup margin of +2.58 ns and a fast-corner hold margin of +0.112 ns at a 20.83 ns clock period. These are tool-based physical-design results; fabricated-silicon operation has not been established.</p>
+<p id="v3-verification-title">The programmable core is checked by comparing model and RTL execution, by observing its protocol pins with independent peers, and by proving selected control and queue properties with Yosys induction. Model-to-RTL comparisons check instruction execution. Independent protocol peers check pin timing and framing. Induction checks the selected control and queue properties.</p>
+<p>Gate-level simulation of the selected routed netlist passed 14 functional scenarios covering loading and readback, synchronized starts, queues, arbitration, filtering, capture, and status. The physical implementation passed nine prechecks. Extracted timing reports a slow-corner register setup margin of +2.58 ns and a fast-corner hold margin of +0.112 ns at a 20.83 ns clock period. The timing margins are extracted physical-design results.</p>
 </div>
 </section>
 <section class="content-section " id="v3-fpga">
-<h2>FPGA implementation</h2>
+<h3>FPGA implementation</h3>
 <div class="section-content">
 <p id="v3-fpga-title">The Artix-7 implementation runs on a Digilent Cmod A7-35T. A 12 MHz oscillator supplies a 48 MHz core clock, FPGA block RAM replaces the ASIC SRAM macros, and a USB-UART bridge carries host commands to the SPI interface. Program loading, readback, and execution were exercised on the board.</p>
-<p>A Vivado ILA capture recorded a 25 kHz output with 960 core-clock samples per half-cycle, corresponding to 20 µs at 48 MHz. The capture observes internal digital signals and establishes the timing of this programmed output; it does not measure analog signal quality or demonstrate every protocol configuration.</p>
+<p>A Vivado ILA capture recorded a 25 kHz output with 960 core-clock samples per half-cycle, corresponding to 20 µs at 48 MHz. The ILA samples internal digital signals and records the timing of this programmed output.</p>
 </div>
 </section>
 <section class="content-section " id="v3-explore-layout">
-<h2>Physical layout</h2>
+<h3>Physical layout</h3>
 <div class="section-content">
-<p id="v3-layout-title">The two SRAM macros lie along the lower edge of the 1,724 × 711 µm die, with their signal pins facing the standard-cell logic above them. The viewer retains both the overview and original polygon geometry so that the placement and routing can be examined at different scales.</p>
+<p id="v3-layout-title">The two SRAM macros lie along the lower edge of the 1,724 × 711 µm die, with their signal pins facing the standard-cell logic above them. The viewer retains both the overview and original polygon geometry for inspecting placement and routing at different scales.</p>
 </div>
 </section>
 <figure class="gds-viewer" data-gds-viewer data-version="v3" data-source="/assets/protocol-emulator/v3/layout-8b95d90/" data-raster="/assets/protocol-emulator/v3/raster-v1/" data-index="/assets/protocol-emulator/v3/display-v1/" data-gds-hash="050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f" aria-label="Interactive V3 chip layout">
@@ -199,32 +187,31 @@
 </noscript>
         </figure>
 <section class="content-section " id="v3-resources">
-<h2>References</h2>
+<h3>References</h3>
 <div class="section-content">
 <p id="v3-resources-title">The <a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md">firmware description</a> explains protocol timing and queue behavior. The <a href="assets/protocol-emulator/v3/summary.json">physical summary</a> retains exact measurements and separate identities for the design, physical layout, and verification workflow.</p>
-<div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147">Build and verification records</a><a class="button" href="assets/protocol-emulator/v3/checksums.json">Artifact checksums</a>
-</div>
+<p><a href="https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147">Build and verification records</a>, <a href="assets/protocol-emulator/v3/checksums.json">Artifact checksums</a>.</p>
 </div>
 </section>
 </section>
 <section id="version-v2" class="asic-version-panel" data-version-panel="v2" aria-label="V2 case study"><span id="example-title" class="fragment-alias"></span><span id="evolution-title" class="fragment-alias"></span>
 <h2 class="version-title">V2 implementation</h2>
 <section class="content-section ">
-<h2>Execution model</h2>
+<h3>Execution model</h3>
 <div class="section-content">
 <p id="capability-title">V2 established the dual-engine design, with separate 64-word programs, transmit and receive queues, and a shared 32-record capture unit. Both engines run at 25 MHz, and firmware uses instruction delays to establish protocol timing. Pin ownership prevents the engines from driving the same output, while synchronized inputs and optional filtering support reception.</p>
-<p id="architecture-title">The UART verification includes sustained full-duplex simulation at 115,200 baud and preloaded 16-byte full-duplex bursts at 1 Mbaud. The higher wire rate is a burst capability in those tests; it should not be interpreted as a demonstrated continuous host-to-wire throughput. The released examples also cover both SPI roles and I²C at 100 and 400 kHz.</p>
+<p id="architecture-title">The UART verification includes sustained full-duplex simulation at 115,200 baud and preloaded 16-byte full-duplex bursts at 1 Mbaud. The 1-Mbaud result is a simulation of a preloaded 16-byte burst. The sustained simulation result is 115,200 baud. The released examples also cover both SPI roles and I²C at 100 and 400 kHz.</p>
 </div>
 </section>
 <section class="content-section ">
-<h2>Physical result</h2>
+<h3>Physical result</h3>
 <div class="section-content">
 <p id="verification-title">The selected V2 physical implementation was validated through a local Tiny Tapeout checkpoint recovery. Its elaborated RTL and prepared settings correspond to the released software. Extracted timing passed at all three reported corners, with a lowest setup margin of +18.46 ns and lowest hold margin of +0.054 ns. The retained results include nine physical prechecks and 14 functional gate-level scenarios.</p>
-<p>These results describe the recovered physical-design run and functional simulation. They do not establish fabricated-silicon operation, FPGA operation of V2, or competition acceptance.</p>
+<p>The measurements come from the recovered V2 physical-design run and gate-level simulation.</p>
 </div>
 </section>
 <section class="content-section " id="explore-layout">
-<h2>Physical layout</h2>
+<h3>Physical layout</h3>
 <div class="section-content">
 <p id="layout-title">The V2 layout occupies a 6 × 4 tile allocation and stores program instructions in standard-cell registers. Comparing it with the two SRAM macros in V3 makes the program-memory change visible in the physical implementation.</p>
 </div>
@@ -265,11 +252,10 @@
 </noscript>
         </figure>
 <section class="content-section " id="resources">
-<h2>References</h2>
+<h3>References</h3>
 <div class="section-content">
 <p id="resources-title">The V2 release contains the firmware examples and software validation records. The physical summary records the checkpoint recovery and its correspondence to the software source.</p>
-<div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/releases/tag/v2">V2 release</a><a class="button" href="assets/protocol-emulator/v2/summary.json">Physical summary</a><a class="button" href="https://evidence.mcranny.net/recovery-447b3df">Recovery records</a>
-</div>
+<p><a href="https://github.com/mcranny/protocol-emulator-asic/releases/tag/v2">V2 release</a>, <a href="assets/protocol-emulator/v2/summary.json">Physical summary</a>, <a href="https://evidence.mcranny.net/recovery-447b3df">Recovery records</a>.</p>
 </div>
 </section>
 </section>
