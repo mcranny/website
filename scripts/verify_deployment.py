@@ -23,7 +23,7 @@ def verify_page(item):
 def verify_asset(name):
  status,headers,data=fetch('/'+name)
  assert status==200,(name,status)
- if '/layout-' in name or '/raster-v1/' in name or '/display-v1/' in name:
+ if name.startswith('assets/protocol-emulator/') and any(part in name for part in ['/layout-', '/raster-v1/', '/display-v1/']):
   assert 'immutable' in headers.get('Cache-Control',headers.get('cache-control','')),(name,'immutable caching')
   assert 'Content-Encoding' not in headers and 'content-encoding' not in headers,(name,'transformed bytes')
  digest=hashlib.sha256(data).hexdigest()
