@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="robots" content="noindex"><title>Programmable Protocol Emulator ASIC | Prototype B</title><link rel="stylesheet" href="../b.css"></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><a class="identity" href="index.html">Matthew Cranny</a><nav aria-label="Primary"><a href="index.html#experience">Experience</a><a href="index.html#projects">Projects</a><a href="/resume.html">Résumé</a></nav></header>
+<main id="main" class="detail"><header class="intro"><h1>Programmable Protocol Emulator ASIC</h1>
+<p class="role">V3, dual-engine programmable digital interface</p>
+<p>Each engine advances a private time cursor and schedules output values and enables. Eight pin cells apply those changes against a shared 48 MHz clock. Programs implement UART, SPI, I²C, and WS2812 signaling.</p>
+<p class="links"><a href="https://github.com/mcranny/protocol-emulator-asic">Source repository</a><a href="/protocol-emulator.html?version=v3#v3-explore-layout">Interactive layout</a></p></header>
+<section><h2>Specifications</h2><div class="section-content"><table><caption>V3 core and selected physical implementation</caption><thead><tr><th scope="col">Parameter</th><th scope="col">Value</th></tr></thead><tbody>
+<tr><th scope="row">Timing engines</th><td>2, each with a private time cursor</td></tr>
+<tr><th scope="row">Program memory</th><td>256 × 32-bit SRAM per engine</td></tr>
+<tr><th scope="row">Timebase</th><td>24-bit shared counter, 48 MHz (20.83 ns per cycle)</td></tr>
+<tr><th scope="row">Pin interface</th><td>8 deadline-driven pin cells, disjoint ownership, open-drain support</td></tr>
+<tr><th scope="row">Capture</th><td>32 records containing timestamps, inputs, outputs, enables, and engine flags</td></tr>
+<tr><th scope="row">Process and die</th><td>IHP 130 nm CMOS5L, 1,724 × 711 µm</td></tr>
+<tr><th scope="row">Physical source</th><td><code>8b95d90b2fbbe5d742700884a49f2b89f1150904</code></td></tr>
+</tbody></table></div></section>
+<section><h2>Execution and timing</h2><div class="section-content"><p>The host loads and reads back programs through a 48-clock SPI frame. Each engine schedules pin changes independently; the shared counter supplies deadlines and capture timestamps.</p>
+<figure class="architecture"><div class="architecture-host"><strong>SPI host interface</strong><span>Program loading and readback, queues, status</span></div>
+<div class="engines"><div><strong>Engine 0</strong><span>256 × 32 SRAM</span><span>Private time cursor</span></div><div><strong>Engine 1</strong><span>256 × 32 SRAM</span><span>Private time cursor</span></div></div>
+<div class="architecture-shared"><strong>Shared 24-bit timebase, 48 MHz</strong><span>8 pin cells with programmed deadlines</span><span>32-record timestamped capture</span></div>
+<figcaption>Figure 1. Functional organization. Engines schedule changes; pin cells apply them at their deadlines.</figcaption></figure>
+<p>Each engine has a 16-byte transmit queue and a 16-record receive queue. Pin ownership separates the engines’ outputs, while capture records the shared digital interface.</p></div></section>
+<section><h2>Implementation and results</h2><div class="section-content">
+<p>V3 ran on an Artix-7 Cmod A7-35T with a 48 MHz core clock. Host program loading, readback, and execution were exercised. A Vivado ILA capture recorded a 25 kHz output with 960 samples per half-cycle, equivalent to 20 µs. This is an FPGA digital capture, not an analog signal-quality measurement.</p>
+<p>The selected ASIC layout passed 9 physical prechecks and 14 routed-netlist scenarios. Reported slow-corner register setup margin is +2.58 ns; fast-corner hold margin is +0.112 ns. These are physical-design and simulation results, not measurements from fabricated silicon.</p>
+<figure><img src="/assets/protocol-emulator/v3/display-v1/detail-1400.webp" width="1400" height="700" alt="SRAM interface and routed standard-cell logic in the V3 physical layout"><figcaption>Figure 2. SRAM interface and surrounding routing in the selected V3 layout.</figcaption></figure></div></section>
+<section><h2>Source and records</h2><div class="section-content"><p>Design source <a href="https://github.com/mcranny/protocol-emulator-asic/tree/0ff3c61217fbe6909750814c19e7100b2ddf1038"><code>0ff3c61</code></a>, physical source <a href="https://github.com/mcranny/protocol-emulator-asic/tree/8b95d90b2fbbe5d742700884a49f2b89f1150904"><code>8b95d90</code></a>, run <a href="https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147"><code>40803741147</code></a>, workflow source <a href="https://github.com/mcranny/protocol-emulator-asic/tree/61065cf777e1d2eb9f641a00c6e28ff034f0014a"><code>61065cf</code></a></p>
+<p class="links"><a href="/assets/protocol-emulator/v3/summary.json">Exact metrics</a><a href="/assets/protocol-emulator/v3/checksums.json">Artifact checksums</a><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/design/v3-architecture.md">Architecture documentation</a></p></div></section></main>
+<footer><nav aria-label="Contact"><a href="/resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav><p class="review-note">Prototype B: Compact engineering reference. <a href="../index.html">Compare designs</a></p></footer></body></html>

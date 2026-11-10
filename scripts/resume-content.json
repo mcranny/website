@@ -4,7 +4,7 @@
     {
       "company": "PDF Solutions",
       "role": "Systems Engineer",
-      "date": "March 2026 - Present",
+      "date": "March 2026–Present",
       "location": "San Jose, CA",
       "bullets": [
         "Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.",
@@ -18,8 +18,8 @@
     },
     {
       "company": "Amazon",
-      "role": "Area Manager Intern - ICQA",
-      "date": "May 2025 - July 2025",
+      "role": "Area Manager Intern, ICQA",
+      "date": "May 2025–July 2025",
       "location": "Turlock, CA",
       "bullets": [
         "Built Python API and analysis pipelines for Inventory Control and Quality Assurance; migrated anomaly detection to AWS Lambda, EventBridge, and Secrets Manager, reducing estimated annual vendor transaction risk by $100,000.",
@@ -29,7 +29,7 @@
     {
       "company": "Space Sciences Laboratory, UC Berkeley",
       "role": "Aerospace Engineering Intern",
-      "date": "June 2024 - May 2025",
+      "date": "June 2024–May 2025",
       "location": "Berkeley, CA",
       "bullets": [
         "Modeled structural components in SolidWorks for LuSEE-Night, a NASA-funded lunar radio observatory; fabricated and assembled satellite hardware in cleanrooms under contamination-control protocols.",
@@ -40,18 +40,18 @@
   "projects": [
     {
       "company": "Programmable Protocol Emulator ASIC",
-      "role": "Jane Street Tiny Tapeout Competition",
+      "role": "Jane Street Protocol Emulator ASIC Competition",
       "date": "",
       "location": "",
       "bullets": [
-        "Designed a dual-engine Verilog ASIC targeting 48 MHz on IHP CMOS5L, with 256x32 SRAM per engine, a shared 24-bit timebase, eight deadline-driven pin cells, and timestamped capture.",
+        "Designed a dual-engine Verilog ASIC targeting 48 MHz on IHP CMOS5L, with 256 × 32 SRAM per engine, a shared 24-bit timebase, eight deadline-driven pin cells, and timestamped capture.",
         "Built a Python assembler and SPI loader with model-based RTL tests and formal proofs; ran V3 on an Artix-7 Cmod A7-35T and captured output timing with Vivado ILA."
       ]
     },
     {
       "company": "Combat Robotics at Berkeley",
       "role": "Technical Lead",
-      "date": "August 2023 - May 2025",
+      "date": "August 2023–May 2025",
       "location": "",
       "bullets": [
         "Built weapon and drive power systems integrating motor controllers, brushless motors, wiring harnesses, and battery management; designed packaging to protect electronics from shock and vibration."

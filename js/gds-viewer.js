@@ -200,7 +200,7 @@ export function createViewer(root) {
     if(version!==epoch)return;
     clear();ctx.drawImage(frame,0,0);remember();
     mode.textContent='Multi-resolution raster';
-    status.textContent=`${selected.size}/${meta.layers.length} layers · ${view.w.toFixed(2)} µm wide`;
+    status.textContent=`${selected.size}/${meta.layers.length} layers, ${view.w.toFixed(2)} µm wide`;
     canvas.dataset.rasterLevel=String(level.z);canvas.dataset.rasterTiles=String(count);
     canvas.dataset.rasterCacheBytes=String(rasterBytes);canvas.dataset.mode='preview';
   }
@@ -254,11 +254,11 @@ export function createViewer(root) {
       }
       ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha = 1;
       mode.textContent = 'Original polygon geometry';
-      status.textContent = `${count.toLocaleString()} tile records · ${keys.length} tiles · ${view.w.toFixed(3)} µm wide`;
+      status.textContent = `${count.toLocaleString()} tile records, ${keys.length} tiles, ${view.w.toFixed(3)} µm wide`;
       canvas.dataset.mode = 'geometry'; remember();
     } catch (error) {
       if (error.name === 'AbortError' || version !== epoch) return;
-      mode.textContent = 'Layout tiles unavailable · previous view retained';
+      mode.textContent = 'Layout tiles unavailable; previous view retained';
       status.textContent = `${errorText(error)} Retry to reload the visible layout.`;
       canvas.dataset.mode = 'error'; retry.hidden = false;
     } finally {
@@ -379,7 +379,7 @@ export function createViewer(root) {
       find('layer-panel').hidden=false;
       find('layer-panel').open=matchMedia('(min-width: 861px)').matches;
       find('help').hidden=false;
-      find('inventory').textContent=`${meta.expanded_polygons.toLocaleString()} polygons · ${meta.layers.length} layers · all hierarchy levels`;
+      find('inventory').textContent=`${meta.expanded_polygons.toLocaleString()} polygons, ${meta.layers.length} layers, all hierarchy levels`;
       ready=true; resize(); canvas.focus({preventScroll:true}); request();
     }
   };

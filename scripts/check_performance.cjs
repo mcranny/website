@@ -13,7 +13,7 @@ const base = process.env.SITE_URL || 'http://127.0.0.1:5001';
       await session.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:200000,uploadThroughput:100000});
       await page.goto(`${base}/${version?`protocol-emulator?version=${version}`:''}`);
       if (!version) {
-        const image = page.locator('.flagship-media img');
+        const image = page.locator('.chip-preview img');
         await image.scrollIntoViewIfNeeded();
         await image.evaluate(image=>image.decode());
         const bytes = await image.evaluate(image=>performance.getEntriesByName(image.currentSrc).at(-1).encodedBodySize);

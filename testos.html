@@ -1,54 +1,117 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#fafaf8">
-    <script src="js/theme.js"></script>
-    <meta name="description" content="A UEFI x86-64 operating system with persistent storage, a network stack, and QEMU tests for disks, TCP, and HTTP.">
-    <title>TestOS | Matthew Cranny</title><link rel="canonical" href="https://mcranny.net/testos">
-    <meta property="og:title" content="TestOS | Matthew Cranny"><meta property="og:description" content="A UEFI x86-64 operating system with persistent storage, a network stack, and QEMU tests for disks, TCP, and HTTP."><meta property="og:type" content="article"><meta property="og:url" content="https://mcranny.net/testos"><meta property="og:image" content="https://mcranny.net/assets/testos/boot-poster.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://mcranny.net/assets/testos/boot-poster.png">
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png"><link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css"><script src="js/site.js" defer></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <header class="topbar">
-      <a class="wordmark" href="/">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/#work">Work</a>
-        <div class="nav-projects">
-          <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
-          <div class="project-menu">
-            <a href="/protocol-emulator">Protocol Emulator ASIC</a>
-            <a aria-current="page" href="/testos">TestOS</a>
-            <a href="/hardware">Hardware Verification</a>
-            <a href="/scope">Scope Simulator</a>
-            <a href="/neo">NEO Viewer</a>
-            <a href="/btree">B-Tree Engine</a>
-          </div>
-        </div>
-        <a href="/resume">Résumé</a>
-        <a href="/contact">Contact</a>
-      </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
-    </header>
-
-    <main id="main-content" class="page-grid project-page">
-<section class="page-heading"><p class="eyebrow">Independent systems project</p><h1>TestOS: x86-64 operating system</h1><p class="lede">An x86-64 operating system booted by Limine through UEFI, with persistent storage, networking, and user-space utilities. QEMU tests cover ATA, AHCI, and NVMe data disks, DHCP, file downloads, TCP echo, and HTTP.</p><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/TestOS">View source</a><a class="button" href="/#projects">All projects</a></div></section><aside class="case-summary" aria-label="Project summary"><div class="case-fact"><span>Platform</span><strong>x86-64 · UEFI / Limine · C</strong></div><div class="case-fact"><span>Validation environment</span><strong>QEMU · automated interoperability tests</strong></div><div class="case-fact"><span>Data disks</span><strong>ATA · AHCI · NVMe</strong></div></aside><section class="case-section"><div class="case-section-heading"><h2>Running in QEMU</h2><p>Booting to the shell, listing disks, and downloading a file.</p></div><video class="demo-video" controls muted loop playsinline preload="metadata" poster="assets/testos/boot-poster.png" width="1024" height="768" aria-label="TestOS boot and download recording"><source src="assets/testos/boot.mp4" type="video/mp4"><source src="assets/testos/boot.webm" type="video/webm"><p><a href="assets/testos/boot.mp4">Download the recording</a>.</p></video><p class="source-note">Captured in QEMU 11.1.1 using the boot image from the CI run below. <a href="assets/testos/checksums.json">Capture details and checksums</a>.</p><div class="demo-gallery"><figure class="figure"><a href="assets/testos/boot.png" aria-label="Open boot screenshot"><img src="assets/testos/boot.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>UEFI boot to the TestOS shell prompt.</figcaption></figure><figure class="figure"><a href="assets/testos/download.png" aria-label="Open file download screenshot"><img src="assets/testos/download.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>DHCP assigns 10.0.2.15 and wget saves a 1,400-byte file.</figcaption></figure><figure class="figure"><a href="assets/testos/http-response.png" aria-label="Open HTTP response screenshot"><img src="assets/testos/http-response.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>The shell displays the downloaded HTTP response body.</figcaption></figure><figure class="figure"><pre><code>PASS: 25 TCP echo connections, 1021 bytes each
-PASS: PCAP handshake, exact data ACK, echoed payload, and FIN close
-</code></pre><figcaption>TCP echo and packet capture checks pass. <a href="assets/testos/ata.pcap">Packet capture</a>.</figcaption></figure></div><div class="disk-gallery"><figure class="figure"><a href="assets/testos/disk-ata.png" aria-label="Open ATA disk screenshot"><img src="assets/testos/disk-ata.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>ATA data disk mounted with a directory listing.</figcaption></figure><figure class="figure"><a href="assets/testos/disk-ahci.png" aria-label="Open AHCI disk screenshot"><img src="assets/testos/disk-ahci.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>AHCI data disk mounted with a directory listing.</figcaption></figure><figure class="figure"><a href="assets/testos/disk-nvme.png" aria-label="Open NVMe disk screenshot"><img src="assets/testos/disk-nvme.png" width="1024" height="768" loading="lazy" alt=""></a><figcaption>NVMe data disk mounted with a directory listing.</figcaption></figure></div></section><section class="case-section"><div class="case-section-heading"><h2>System architecture</h2><p>The system consists of four layers spanning firmware handoff, kernel services, storage and networking, and user-space applications.</p></div><ol class="architecture-flow"><li><strong>UEFI boot</strong><span>Load the kernel and initialize the display</span></li><li><strong>Kernel and device interfaces</strong><span>Memory, storage drivers, and network stack</span></li><li><strong>Persistent storage and sockets</strong><span>Filesystem operations and network communication</span></li><li><strong>Shell and user-space utilities</strong><span>Disk operations, downloads, TCP echo, and HTTP</span></li></ol></section><section class="case-section"><div class="case-section-heading"><h2>Implemented features</h2><p>Implemented features at ef72e55. The QEMU recording shows a subset.</p></div><table><tbody><tr><th scope="row">Boot and processes</th><td>Limine UEFI handoff, preemptive multitasking, and user-mode programs</td></tr><tr><th scope="row">Storage</th><td>Persistent TFS filesystem and ATA, AHCI, and NVMe data disks</td></tr><tr><th scope="row">Networking</th><td>E1000e, ARP, IPv4, ICMP, UDP, TCP, DHCP, and DNS</td></tr><tr><th scope="row">Applications</th><td>User-space socket tools and an HTTP server on port 8080</td></tr><tr><th scope="row">USB and input</th><td>xHCI controller bring-up; PS/2 remains the interactive keyboard path</td></tr><tr><th scope="row">Multiple CPUs</th><td>Limine starts application processors, which park after initialization while the boot processor runs work</td></tr></tbody></table></section><section class="case-section"><div class="case-section-heading"><h2>QEMU tests</h2><p>The CI build, data-disk shell, networking, and HTTP jobs pass their automated checks.</p></div><table><tbody><tr><th scope="row">uefi-build</th><td>Boot image and documented AHCI/NVMe 8-sector DMA cap check pass</td></tr><tr><th scope="row">uefi-shell-smoke</th><td>Shell checks pass on ATA, AHCI, and NVMe data disks</td></tr><tr><th scope="row">uefi-net-smoke</th><td>DHCP, interface output, and TCP echo checks</td></tr><tr><th scope="row">uefi-http-smoke</th><td>HTTP interoperability and downloaded file size checks</td></tr></tbody></table><p class="source-note">Source <a href="https://github.com/mcranny/TestOS/commit/ef72e557af2d91763b5eb75c888eaba20e4993e9">ef72e55</a> · <a href="https://github.com/mcranny/TestOS/actions/runs/34529923221">Run 34529923221</a> · <a href="https://github.com/mcranny/TestOS/blob/ef72e557af2d91763b5eb75c888eaba20e4993e9/.github/workflows/uefi-pr.yml">Exact workflow</a>.</p></section>
-    </main>
-    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>TestOS | Matthew Cranny</title>
+<meta name="description" content="An x86-64 operating system with persistent storage, user-space services, and QEMU tests for disks, TCP, and HTTP.">
+<link rel="canonical" href="https://mcranny.net/testos">
+<meta property="og:title" content="TestOS | Matthew Cranny">
+<meta property="og:description" content="An x86-64 operating system with persistent storage, user-space services, and QEMU tests for disks, TCP, and HTTP.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mcranny.net/testos">
+<meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TestOS | Matthew Cranny">
+<meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/project.css">
+</head>
+<body><a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="topbar"><a class="wordmark" href="/">Matthew Cranny</a>
+<nav class="nav" aria-label="Primary"><a href="/experience">Experience</a><a href="/projects" aria-current="page">Projects</a><a href="/resume">Résumé</a>
+</nav>
+</header>
+<main id="main-content" class="testos-page">
+<header class="page-heading">
+<h1>TestOS</h1>
+</header>
+<section class="content-section">
+<h2>Overview</h2>
+<div class="section-content">
+<p>TestOS is an x86-64 operating system written in C and booted through UEFI by Limine. It implements persistent storage, networking, and user-space utilities so that file and socket operations can be followed from the shell through kernel services to the device interface. QEMU provides the test environment for disk operations, DHCP, TCP, and HTTP interoperability.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/TestOS">Source repository</a>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>System architecture</h2>
+<div class="section-content">
+<p>Limine loads the kernel and supplies the initial execution environment. The kernel provides preemptive multitasking, user-mode execution, and interfaces to the storage and network drivers. User-space programs exercise these services through shell commands, file operations, socket tools, and an HTTP server.</p>
+<table>
+<caption>Implemented subsystems and current limits</caption>
+<tbody>
+<tr>
+<th scope="row">Boot and processes</th>
+<td>UEFI handoff through Limine, preemptive multitasking, and user-mode programs</td>
+</tr>
+<tr>
+<th scope="row">Storage</th>
+<td>Persistent TFS filesystem with ATA, AHCI, and NVMe data disks</td>
+</tr>
+<tr>
+<th scope="row">Networking</th>
+<td>E1000e, ARP, IPv4, ICMP, UDP, TCP, DHCP, and DNS</td>
+</tr>
+<tr>
+<th scope="row">Input</th>
+<td>PS/2 keyboard interaction; xHCI controller bring-up</td>
+</tr>
+<tr>
+<th scope="row">Multiple CPUs</th>
+<td>Application processors initialize and then park; the boot processor runs the workload</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section ">
+<h2>QEMU operation</h2>
+<div class="section-content">
+<p>The recording shows the system reaching its shell, inspecting disks, and downloading a file. It was captured from the same boot image used for the retained tests. The screenshots isolate the terminal regions needed to examine boot output, the HTTP transfer, and a mounted data disk.</p>
+<video controls muted loop playsinline preload="metadata" poster="assets/testos/boot-poster.png" width="1024" height="768" aria-label="TestOS boot and download recording">
+<source src="assets/testos/boot.mp4" type="video/mp4">
+<source src="assets/testos/boot.webm" type="video/webm">
+<p><a href="assets/testos/boot.mp4">Download the recording</a>
+</p>
+</video>
+<div class="figure-list">
+<figure><img src="assets/testos/boot.webp" width="600" height="480" alt="UEFI boot messages ending at the TestOS shell" loading="lazy" decoding="async">
+<figcaption>UEFI boot and shell initialization.</figcaption>
+</figure>
+<figure><img src="assets/testos/download.webp" width="600" height="700" alt="TestOS DHCP configuration and HTTP file download" loading="lazy" decoding="async">
+<figcaption>The shell obtains a DHCP lease and downloads a 1,400-byte file.</figcaption>
+</figure>
+<figure><img src="assets/testos/disk-nvme.webp" width="600" height="560" alt="TestOS directory listing on an NVMe data disk" loading="lazy" decoding="async">
+<figcaption>An NVMe data disk mounted and listed from the shell.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>Testing and results</h2>
+<div class="section-content">
+<p>The retained CI run includes a boot-image build, shell checks against ATA, AHCI, and NVMe data disks, and separate network and HTTP tests. The TCP check opens 25 connections carrying 1,021 bytes each. Packet inspection checks the handshake, data acknowledgments, echoed payload, and connection close, rather than relying only on a successful shell command.</p>
+<p>These checks establish the reported behavior in QEMU. The multiple-CPU and USB work remains limited to the initialization behavior described above; the results do not establish general hardware compatibility.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/TestOS/actions/runs/34529923221">CI run</a><a class="button" href="assets/testos/tcp-packets.txt">Packet checks</a><a class="button" href="assets/testos/checksums.json">Capture records</a>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>References</h2>
+<div class="section-content">
+<p>The <a href="https://github.com/mcranny/TestOS/tree/ef72e557af2d91763b5eb75c888eaba20e4993e9">source used for the recording</a> and its <a href="https://github.com/mcranny/TestOS/blob/ef72e557af2d91763b5eb75c888eaba20e4993e9/.github/workflows/uefi-pr.yml">test workflow</a> identify the implementation described here. Original screenshots, serial logs, and recording checksums remain available in the capture records.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>
+</nav>
+<p>Matthew Cranny, Systems Engineer</p>
+</footer>
+</body>
 </html>

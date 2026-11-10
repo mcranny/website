@@ -1,55 +1,102 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#fafaf8">
-    <script src="js/theme.js"></script>
-    <meta name="description" content="An independent Rust storage engine with fixed-size pages, a 64-page LRU cache, redo logging, deletion rebalancing, range scans, and SQLite differential testing.">
-    <title>B-Tree Storage Engine | Matthew Cranny</title><link rel="canonical" href="https://mcranny.net/btree">
-    <meta property="og:title" content="B-Tree Storage Engine | Matthew Cranny"><meta property="og:description" content="A disk-backed Rust key-value engine with redo logging and SQLite differential tests."><meta property="og:type" content="article"><meta property="og:url" content="https://mcranny.net/btree"><meta property="og:image" content="https://mcranny.net/assets/btree-preview.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://mcranny.net/assets/btree-preview.png">
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png"><link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css"><link rel="stylesheet" href="css/btree.css"><script src="js/site.js" defer></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <header class="topbar">
-      <a class="wordmark" href="/">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/#work">Work</a>
-        <div class="nav-projects">
-          <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
-          <div class="project-menu">
-            <a href="/protocol-emulator">Protocol Emulator ASIC</a>
-            <a href="/testos">TestOS</a>
-            <a href="/hardware">Hardware Verification</a>
-            <a href="/scope">Scope Simulator</a>
-            <a href="/neo">NEO Viewer</a>
-            <a aria-current="page" href="/btree">B-Tree Engine</a>
-          </div>
-        </div>
-        <a href="/resume">Résumé</a>
-        <a href="/contact">Contact</a>
-      </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
-    </header>
-
-    <main id="main-content" class="page-grid project-page btree-page">
-<section class="page-heading"><p class="eyebrow">B-Tree Storage Engine</p><h1>Rust storage engine with write recovery</h1><p class="lede">Rust key-value storage with a checksummed redo log. Tests run the same operations against SQLite and compare the results.</p><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine">View source</a><a class="button" href="/#projects">View all projects</a></div></section>
-<section class="case-section"><h2>Database file format</h2><p>Each page holds 4,096 bytes. Records pair a signed 64-bit key with up to 256 bytes of data, and a 64-page LRU cache keeps recently used pages in memory.</p><div class="btree-diagram page-layout-diagram" aria-label="B-tree page layout diagram"><div class="page-block metadata"><code>Metadata page</code><span>File identity and format version</span><span>Root page and page count</span><span>Persistent free-list head</span></div><div class="page-block node-page"><code>Node page</code><span>Leaf or internal-node type</span><span>Parent and key-count metadata</span><span>Thirteen fixed-width records</span><span>Fourteen child page identifiers</span><span>Reserved bytes required to remain zero</span></div><div class="page-block free-page"><code>Reusable page</code><span>Free-page identity</span><span>Next free page identifier</span><span>Returned after merge or root contraction</span></div></div></section>
-<section class="case-section case-prose"><h2>Recovering an interrupted write</h2><p>Before changing the database file, the engine writes the updated page images to a redo log and synchronizes it. The log is cleared only after those pages have been written and synchronized.</p><p>On restart, a complete log record is replayed. Truncated records and checksum mismatches have separate recovery tests. The engine uses a single writer with a close and checkpoint step.</p></section>
-<section class="case-section"><h2>Differential testing against SQLite</h2><div class="case-split"><p>Generated operation traces exercise insertion and deletion, including splits and merges. Point lookups and full range scans are compared with an in-memory SQLite table after each relevant operation.</p><p>Structural checks verify key ordering and parent pointers. Reopen tests check that merged pages return to the free list and can be reused.</p></div></section>
-    </main>
-    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>B-Tree Storage Engine | Matthew Cranny</title>
+<meta name="description" content="Fixed-page storage, rebalancing deletion, redo-log recovery, and SQLite differential testing in Rust.">
+<link rel="canonical" href="https://mcranny.net/btree">
+<meta property="og:title" content="B-Tree Storage Engine | Matthew Cranny">
+<meta property="og:description" content="Fixed-page storage, rebalancing deletion, redo-log recovery, and SQLite differential testing in Rust.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mcranny.net/btree">
+<meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="B-Tree Storage Engine | Matthew Cranny">
+<meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/project.css">
+</head>
+<body><a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="topbar"><a class="wordmark" href="/">Matthew Cranny</a>
+<nav class="nav" aria-label="Primary"><a href="/experience">Experience</a><a href="/projects" aria-current="page">Projects</a><a href="/resume">Résumé</a>
+</nav>
+</header>
+<main id="main-content" class="btree-page">
+<header class="page-heading">
+<h1>B-Tree Storage Engine</h1>
+</header>
+<section class="content-section">
+<h2>Overview</h2>
+<div class="section-content">
+<p>This Rust key-value engine uses a fixed-page database file to examine insertion, deletion, and recovery without the additional layers of a SQL interface. Records pair a signed 64-bit key with up to 256 bytes of data. The implementation maintains tree structure and a persistent free list while using a checksummed redo log to recover interrupted page updates.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine">Source repository</a>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>Page organization</h2>
+<div class="section-content">
+<p>Every database page occupies 4,096 bytes, with integers encoded explicitly in little-endian order. Page zero stores the file metadata; subsequent pages contain either tree nodes or free-list entries. A bounded 64-page LRU cache holds recently used pages, so the in-memory working set is separate from the total size of the file.</p>
+<table>
+<caption>Database page types</caption>
+<tbody>
+<tr>
+<th scope="row">Metadata</th>
+<td>File identity and format version, root page, page count, and free-list head</td>
+</tr>
+<tr>
+<th scope="row">Node</th>
+<td>Leaf or internal type, parent and key count, thirteen fixed-width records, and fourteen child page references</td>
+</tr>
+<tr>
+<th scope="row">Reusable page</th>
+<td>Free-page identity and reference to the next free page</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section ">
+<h2>Write recovery</h2>
+<div class="section-content">
+<p>A put or delete operation records the changed page images in a redo log before updating the database file. In the default durability mode, the engine synchronizes the log before checkpointing dirty pages and clears it after the page writes have been synchronized. On reopening, a complete log record can therefore be replayed to restore the intended page images.</p>
+<figure>
+<ol class="sequence">
+<li>Write changed page images and their checksum to the redo log.</li>
+<li>Synchronize the log before updating database pages.</li>
+<li>Write and synchronize the changed database pages.</li>
+<li>Clear the log after checkpoint completion.</li>
+</ol>
+<figcaption>Commit sequence in the default durability mode. Recovery replays a complete retained log record.</figcaption>
+</figure>
+<p>The API also provides a deferred mode for bulk workloads whose durability boundary is a successful close. The engine supports one writer; multi-operation transactions, locking, and concurrent access are outside its current scope.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Correctness testing</h2>
+<div class="section-content">
+<p>Generated sequences of insertions and deletions exercise splits, merges, and root contraction. After relevant operations, point lookups and inclusive range scans are compared with an in-memory reference and a live SQLite table. Property-based tests shrink failing sequences, making a discrepancy easier to reduce to the operation that violates an invariant.</p>
+<p>Separate checks examine key ordering, parent pointers, close/reopen persistence, and reuse of freed pages. Recovery tests distinguish complete log records from truncated or corrupt records. The CI workflow runs formatting checks, Clippy, and tests with all targets and features enabled.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/btree-storage-engine/actions/runs/27920557937">CI results</a>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>References</h2>
+<div class="section-content">
+<p>The <a href="https://github.com/mcranny/btree-storage-engine/tree/bcab607b681cae4683695a8ec1042cd7a644e804">reviewed implementation</a> and its <a href="https://github.com/mcranny/btree-storage-engine/blob/bcab607b681cae4683695a8ec1042cd7a644e804/.github/workflows/ci.yml">CI workflow</a> define the behavior described here. Local benchmark suites measure insertion, lookup, range scans, and deletion, but do not establish a performance comparison with SQLite or another engine.</p>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>
+</nav>
+<p>Matthew Cranny, Systems Engineer</p>
+</footer>
+</body>
 </html>

@@ -3,13 +3,13 @@
 from pathlib import Path
 import html
 import json
-import re
 from reportlab.platypus import SimpleDocTemplate, Paragraph, HRFlowable, KeepTogether, Flowable
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT
 from reportlab.lib.colors import black
 from reportlab.pdfbase.pdfmetrics import stringWidth
 import hashlib
+from site_html import format_document
 
 ROOT = Path(__file__).resolve().parents[1]
 data = json.loads((ROOT / 'scripts/resume-content.json').read_text())
@@ -71,21 +71,21 @@ story.extend([AlignedLine(e['school'], e['date'], styles['entry'], styles['date'
 section('Technical Skills')
 story += [Paragraph('<b>' + esc(k) + ':</b> ' + esc(v), styles['skill']) for k, v in data['skills']]
 pdf = ROOT / 'assets/Matthew-Cranny-Resume.pdf'
-SimpleDocTemplate(str(pdf), pagesize=(612, 792), rightMargin=46.8, leftMargin=46.8, topMargin=34, bottomMargin=34, title='Matthew Cranny - Resume', author='Matthew Cranny').build(story)
+SimpleDocTemplate(str(pdf), pagesize=(612, 792), rightMargin=46.8, leftMargin=46.8, topMargin=34, bottomMargin=34, title='Matthew Cranny - Résumé', author='Matthew Cranny').build(story)
 
 
 # Synchronize the website entries while retaining its shared header and page layout.
 page = ROOT / 'resume.html'
 source = page.read_text()
-parts = ['      <section class="resume-main">', '<p class="resume-summary">' + esc(data['summary']) + '</p>']
+parts = ['      <section class="resume-main">', '<section class="content-section"><h2>Overview</h2><div class="section-content"><p class="resume-summary">' + esc(data['summary']) + '</p><div class="actions"><a class="button primary" href="/assets/Matthew-Cranny-Resume.pdf">Download PDF</a></div></div></section>']
 for key, title in [('experience', 'Experience'), ('projects', 'Selected Engineering Projects')]:
     parts.append('<section class="resume-section"><div class="section-rule"><h2>' + title + '</h2></div>')
     for item in data[key]:
         parts.append('<article class="resume-entry"><div class="resume-entry-head"><div><h3>' + esc(item['company']) + '</h3><p>' + esc(item['role']) + '</p></div><div>')
         if item['date']:
-            parts.append('<code class="resume-date">' + esc(item['date']) + '</code>')
+            parts.append('<span class="resume-date">' + esc(item['date']) + '</span>')
         if item['location']:
-            parts.append('<code class="resume-location">' + esc(item['location']) + '</code>')
+            parts.append('<span class="resume-location">' + esc(item['location']) + '</span>')
         parts.append('</div></div><ul>' + ''.join('<li>' + esc(b) + '</li>' for b in item['bullets']) + '</ul></article>')
     parts.append('</section>')
 e = data['education']
@@ -99,10 +99,7 @@ parts.append('</tbody></table></section></section>')
 start = source.index('      <section class="resume-main">')
 end = source.index('    </main>',start)
 source = source[:start] + '\n'.join(parts) + '\n' + source[end:]
-# The rail repeats these same tools instead of maintaining a second skills list.
-source = re.sub(r'(<dt>Core tools</dt>\s*<dd>).*?(</dd>)', lambda m: m[1] + esc(data['skills'][1][1]) + m[2], source, flags=re.S)
-source = re.sub(r'(<dt>Hardware/test</dt>\s*<dd>).*?(</dd>)', lambda m: m[1] + esc(data['skills'][0][1]) + m[2], source, flags=re.S)
-page.write_text(source)
+page.write_text(format_document(source))
 fingerprint = {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ('scripts/resume-content.json', 'resume.html', 'assets/Matthew-Cranny-Resume.pdf')}
 (ROOT/'scripts/resume-fingerprint.json').write_text(json.dumps(fingerprint, indent=2)+'\n')
 print(pdf)

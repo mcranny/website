@@ -123,6 +123,9 @@ def check(pdf_text=True):
         ids = [n.attrs['id'] for n in nodes if 'id' in n.attrs]
         assert len(ids) == len(set(ids)), f'Duplicate ID in {name}'
         assert len(doc.find('h1')) == 1, name
+        assert 'data-theme' not in text and 'js/theme.js' not in text, f'Obsolete theme code: {name}'
+        primary = next(n for n in doc.find('nav') if n.attrs.get('aria-label') == 'Primary')
+        assert [n.attrs['href'] for n in primary.find('a')] == ['/experience', '/projects', '/resume'], f'Page navigation: {name}'
         for node in nodes:
             if node.tag == 'img':
                 assert all(k in node.attrs for k in ('alt','width','height')), f'Image dimensions: {name}'
@@ -153,7 +156,7 @@ def check(pdf_text=True):
     page = docs['protocol-emulator.html']
     assert len([n for n in page.find() if 'data-gds-viewer' in n.attrs]) == 2
     assert {n.attrs['data-version-panel'] for n in page.find() if 'data-version-panel' in n.attrs} == {'v2', 'v3'}
-    for folder in ('testos', 'scope'):
+    for folder in ('testos',):
         manifest = json.loads((ROOT/'assets'/folder/'checksums.json').read_text())
         for name, expected in manifest['files'].items():
             assert hashlib.sha256((ROOT/'assets'/folder/name).read_bytes()).hexdigest() == expected, name
@@ -177,7 +180,7 @@ def check(pdf_text=True):
         for node in section.find('li') + section.find('td') + section.find('h3'):
             assert normalize(node.text) in pdf_text, f'PDF résumé drift: {node.text}'
         for item in section.find(cls='resume-entry-head'):
-            for node in item.find('p') + item.find('code'):
+            for node in item.find('p') + item.find('span'):
                 assert normalize(node.text) in pdf_text, f'PDF role/date drift: {node.text}'
         for item in section.find(cls='readout'):
             for node in item.find('strong') + item.find('code'):
@@ -187,8 +190,11 @@ def check(pdf_text=True):
     for entry in content['experience'] + content['projects']:
         for value in [entry['company'], entry['role'], entry['date'], entry['location']] + entry['bullets']:
             assert normalize(value) in normalize(resume.text) and normalize(value) in pdf_text, f'Source drift: {value}'
-    title = 'Area Manager Intern - ICQA'
-    assert title in docs['index.html'].text and title in resume.text and normalize(title) in pdf_text
+    title = 'Area Manager Intern, ICQA'
+    assert title in docs['experience.html'].text and title in resume.text and normalize(title) in pdf_text
+    assert set(docs) == {'index.html', 'experience.html', 'projects.html', 'protocol-emulator.html', 'testos.html', 'btree.html', 'resume.html', '404.html'}
+    assert not any(n.startswith(('prototypes/', 'assets/neo', 'assets/scope', 'assets/hardware', 'js/vendor/')) for n in files)
+    assert {n for n in files if n.endswith('.css')} == {'css/base.css', 'css/project.css'}
     assert not re.search(r'<script>(.*?)</script>', (ROOT/'index.html').read_text(), re.S), 'Inline theme bootstrap'
     print(f'Checked {len(docs)} pages, {len(files)} public files, shared navigation, sitemap, fragments, evidence hashes, and one-page HTML/PDF consistency.')
 

@@ -20,9 +20,17 @@ def site_headers(root):
 
 class Handler(SimpleHTTPRequestHandler):
     global_headers = []
+    redirects = {}
 
     def do_GET(self):
         route = urlsplit(self.path).path
+        if route in self.redirects:
+            target, status = self.redirects[route]
+            self.send_response(status)
+            self.send_header('Location', target)
+            self.send_header('Content-Length', '0')
+            self.end_headers()
+            return
         if route != '/' and not Path(route).suffix:
             self.path = route + '.html'
         super().do_GET()
@@ -50,4 +58,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]/'dist'
     Handler.global_headers = site_headers(root)
+    Handler.redirects = {
+        source: (target, int(status))
+        for line in (root/'_redirects').read_text().splitlines()
+        if line.strip() and not line.startswith('#')
+        for source, target, status in [line.split()]
+    }
     ThreadingHTTPServer(('127.0.0.1', args.port), lambda *a, **kw: Handler(*a, directory=str(root), **kw)).serve_forever()

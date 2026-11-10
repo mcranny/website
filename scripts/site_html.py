@@ -1,6 +1,20 @@
 """Small HTML tree used by the static-site checks and résumé exporter."""
 from html.parser import HTMLParser
 from pathlib import Path
+import re
+
+def format_document(source):
+    """Separate block tags for review without rewriting inline text or scripts."""
+    scripts = []
+    def retain(match):
+        scripts.append(match[0])
+        return f'__SITE_SCRIPT_{len(scripts)-1}__'
+    source = re.sub(r'<script\b.*?</script>', retain, source, flags=re.S)
+    blocks = r'html|head|body|meta|title|link|header|nav|main|footer|section|article|aside|h[1-6]|p|div|figure|figcaption|table|caption|thead|tbody|tr|th|td|ul|ol|li|dl|dt|dd|video|source|noscript'
+    source = re.sub(r'(?<=>)(?=</?(?:' + blocks + r')\b)', '\n', source)
+    for i, script in enumerate(scripts):
+        source = source.replace(f'__SITE_SCRIPT_{i}__', script)
+    return source
 
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
 

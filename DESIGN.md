@@ -1,44 +1,33 @@
-# mcranny.net design system
+# mcranny.net design conventions
 
-## Purpose
+The site uses the compact engineering-reference prototype (B), with separate
+Experience and Projects pages. The wordmark returns home; primary navigation
+links to Experience, Projects, and Résumé. It remains visible on small screens.
 
-The portfolio is organized around professional semiconductor test-system work. Independent projects support that story without competing with the current role.
+Use connected technical prose to explain the problem, design, implementation,
+and results. Avoid slogans, fragmentary pitches, decorative labels, and repeated
+claims. Keep precise qualifications where they affect what a result establishes.
+Put source identities in reference links and downloadable records, rather than
+repeating build hashes or pull-request numbers in headings and captions.
 
-## Visual language
+Use system sans-serif, 16px body text, a 1040px shared container, a narrow column
+for section headings, and responsive stacking at 860px and 520px. Header, main,
+and footer share the same edge. Monospace is for code and identifiers. All pages
+use light mode, plain rules, and the same typography and spacing.
 
-- Light-first paper, ink, graphite, steel, and indigo signal colors.
-- Sans-serif typography for narrative and navigation.
-- Monospaced typography reserved for real measurements, compact technical diagrams, and code evidence.
-- Hairline rules and square panels remain, but repeated readout grids are used sparingly.
-- Dark mode preserves the same hierarchy and signal color.
+Primary actions use filled dark buttons; secondary actions use outlined buttons.
+Inline reference links remain recognizable as links. Navigation links are plain
+text with active/hover indications. Do not turn paragraphs into button collections.
 
-## Navigation
+Use tables for specifications and comparisons. Figures retain useful technical
+content and their proportions. The ASIC keeps both V2 and V3, with a substantive
+comparison of instruction-dependent timing and deadline-driven pin transitions.
+Distinguish protocol baud rate from core clock and host service throughput;
+distinguish simulation, physical-design reports, FPGA capture, and silicon tests.
 
-Desktop navigation exposes Home, Work, Projects, Résumé, and Contact. Projects open an ordered menu: Protocol Emulator ASIC, TestOS, Hardware Verification, Scope Simulator, NEO Viewer, and B-Tree Engine. At mobile widths, the same navigation moves into the hamburger menu.
+Keep shared rules in base.css and article/viewer rules in project.css. Preserve
+viewer controls and progressive enhancement. The résumé has one content source
+for web and PDF. Prototype files are review artifacts, excluded from deployment.
 
-## Page hierarchy
-
-### Home
-
-1. Professional test-system positioning
-2. Current automated hardware-qualification work
-3. Verified professional outcomes
-4. Selected independent projects
-5. Broader experience and education
-6. Contact
-
-### Independent project pages
-
-Each case study uses the structure most useful for its engineering story rather than a shared implementation inventory. Each page identifies the work as independent and links to its source. Pages with saved runs show the corresponding results and status.
-
-### NEO viewer
-
-The interactive viewer remains the most application-like project page. A compact index supports search, while detailed tracks load only for the selected mission.
-
-### Résumé
-
-The HTML résumé remains the complete chronological record. The homepage summarizes only the professional evidence most relevant to test and validation roles.
-
-### Contact
-
-The dedicated contact page keeps email, LinkedIn, GitHub, résumé, location, and role interests together. Every page retains the same Professional work, Résumé, GitHub, LinkedIn, and Email footer links.
+Scope, NEO, Hardware Verification, and Contact are retired routes. R2 asset
+migration and automatic deployment remain separate open follow-up work.

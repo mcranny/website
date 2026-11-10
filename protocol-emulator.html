@@ -1,232 +1,283 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#fafaf8">
-    <script src="js/theme.js"></script>
-    <meta name="description" content="V3 brings 48 MHz scheduled pin timing, SRAM programs, and Artix-7 FPGA operation. Compare V2 and V3 and explore both IHP 130 nm chip layouts.">
-    <title>Protocol Emulator ASIC — V3 &amp; V2 | Matthew Cranny</title><link rel="canonical" href="https://mcranny.net/protocol-emulator">
-    <meta property="og:title" content="Protocol Emulator ASIC — V3 &amp; V2 | Matthew Cranny"><meta property="og:description" content="V3 brings 48 MHz scheduled pin timing, SRAM programs, and Artix-7 FPGA operation. Compare V2 and V3 and explore both IHP 130 nm chip layouts."><meta property="og:type" content="article"><meta property="og:url" content="https://mcranny.net/protocol-emulator"><meta property="og:image" content="https://mcranny.net/assets/protocol-emulator/v3/overview.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://mcranny.net/assets/protocol-emulator/v3/overview.webp">
-    <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png"><link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png"><link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2"><link rel="mask-icon" href="assets/favicon.svg?v=2" color="#1530A6">
-    <link rel="stylesheet" href="css/tokens.css"><link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/layout.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/project.css"><script src="js/site.js" defer></script>
-  <script src="js/asic-versions.js" defer></script><script src="js/layout-viewer.js" defer></script></head>
-  <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <header class="topbar">
-      <a class="wordmark" href="/">MCRANNY.NET</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/#work">Work</a>
-        <div class="nav-projects">
-          <button type="button" data-projects-toggle aria-expanded="false">Projects</button>
-          <div class="project-menu">
-            <a aria-current="page" href="/protocol-emulator">Protocol Emulator ASIC</a>
-            <a href="/testos">TestOS</a>
-            <a href="/hardware">Hardware Verification</a>
-            <a href="/scope">Scope Simulator</a>
-            <a href="/neo">NEO Viewer</a>
-            <a href="/btree">B-Tree Engine</a>
-          </div>
-        </div>
-        <a href="/resume">Résumé</a>
-        <a href="/contact">Contact</a>
-      </nav>
-      <button class="mode-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="theme-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <g class="theme-icon-sun">
-            <circle cx="32" cy="32" r="12"></circle><rect x="29" y="3" width="6" height="15" rx="3"></rect><rect x="29" y="46" width="6" height="15" rx="3"></rect><rect x="46" y="29" width="15" height="6" rx="3"></rect><rect x="3" y="29" width="15" height="6" rx="3"></rect><rect x="44.5" y="10.5" width="6" height="15" rx="3" transform="rotate(45 47.5 18)"></rect><rect x="44.5" y="38.5" width="6" height="15" rx="3" transform="rotate(135 47.5 46)"></rect><rect x="13.5" y="38.5" width="6" height="15" rx="3" transform="rotate(45 16.5 46)"></rect><rect x="13.5" y="10.5" width="6" height="15" rx="3" transform="rotate(135 16.5 18)"></rect>
-          </g>
-          <path class="theme-icon-moon" d="M49 42.5A22 22 0 0 1 21.5 15c0-3.6.9-7 2.4-9.9A27 27 0 1 0 59 40.1 22 22 0 0 1 49 42.5Z"></path>
-        </svg>
-        <span class="sr-only">Toggle dark mode</span>
-      </button>
-    </header>
-
-    <main id="main-content" class="page-grid project-page asic-page">
-      <section class="page-heading">
-        <p class="eyebrow">Independent hardware project · V2 → V3</p>
-        <h1>Programmable Protocol Emulator ASIC</h1>
-        <p class="lede">Design, implementation, and verification of a dual-engine ASIC for programmable digital interfaces.</p>
-        <p class="asic-intro">The ASIC generates and records protocol traffic using two programmable engines, deadline-driven pins, and timestamped capture. This case study documents the V2 and V3 designs, their verification results, and FPGA operation. The Verilog and Python implementation was developed for <a href="https://blog.janestreet.com/protocol-emulator-asic-competition/">Jane Street’s Protocol Emulator ASIC Competition</a>.</p>
-        <p class="project-status">V3 · 48 MHz · SRAM program memory · running on Artix-7</p>
-        <div class="project-actions"><a class="button primary" href="?version=v3#v3-explore-layout">View V3 layout</a><a class="button" href="https://mcranny.github.io/protocol-emulator-asic/">Documentation</a><a class="button" href="https://github.com/mcranny/protocol-emulator-asic">View source</a></div>
-      </section>
-      <section class="case-section" id="design-progress" aria-labelledby="progress-title">
-        <div class="case-section-heading"><h2 id="progress-title">V2 and V3 design comparison</h2><p>V2 established two independent engines, receive queues, and triggered capture. V3 moves program storage into SRAM and gives each pin its own deadline, so firmware can compute the next action while the hardware keeps time.</p></div>
-        <div class="asic-comparison"><table><caption>V2 → V3 design progression</caption><thead><tr><th scope="col">Design feature</th><th scope="col">V2</th><th scope="col">V3</th></tr></thead><tbody>
-          <tr><th scope="row">System clock</th><td>25 MHz</td><td>48 MHz</td></tr>
-          <tr><th scope="row">Program storage per engine</th><td>64 × 24 bits in flip-flops</td><td>256 × 32 bits in SRAM</td></tr>
-          <tr><th scope="row">Output timing</th><td>Instruction delays</td><td>Deadlines applied by pin cells</td></tr>
-          <tr><th scope="row">Timekeeping</th><td>Engine delays and capture timestamp</td><td>Shared 24-bit timebase</td></tr>
-          <tr><th scope="row">Die allocation</th><td>6 × 4 tiles</td><td>8 × 4 tiles</td></tr>
-        </tbody></table></div>
-      </section>
-      <nav class="asic-version-tabs" data-version-tabs aria-label="ASIC design version">
-        <a id="tab-v3" href="?version=v3" data-version-tab="v3" aria-controls="version-v3">V3 · Scheduled timing</a>
-        <a id="tab-v2" href="?version=v2" data-version-tab="v2" aria-controls="version-v2">V2 · Dual engines</a>
-      </nav>
-      <section id="version-v3" class="asic-version-panel" data-version-panel="v3" aria-label="V3 case study">
-        <div class="asic-version-heading"><h2>V3 · Scheduled timing</h2><p>48 MHz · SRAM programs · Artix-7 FPGA</p></div>
-        <aside class="case-summary" aria-label="V3 at a glance">
-          <div class="case-fact"><span>Programmable execution</span><strong>2 independent engines</strong><p>256 × 32-bit SRAM program per engine</p></div>
-          <div class="case-fact"><span>Precise pin timing</span><strong>8 deadline-driven pin cells</strong><p>Shared 24-bit timebase at 48 MHz</p></div>
-          <div class="case-fact"><span>Physical implementation</span><strong>IHP 130 nm · 8 × 4 tiles</strong><p>Two SRAM macros · 1,724.16 × 710.64 µm</p></div>
-        </aside>
-        <section class="case-section" id="v3-explore-layout" aria-labelledby="v3-layout-title">
-          <div class="case-section-heading"><h2 id="v3-layout-title">V3 physical layout</h2><p>The two SRAM macros sit side by side along the bottom edge, with their signal pins facing the logic above. Zoom into the routing or isolate a layer to follow the physical design.</p></div>
-        <figure class="gds-viewer" data-gds-viewer data-version="v3" data-source="/assets/protocol-emulator/v3/layout-8b95d90/" data-raster="/assets/protocol-emulator/v3/raster-v1/" data-index="/assets/protocol-emulator/v3/display-v1/" data-gds-hash="050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f" aria-label="Interactive V3 chip layout">
-          <div class="gds-heading"><div><strong>V3 physical layout</strong><span>1,724.16 × 710.64 µm · CMOS5L</span></div><span class="gds-revision">8b95d90</span></div>
-          <div class="gds-fallback" data-gds-fallback><img src="assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 860px) 100vw, 1152px" decoding="async" width="1024" height="422" alt="Raster overview of the selected V3 layout, showing the full die, two SRAM macros, and routed logic" loading="lazy"><div class="gds-preview-caption"><span>Complete die · raster preview</span><span>Original polygons in the detailed explorer</span></div></div>
-          <div class="gds-toolbar"><button type="button" class="button primary" data-gds-start hidden>Explore layout</button><div data-gds-controls hidden><button type="button" data-gds-fit>Fit layout</button><button type="button" data-gds-detail>Inspect geometry</button><button type="button" data-gds-in aria-label="Zoom in">+</button><button type="button" data-gds-out aria-label="Zoom out">−</button><button type="button" data-gds-full aria-pressed="false">Full screen</button></div><span data-gds-mode>Original geometry available on demand</span><button type="button" data-gds-retry hidden>Retry geometry</button></div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>Programmable Protocol Emulator ASIC | Matthew Cranny</title>
+<meta name="description" content="Architecture, protocol timing, verification, and the transition from instruction delays in V2 to scheduled pin transitions in V3.">
+<link rel="canonical" href="https://mcranny.net/protocol-emulator">
+<meta property="og:title" content="Programmable Protocol Emulator ASIC | Matthew Cranny">
+<meta property="og:description" content="Architecture, protocol timing, verification, and the transition from instruction delays in V2 to scheduled pin transitions in V3.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mcranny.net/protocol-emulator">
+<meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Programmable Protocol Emulator ASIC | Matthew Cranny">
+<meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/project.css"><script src="/js/asic-versions.js" defer></script><script src="/js/layout-viewer.js" defer></script></head>
+<body><a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="topbar"><a class="wordmark" href="/">Matthew Cranny</a>
+<nav class="nav" aria-label="Primary"><a href="/experience">Experience</a><a href="/projects" aria-current="page">Projects</a><a href="/resume">Résumé</a>
+</nav>
+</header>
+<main id="main-content" class="protocol-emulator-page">
+<header class="page-heading">
+<h1>Programmable Protocol Emulator ASIC</h1>
+</header>
+<section class="content-section">
+<h2>Overview</h2>
+<div class="section-content">
+<p>This project implements digital communication protocols as programs running on a small dual-engine processor. The engines share a pin interface and a capture unit, while Python tools assemble programs, load memory, and compare execution with a reference model. The design was developed for the Jane Street Protocol Emulator ASIC Competition.</p>
+<p>The principal change from V2 to V3 is the separation of instruction execution from output timing. V2 expresses timing through instruction delays; V3 allows an engine to schedule a transition against a shared clock, leaving a pin cell to apply the transition at the specified deadline.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic">Source repository</a><a class="button" href="https://mcranny.github.io/protocol-emulator-asic/">Documentation</a>
+</div>
+</div>
+</section>
+<section class="content-section " id="design-progress">
+<h2>V2 and V3</h2>
+<div class="section-content">
+<p id="progress-title">In V2, a firmware author must account for the number of cycles taken by the path leading to an output instruction. Conditional paths can therefore require different delay compensation. V3 assigns each engine a private time cursor and gives each pin a pending transition slot. Firmware advances the cursor by the desired interval; the pin cell applies the change when the shared timebase reaches that deadline, provided the engine schedules it in time.</p>
+<p>Moving each program from flip-flops to SRAM also increases the available instruction storage. The wider instruction format and larger memory support the additional scheduling operations without making program storage a proportional collection of standard-cell registers.</p>
+<table>
+<caption>Architectural changes between the two revisions</caption>
+<thead>
+<tr>
+<th scope="col">Feature</th>
+<th scope="col">V2</th>
+<th scope="col">V3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">System clock</th>
+<td>25 MHz</td>
+<td>48 MHz</td>
+</tr>
+<tr>
+<th scope="row">Program memory per engine</th>
+<td>64 × 24 bits in flip-flops</td>
+<td>256 × 32 bits in SRAM</td>
+</tr>
+<tr>
+<th scope="row">Output timing</th>
+<td>Instruction delays</td>
+<td>Deadlines applied by eight pin cells</td>
+</tr>
+<tr>
+<th scope="row">Timekeeping</th>
+<td>Engine delay counters and capture timestamps</td>
+<td>Shared 24-bit timebase and private engine cursors</td>
+</tr>
+<tr>
+<th scope="row">Transmit / receive queues</th>
+<td>16 bytes / 16 records per engine</td>
+<td>16 bytes / 16 records per engine</td>
+</tr>
+<tr>
+<th scope="row">Capture</th>
+<td>32 timestamped records</td>
+<td>32 timestamped records</td>
+</tr>
+<tr>
+<th scope="row">Physical allocation</th>
+<td>6 × 4 tiles</td>
+<td>8 × 4 tiles</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<nav class="asic-version-tabs" data-version-tabs aria-label="ASIC design version"><a class="button" id="tab-v3" href="?version=v3" data-version-tab="v3" aria-controls="version-v3">V3 implementation</a><a class="button" id="tab-v2" href="?version=v2" data-version-tab="v2" aria-controls="version-v2">V2 implementation</a>
+</nav>
+<section id="version-v3" class="asic-version-panel" data-version-panel="v3" aria-label="V3 case study"><span id="v3-results" class="fragment-alias"></span><span id="v3-results-title" class="fragment-alias"></span>
+<h2 class="version-title">V3 implementation</h2>
+<section class="content-section " id="v3-architecture">
+<h2>Execution and timing</h2>
+<div class="section-content">
+<p id="v3-architecture-title">Each engine reads a 32-bit instruction from its 256-word SRAM and maintains a private cursor on the shared 24-bit timebase. Output instructions schedule pin values or output enables, while timestamped input events provide a reference for receive operations. The host uses a 48-clock SPI frame to load and read back programs, service queues, and inspect status.</p>
+<figure class="architecture">
+<div><strong>SPI host interface</strong><span>Program loading and readback, queues, status</span>
+</div>
+<div class="engine-pair">
+<div><strong>Engine 0</strong><span>256 × 32-bit SRAM, private cursor</span>
+</div>
+<div><strong>Engine 1</strong><span>256 × 32-bit SRAM, private cursor</span>
+</div>
+</div>
+<div><strong>Shared 24-bit timebase at 48 MHz</strong><span>Eight deadline-driven pin cells and 32-record timestamped capture</span>
+</div>
+<figcaption>Functional organization of V3. The engines prepare transitions and the pin cells apply them against the shared timebase.</figcaption>
+</figure>
+</div>
+</section>
+<section class="content-section " id="v3-firmware">
+<h2>Protocol firmware</h2>
+<div class="section-content">
+<p id="v3-firmware-title">The UART transmitter uses 8N1 framing and takes bytes from the host transmit queue. Its data-dependent paths take nine or ten clocks per bit, but both advance the cursor by the same bit period. At 1 Mbaud, each bit occupies 48 core clocks, leaving time to prepare the next transition. The receiver places samples relative to the timestamp of the start edge, rather than estimating sample position from the instruction path.</p>
+<p>The supplied programs include 115,200-baud UART examples, with the requested period rounded to representable clock intervals. The documented 1-Mbaud timing describes firmware operation; sustained transfers also require the host to service the queues. The FPGA result below establishes program execution and a captured digital output, not a measured 1-Mbaud UART loopback.</p>
+<table>
+<caption>Protocol implementations</caption>
+<tbody>
+<tr>
+<th scope="row">UART</th>
+<td>8N1 transmit and receive; 115,200-baud examples and 1-Mbaud timing</td>
+</tr>
+<tr>
+<th scope="row">SPI</th>
+<td>Controller and target, modes 0–3, 1 MHz clock</td>
+</tr>
+<tr>
+<th scope="row">I²C</th>
+<td>Controller and target at 100 and 400 kHz; open-drain signaling, stretching, arbitration detection, and bus clear</td>
+</tr>
+<tr>
+<th scope="row">WS2812</th>
+<td>1.25 µs bit period, 0.4 / 0.8 µs high pulses, and a 300 µs reset interval</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="content-section " id="v3-verification">
+<h2>Verification</h2>
+<div class="section-content">
+<p id="v3-verification-title">The programmable core is checked by comparing model and RTL execution, by observing its protocol pins with independent peers, and by proving selected control and queue properties with Yosys induction. These methods examine different aspects of the design: a matching architectural trace does not, by itself, establish the timing or framing of an external protocol.</p>
+<p>The selected routed netlist passed 14 functional scenarios covering loading and readback, synchronized starts, queues, arbitration, filtering, capture, and status. The physical implementation passed nine prechecks. Extracted timing reports a slow-corner register setup margin of +2.58 ns and a fast-corner hold margin of +0.112 ns at a 20.83 ns clock period. These are tool-based physical-design results; fabricated-silicon operation has not been established.</p>
+</div>
+</section>
+<section class="content-section " id="v3-fpga">
+<h2>FPGA implementation</h2>
+<div class="section-content">
+<p id="v3-fpga-title">The Artix-7 implementation runs on a Digilent Cmod A7-35T. A 12 MHz oscillator supplies a 48 MHz core clock, FPGA block RAM replaces the ASIC SRAM macros, and a USB-UART bridge carries host commands to the SPI interface. Program loading, readback, and execution were exercised on the board.</p>
+<p>A Vivado ILA capture recorded a 25 kHz output with 960 core-clock samples per half-cycle, corresponding to 20 µs at 48 MHz. The capture observes internal digital signals and establishes the timing of this programmed output; it does not measure analog signal quality or demonstrate every protocol configuration.</p>
+</div>
+</section>
+<section class="content-section " id="v3-explore-layout">
+<h2>Physical layout</h2>
+<div class="section-content">
+<p id="v3-layout-title">The two SRAM macros lie along the lower edge of the 1,724 × 711 µm die, with their signal pins facing the standard-cell logic above them. The viewer retains both the overview and original polygon geometry so that the placement and routing can be examined at different scales.</p>
+</div>
+</section>
+<figure class="gds-viewer" data-gds-viewer data-version="v3" data-source="/assets/protocol-emulator/v3/layout-8b95d90/" data-raster="/assets/protocol-emulator/v3/raster-v1/" data-index="/assets/protocol-emulator/v3/display-v1/" data-gds-hash="050b88ed2253acb761f4f6365681a78da5e97520a03d02ff53b5a13e25d2be9f" aria-label="Interactive V3 chip layout">
+          <div class="gds-heading">
+<div><strong>V3 physical layout</strong><span>1,724 × 711 µm, CMOS5L</span>
+</div>
+</div>
+          <div class="gds-fallback" data-gds-fallback><img src="assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 860px) 100vw, 1152px" decoding="async" width="1024" height="422" alt="Raster overview of the selected V3 layout, showing the full die, two SRAM macros, and routed logic" loading="lazy">
+<div class="gds-preview-caption"><span>Complete die, raster preview</span><span>Original polygons in the detailed explorer</span>
+</div>
+</div>
+          <div class="gds-toolbar"><button type="button" class="button primary" data-gds-start hidden>Explore layout</button>
+<div data-gds-controls hidden><button type="button" data-gds-fit>Fit layout</button><button type="button" data-gds-detail>Inspect geometry</button><button type="button" data-gds-in aria-label="Zoom in">+</button><button type="button" data-gds-out aria-label="Zoom out">−</button><button type="button" data-gds-full aria-pressed="false">Full screen</button>
+</div><span data-gds-mode>Original geometry available on demand</span><button type="button" data-gds-retry hidden>Retry geometry</button>
+</div>
           <div class="gds-body">
-            <div class="gds-workspace" data-gds-workspace hidden><canvas data-gds-canvas tabindex="0" aria-label="V3 layout. Drag or use arrow keys to pan. Plus and minus zoom. F fits the layout." aria-describedby="v3-gds-help"></canvas></div>
-            <details class="gds-layer-panel" data-gds-layer-panel hidden><summary>Layers <span>Show, hide or isolate</span></summary><div class="gds-layer-actions"><button type="button" data-gds-all>All layers</button><button type="button" data-gds-none>Clear layers</button></div><div class="gds-layers" data-gds-layers></div><p class="gds-small">Toggle layers or use Solo to inspect an individual GDS layer/datatype pair.</p></details>
+            <div class="gds-workspace" data-gds-workspace hidden><canvas data-gds-canvas tabindex="0" aria-label="V3 layout. Drag or use arrow keys to pan. Plus and minus zoom. F fits the layout." aria-describedby="v3-gds-help"></canvas>
+</div>
+            <details class="gds-layer-panel" data-gds-layer-panel hidden><summary>Layers <span>Show, hide or isolate</span></summary>
+<div class="gds-layer-actions"><button type="button" data-gds-all>All layers</button><button type="button" data-gds-none>Clear layers</button>
+</div>
+<div class="gds-layers" data-gds-layers>
+</div>
+<p class="gds-small">Toggle layers or use Solo to inspect an individual GDS layer/datatype pair.</p></details>
           </div>
-          <p class="gds-status" data-gds-status role="status" aria-live="polite"></p>
-          <p class="gds-help" id="v3-gds-help" data-gds-help hidden>Drag to pan · double-click or pinch to zoom · Ctrl/⌘ + scroll to zoom · arrow keys to pan · F to fit. Ordinary scrolling moves the page.</p>
-          <figcaption><span data-gds-inventory>All 23 layer/datatype pairs · original polygon coordinates</span><p>The viewer uses image tiles for the die overview and original polygon coordinates for detailed inspection. The GDS download includes the complete layout and text labels.</p><div class="project-links"><a href="assets/protocol-emulator/v3/layout-8b95d90/layout.gds.gz" download>Download original GDS (.gz, 5.4 MB)</a><a href="assets/protocol-emulator/v3/layout-8b95d90/manifest.json">Geometry manifest</a></div></figcaption>
-          <noscript><p class="gds-help">Enable JavaScript to explore the geometry. The preview and original GDS archive are available above.</p></noscript>
+          <p class="gds-status" data-gds-status role="status" aria-live="polite">
+</p>
+          <p class="gds-help" id="v3-gds-help" data-gds-help hidden>Drag to pan, double-click or pinch to zoom, Ctrl/⌘ + scroll to zoom, arrow keys to pan, F to fit. Ordinary scrolling moves the page.</p>
+          <figcaption><span data-gds-inventory>All 23 layer/datatype pairs, original polygon coordinates</span>
+<p>The viewer uses image tiles for the die overview and original polygon coordinates for detailed inspection. The GDS download includes the complete layout and text labels.</p>
+<div class="actions"><a class="button" href="assets/protocol-emulator/v3/layout-8b95d90/layout.gds.gz" download>Download original GDS (.gz, 5.4 MB)</a><a class="button" href="assets/protocol-emulator/v3/layout-8b95d90/manifest.json">Geometry manifest</a>
+</div>
+</figcaption>
+          <noscript>
+<p class="gds-help">Enable JavaScript to explore the geometry. The preview and original GDS archive are available above.</p>
+</noscript>
         </figure>
-        </section>
-        <section class="case-section" id="v3-architecture" aria-labelledby="v3-architecture-title">
-          <div class="case-section-heading"><h2 id="v3-architecture-title">V3 execution and timing architecture</h2><p>Each engine advances a private time cursor and schedules output values and enables. The pin cells apply those changes on the shared clock, keeping edge timing consistent across branches and concurrent programs.</p></div>
-          <div class="asic-architecture" role="group" aria-label="V3 functional architecture">
-            <div class="architecture-host"><span class="eyebrow">Program &amp; control</span><strong>48-clock SPI host frame</strong><span>Load and read back programs · service queues · read status and capture</span></div>
-            <div class="architecture-connector" aria-hidden="true">↓</div>
-            <div class="architecture-engines"><div><strong>Engine 0</strong><span>256 × 32 SRAM · private cursor</span><span>16 TX bytes · 16 RX records</span></div><div><strong>Engine 1</strong><span>256 × 32 SRAM · private cursor</span><span>16 TX bytes · 16 RX records</span></div></div>
-            <div class="architecture-connector" aria-hidden="true">↓</div>
-            <div class="architecture-interface"><div><strong>Shared 24-bit timebase</strong><span>48 MHz · common deadlines and edge timestamps</span></div><div><strong>8 pin cells</strong><span>One pending commit per pin · disjoint ownership · open drain</span></div><div><strong>32-record capture</strong><span>Timestamp · inputs · outputs · enables · engine flags</span></div></div>
-            <p>Registered SRAM fetch and prefetch support one instruction per cycle in straight-line code. A shared CRC/LFSR handles programmable bit sequences, and timestamped inputs let firmware respond to external edges.</p>
-          </div>
-          <p class="source-note"><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/design/v3-architecture.md">V3 architecture and instruction set →</a></p>
-        </section>
-        <section class="case-section" id="v3-firmware" aria-labelledby="v3-firmware-title">
-          <div class="case-section-heading"><h2 id="v3-firmware-title">Protocol firmware</h2><p>Python generators produce assembly programs for the same engines and pin cells. The assembler, SPI loader, and cycle model share the instruction definitions.</p></div>
-          <div class="asic-capabilities">
-            <article><p class="eyebrow">Serial data</p><h3>UART &amp; SPI</h3><p>8N1 UART transmit and receive, plus SPI controller and target programs for modes 0–3. Edge deadlines set the waveform timing; host queues carry the bytes.</p><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md#uart">UART firmware →</a><br><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md#spi">SPI firmware →</a></article>
-            <article><p class="eyebrow">Shared buses</p><h3>I²C</h3><p>Controller and target programs at 100 and 400 kHz, with open-drain output, clock stretching, arbitration detection, and nine-pulse bus-clear recovery.</p><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md#i2c">I²C firmware →</a></article>
-            <article><p class="eyebrow">Pulse-width data</p><h3>WS2812</h3><p>The same hardware generates addressable-LED data by scheduling different high and low intervals. A self-contained program sends three RGB pixels and their latch interval.</p><a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md#ws2812">WS2812 firmware →</a></article>
-          </div>
-        </section>
-        <section class="case-section" id="v3-results" aria-labelledby="v3-results-title">
-          <div class="case-section-heading"><h2 id="v3-results-title">RTL verification and physical implementation results</h2><p>Cycle-model comparisons check pin transitions, induction proofs check block and integration properties, and routed-netlist tests exercise the host interface, program execution, queues, and capture.</p></div>
-          <div class="asic-evidence-grid">
-            <article><p class="eyebrow">Model &amp; RTL</p><h3>Cycle-by-cycle checks</h3><p>cocotb differential suites, protocol peers for UART, SPI, I²C and WS2812, and Yosys induction proofs cover the programmable core.</p></article>
-            <article><p class="eyebrow">Routed netlist</p><h3>14 passing scenarios</h3><p>Host loading and readback, atomic start, transmit and receive queues, CRC arbitration, input filtering, capture, and status readback.</p></article>
-            <article><p class="eyebrow">Physical checks</p><h3>9 passing prechecks</h3><p>The selected V3 layout passes CMOS5L DRC, pin, boundary, layer, cell-name, and layout checks.</p></article>
-          </div>
-          <div class="asic-physical">
-            <figure class="figure"><img src="assets/protocol-emulator/v3/display-v1/detail-1400.webp" srcset="assets/protocol-emulator/v3/display-v1/detail-640.webp 640w, assets/protocol-emulator/v3/display-v1/detail-1400.webp 1400w" sizes="(max-width: 860px) 100vw, 560px" decoding="async" width="1400" height="700" alt="V3 SRAM signal pins and routed standard-cell logic above the macro edge" loading="lazy"><figcaption>SRAM interface and surrounding routing in the selected V3 layout.</figcaption></figure>
-            <table><caption>V3 physical result · 8b95d90</caption><tbody>
-              <tr><th scope="row">Process / allocation</th><td>IHP 130 nm CMOS5L / 8 × 4 tiles</td></tr>
-              <tr><th scope="row">Clock period</th><td>20.833 ns · 48 MHz</td></tr>
-              <tr><th scope="row">Standard-cell / SRAM area</th><td>660,587 / 98,977 µm²</td></tr>
-              <tr><th scope="row">Core utilization</th><td>62.87%</td></tr>
-              <tr><th scope="row">Slow-corner register setup margin</th><td>+2.578 ns</td></tr>
-              <tr><th scope="row">Fast-corner hold margin</th><td>+0.112 ns</td></tr>
-            </tbody></table>
-          </div>
-          <div class="project-links"><a href="assets/protocol-emulator/v3/summary.json">Exact metrics and provenance</a><a href="assets/protocol-emulator/v3/acceptance.json">Qualification results</a><a href="https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147">Build and verification run</a></div>
-        </section>
-        <section class="case-section" id="v3-fpga" aria-labelledby="v3-fpga-title">
-          <div class="case-section-heading"><h2 id="v3-fpga-title">Running on Artix-7</h2><p>Ran V3 at 48 MHz on a Digilent Cmod A7-35T, loaded and executed programs through the host bridge, and captured a 25 kHz output in Vivado ILA.</p></div>
-          <div class="asic-capabilities">
-            <article><p class="eyebrow">Board integration</p><h3>Cmod A7-35T</h3><p>A 12 MHz board oscillator feeds the 48 MHz core clock. FPGA block RAM holds the two programs, and a USB-UART bridge carries host commands to the SPI interface.</p></article>
-            <article><p class="eyebrow">Program execution</p><h3>Host loading and execution</h3><p>The host writes the program image, reads it back, configures pin ownership, and starts the engine. The programmed output runs on the board.</p></article>
-            <article><p class="eyebrow">Vivado ILA</p><h3>25 kHz output</h3><p>The capture shows 960 core-clock samples per half-cycle: 20 µs at 48 MHz. Five probes expose inputs, outputs, output enables, core status, and serial-link status.</p></article>
-          </div>
-        </section>
-        <section class="case-section asic-resources" aria-labelledby="v3-resources-title"><div class="case-section-heading"><h2 id="v3-resources-title">V3 source and documentation</h2><p>Architecture, firmware, verification, and the selected physical layout.</p></div><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/tree/0ff3c61217fbe6909750814c19e7100b2ddf1038">V3 source</a><a class="button" href="https://mcranny.github.io/protocol-emulator-asic/">Technical documentation</a><a class="button" href="#design-progress">Compare V2 and V3</a></div><p class="source-note"><a href="assets/protocol-emulator/v3/checksums.json">Website artifact checksums</a> · <a href="assets/protocol-emulator/v3/LICENSE.txt">Apache-2.0 license</a></p></section>
-      </section>
-      <section id="version-v2" class="asic-version-panel" data-version-panel="v2" aria-label="V2 case study">
-        <div class="asic-version-heading"><h2>V2 · Dual engines</h2><p>25 MHz · protocol queues · triggered capture</p></div>
-      <aside class="case-summary" aria-label="V2 at a glance">
-        <div class="case-fact"><span>Programmable execution</span><strong>2 independent engines</strong><p>25 MHz · 64 × 24-bit instructions per engine</p></div>
-        <div class="case-fact"><span>Interface capture</span><strong>32 capture records</strong><p>Timestamped pin activity and trigger state</p></div>
-        <div class="case-fact"><span>Physical implementation</span><strong>IHP 130 nm · 6 × 4 tiles</strong><p>Selected V2 layout · source 447b3df</p></div>
-      </aside>
-
-      <section class="case-section" id="explore-layout" aria-labelledby="layout-title">
-        <div class="case-section-heading"><h2 id="layout-title">V2 physical layout</h2><p>The layout viewer supports full-die inspection, routing detail, and individual layer selection.</p></div>
-        <figure class="gds-viewer" data-gds-viewer data-version="v2" data-source="/assets/protocol-emulator/v2/layout-447b3df/" data-raster="/assets/protocol-emulator/v2/raster-v1/" data-index="/assets/protocol-emulator/v2/display-v1/" data-gds-hash="902c78fce4a69fde56dbf209b34d5c809e2d44610e6b1e790f03963bb97322c6" aria-label="Interactive V2 chip layout">
-          <div class="gds-heading"><div><strong>V2 physical layout</strong><span>1,289.28 × 710.64 µm · CMOS5L</span></div><span class="gds-revision">447b3df</span></div>
-          <div class="gds-fallback" data-gds-fallback><img src="assets/protocol-emulator/v2/display-v1/overview-1024.webp" srcset="assets/protocol-emulator/v2/display-v1/overview-640.webp 640w, assets/protocol-emulator/v2/display-v1/overview-1024.webp 1024w" sizes="(max-width: 860px) 100vw, 1152px" decoding="async" width="1024" height="565" alt="Raster overview of the selected V2 layout, showing the full die and repeated routing structures" loading="lazy"><div class="gds-preview-caption"><span>Complete die · raster preview</span><span>5.8 million polygons in the detailed explorer</span></div></div>
-          <div class="gds-toolbar"><button type="button" class="button primary" data-gds-start hidden>Explore layout</button><div data-gds-controls hidden><button type="button" data-gds-fit>Fit layout</button><button type="button" data-gds-detail>Inspect geometry</button><button type="button" data-gds-in aria-label="Zoom in">+</button><button type="button" data-gds-out aria-label="Zoom out">−</button><button type="button" data-gds-full aria-pressed="false">Full screen</button></div><span data-gds-mode>Original geometry available on demand</span><button type="button" data-gds-retry hidden>Retry geometry</button></div>
+<section class="content-section " id="v3-resources">
+<h2>References</h2>
+<div class="section-content">
+<p id="v3-resources-title">The <a href="https://github.com/mcranny/protocol-emulator-asic/blob/0ff3c61217fbe6909750814c19e7100b2ddf1038/docs/firmware.md">firmware description</a> explains protocol timing and queue behavior. The <a href="assets/protocol-emulator/v3/summary.json">physical summary</a> retains exact measurements and separate identities for the design, physical layout, and verification workflow.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/actions/runs/40803741147">Build and verification records</a><a class="button" href="assets/protocol-emulator/v3/checksums.json">Artifact checksums</a>
+</div>
+</div>
+</section>
+</section>
+<section id="version-v2" class="asic-version-panel" data-version-panel="v2" aria-label="V2 case study"><span id="example-title" class="fragment-alias"></span><span id="evolution-title" class="fragment-alias"></span>
+<h2 class="version-title">V2 implementation</h2>
+<section class="content-section ">
+<h2>Execution model</h2>
+<div class="section-content">
+<p id="capability-title">V2 established the dual-engine design, with separate 64-word programs, transmit and receive queues, and a shared 32-record capture unit. Both engines run at 25 MHz, and firmware uses instruction delays to establish protocol timing. Pin ownership prevents the engines from driving the same output, while synchronized inputs and optional filtering support reception.</p>
+<p id="architecture-title">The UART verification includes sustained full-duplex simulation at 115,200 baud and preloaded 16-byte full-duplex bursts at 1 Mbaud. The higher wire rate is a burst capability in those tests; it should not be interpreted as a demonstrated continuous host-to-wire throughput. The released examples also cover both SPI roles and I²C at 100 and 400 kHz.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Physical result</h2>
+<div class="section-content">
+<p id="verification-title">The selected V2 physical implementation was validated through a local Tiny Tapeout checkpoint recovery. Its elaborated RTL and prepared settings correspond to the released software. Extracted timing passed at all three reported corners, with a lowest setup margin of +18.46 ns and lowest hold margin of +0.054 ns. The retained results include nine physical prechecks and 14 functional gate-level scenarios.</p>
+<p>These results describe the recovered physical-design run and functional simulation. They do not establish fabricated-silicon operation, FPGA operation of V2, or competition acceptance.</p>
+</div>
+</section>
+<section class="content-section " id="explore-layout">
+<h2>Physical layout</h2>
+<div class="section-content">
+<p id="layout-title">The V2 layout occupies a 6 × 4 tile allocation and stores program instructions in standard-cell registers. Comparing it with the two SRAM macros in V3 makes the program-memory change visible in the physical implementation.</p>
+</div>
+</section>
+<figure class="gds-viewer" data-gds-viewer data-version="v2" data-source="/assets/protocol-emulator/v2/layout-447b3df/" data-raster="/assets/protocol-emulator/v2/raster-v1/" data-index="/assets/protocol-emulator/v2/display-v1/" data-gds-hash="902c78fce4a69fde56dbf209b34d5c809e2d44610e6b1e790f03963bb97322c6" aria-label="Interactive V2 chip layout">
+          <div class="gds-heading">
+<div><strong>V2 physical layout</strong><span>1,289.28 × 710.64 µm, CMOS5L</span>
+</div>
+</div>
+          <div class="gds-fallback" data-gds-fallback><img src="assets/protocol-emulator/v2/display-v1/overview-1024.webp" srcset="assets/protocol-emulator/v2/display-v1/overview-640.webp 640w, assets/protocol-emulator/v2/display-v1/overview-1024.webp 1024w" sizes="(max-width: 860px) 100vw, 1152px" decoding="async" width="1024" height="565" alt="Raster overview of the selected V2 layout, showing the full die and repeated routing structures" loading="lazy">
+<div class="gds-preview-caption"><span>Complete die, raster preview</span><span>5.8 million polygons in the detailed explorer</span>
+</div>
+</div>
+          <div class="gds-toolbar"><button type="button" class="button primary" data-gds-start hidden>Explore layout</button>
+<div data-gds-controls hidden><button type="button" data-gds-fit>Fit layout</button><button type="button" data-gds-detail>Inspect geometry</button><button type="button" data-gds-in aria-label="Zoom in">+</button><button type="button" data-gds-out aria-label="Zoom out">−</button><button type="button" data-gds-full aria-pressed="false">Full screen</button>
+</div><span data-gds-mode>Original geometry available on demand</span><button type="button" data-gds-retry hidden>Retry geometry</button>
+</div>
           <div class="gds-body">
-            <div class="gds-workspace" data-gds-workspace hidden><canvas data-gds-canvas tabindex="0" aria-label="V2 layout. Drag or use arrow keys to pan. Plus and minus zoom. F fits the layout." aria-describedby="gds-help"></canvas></div>
-            <details class="gds-layer-panel" data-gds-layer-panel hidden><summary>Layers <span>Show, hide or isolate</span></summary><div class="gds-layer-actions"><button type="button" data-gds-all>All layers</button><button type="button" data-gds-none>Clear layers</button></div><div class="gds-layers" data-gds-layers></div><p class="gds-small">Toggle layers or use Solo to inspect an individual GDS layer/datatype pair.</p></details>
+            <div class="gds-workspace" data-gds-workspace hidden><canvas data-gds-canvas tabindex="0" aria-label="V2 layout. Drag or use arrow keys to pan. Plus and minus zoom. F fits the layout." aria-describedby="gds-help"></canvas>
+</div>
+            <details class="gds-layer-panel" data-gds-layer-panel hidden><summary>Layers <span>Show, hide or isolate</span></summary>
+<div class="gds-layer-actions"><button type="button" data-gds-all>All layers</button><button type="button" data-gds-none>Clear layers</button>
+</div>
+<div class="gds-layers" data-gds-layers>
+</div>
+<p class="gds-small">Toggle layers or use Solo to inspect an individual GDS layer/datatype pair.</p></details>
           </div>
-          <p class="gds-status" data-gds-status role="status" aria-live="polite"></p>
-          <p class="gds-help" id="gds-help" data-gds-help hidden>Drag to pan · double-click or pinch to zoom · Ctrl/⌘ + scroll to zoom · arrow keys to pan · F to fit. Ordinary scrolling moves the page.</p>
-          <figcaption><span data-gds-inventory>All 16 layer/datatype pairs · original polygon coordinates</span><p>The viewer uses image tiles for the die overview and original polygon coordinates for detailed inspection. The GDS download includes the complete layout and text labels.</p><div class="project-links"><a href="assets/protocol-emulator/v2/layout-447b3df/selected-layout.tar.gz" download>Download GDS + netlist (.tar.gz, 6.5 MB)</a><a href="assets/protocol-emulator/v2/layout-447b3df/manifest.json">Geometry manifest</a></div></figcaption>
-          <noscript><p class="gds-help">Enable JavaScript to explore the geometry. The preview and original GDS archive are available above.</p></noscript>
+          <p class="gds-status" data-gds-status role="status" aria-live="polite">
+</p>
+          <p class="gds-help" id="gds-help" data-gds-help hidden>Drag to pan, double-click or pinch to zoom, Ctrl/⌘ + scroll to zoom, arrow keys to pan, F to fit. Ordinary scrolling moves the page.</p>
+          <figcaption><span data-gds-inventory>All 16 layer/datatype pairs, original polygon coordinates</span>
+<p>The viewer uses image tiles for the die overview and original polygon coordinates for detailed inspection. The GDS download includes the complete layout and text labels.</p>
+<div class="actions"><a class="button" href="assets/protocol-emulator/v2/layout-447b3df/selected-layout.tar.gz" download>Download GDS + netlist (.tar.gz, 6.5 MB)</a><a class="button" href="assets/protocol-emulator/v2/layout-447b3df/manifest.json">Geometry manifest</a>
+</div>
+</figcaption>
+          <noscript>
+<p class="gds-help">Enable JavaScript to explore the geometry. The preview and original GDS archive are available above.</p>
+</noscript>
         </figure>
-      </section>
-
-      <section class="case-section" aria-labelledby="capability-title">
-        <div class="case-section-heading"><h2 id="capability-title">V2 execution, receive paths, and capture</h2><p>Protocols are firmware running on a common timing engine. V2 extends that foundation to receiving data, coordinating two engines, and recording what happened at the interface.</p></div>
-        <div class="asic-capabilities">
-          <article><span class="eyebrow">01 · Execute</span><h3>Protocol transmission and reception</h3><p>UART transmit and receive, all four SPI modes, and I²C at 100 or 400 kHz. SPI and I²C examples cover both controller and target roles.</p></article>
-          <article><span class="eyebrow">02 · Observe</span><h3>Queues and timestamped capture</h3><p>Each engine has 16-byte TX and 16-record RX queues. A separate 32-record capture unit records synchronized pin activity, including glitches rejected by the engine input filter.</p></article>
-          <article><span class="eyebrow">03 · Reproduce</span><h3>Verification and reproduction</h3><p>Python assembly and loading tools, a cycle model, independent protocol observers, and retained test evidence connect intended behavior to implementation.</p></article>
-        </div>
-        <div class="asic-architecture" role="group" aria-label="V2 functional architecture">
-          <div class="architecture-host"><span class="eyebrow">Program &amp; control</span><strong>SPI host interface</strong><span>Load instructions · service queues · read capture</span></div>
-          <div class="architecture-connector" aria-hidden="true">↓</div>
-          <div class="architecture-engines"><div><strong>Engine 0</strong><span>64 × 24-bit program</span><span>16 TX bytes · 16 RX records</span></div><div><strong>Engine 1</strong><span>64 × 24-bit program</span><span>16 TX bytes · 16 RX records</span></div></div>
-          <div class="architecture-interface"><div><strong>Pin ownership &amp; open drain</strong><span>Controlled output enables</span></div><div><strong>Shared synchronized inputs</strong><span>Optional filtering → engines</span></div><div><strong>Triggered capture</strong><span>Raw synchronized inputs → 32 records</span></div></div>
-          <p>Eight protocol I/O pins connect the programmable engines to the device under test. Capture observes the interface independently.</p>
-        </div>
-        <p class="source-note"><a href="https://github.com/mcranny/protocol-emulator-asic/blob/v2/docs/v2-architecture.md">Architecture and host interface →</a></p>
-      </section>
-
-      <section class="case-section" aria-labelledby="example-title">
-        <div class="case-section-heading"><h2 id="example-title">Dual-engine UART example</h2><p>A bounded 1 Mbaud UART duplex example: one engine transmits four bytes while the other receives a different four-byte sequence. Each bit spans 25 system clocks.</p></div>
-        <figure class="figure asic-waveform"><div class="waveform-scroll" tabindex="0" role="region" aria-label="UART timing diagram; scroll horizontally to inspect all four bytes"><img src="assets/protocol-emulator/v2/uart-duplex.svg" width="1200" height="360" loading="lazy" alt="V2 UART duplex simulation: engine 0 transmits 00, 55, A5, FF; external stimulus to engine 1 carries 81, 5A, 01, FE"></div><figcaption><span class="waveform-hint">Scroll the timing diagram horizontally to inspect all four bytes.</span>Python cycle-model simulation at software revision 881495c. The plot combines the released TX trace with RX stimulus reconstructed from the example. Both engines run a preloaded burst, and the example verifies the received bytes 81, 5A, 01, FE and their framing status.</figcaption></figure>
-        <div class="project-links"><a href="assets/protocol-emulator/v2/uart-duplex.json">Trace and checked results</a><a href="assets/protocol-emulator/v2/uart_tx_1000000.asm">TX program</a><a href="assets/protocol-emulator/v2/uart_rx_1000000.asm">RX program</a><a href="https://github.com/mcranny/protocol-emulator-asic/blob/v2/docs/example-programs.md">All 14 protocol examples →</a></div>
-      </section>
-
-      <section class="case-section" aria-labelledby="verification-title">
-        <div class="case-section-heading"><h2 id="verification-title">Verification and physical results</h2><p>The V2 release includes protocol tests, routed-netlist simulation, and extracted timing analysis across fast, typical, and slow corners.</p></div>
-        <div class="asic-evidence-grid">
-          <article><p class="eyebrow">Software &amp; RTL · 881495c</p><h3>699 Python tests</h3><p>Complete V1/V2 functional gate, both tops’ lint and synthesis, five induction proofs, six mutation checks, and 14 executable protocol examples.</p></article>
-          <article><p class="eyebrow">Selected netlist · 447b3df</p><h3>14 gate-level scenarios</h3><p>Functional cell-model simulations passed the protocol pin scenarios and supplemental reset and state-loss checks on the selected routed netlist.</p></article>
-          <article><p class="eyebrow">Physical implementation</p><h3>9 stock prechecks</h3><p>The selected local checkpoint recovery passed the required physical checks, independent mapping and full-geometry checks.</p></article>
-        </div>
-        <div class="asic-physical">
-          <figure class="figure"><img src="assets/protocol-emulator/v2/display-v1/detail-1400.webp" srcset="assets/protocol-emulator/v2/display-v1/detail-640.webp 640w, assets/protocol-emulator/v2/display-v1/detail-1400.webp 1400w" sizes="(max-width: 860px) 100vw, 560px" decoding="async" width="1400" height="700" alt="Close-up raster rendering of original V2 polygon coordinates in a 60.435 micrometre central viewport" loading="lazy"><figcaption>Selected V2 geometry, 60.435 µm across. Original polygon coordinates rasterized for this preview; use the explorer to inspect the layers.</figcaption></figure>
-          <table><caption>Selected physical result · 447b3df</caption><tbody>
-            <tr><th scope="row">Process / allocation</th><td>IHP 130 nm CMOS5L / 6 × 4 tiles</td></tr>
-            <tr><th scope="row">Clock / transition / uncertainty</th><td>40 ns / 1.5 ns / 0.25 ns</td></tr>
-            <tr><th scope="row">Standard-cell area</th><td>793,932 µm²</td></tr>
-            <tr><th scope="row">Core utilization</th><td>87.98%</td></tr>
-            <tr><th scope="row">Minimum setup / hold slack</th><td>+18.456291 ns / +0.054473 ns</td></tr>
-            <tr><th scope="row">Slew / fanout / capacitance violations</th><td>0 at every required corner</td></tr>
-          </tbody></table>
-        </div>
-        <div class="asic-provenance"><h3>Physical implementation</h3><p>The V2 layout completed validation through a <strong>local Tiny Tapeout checkpoint recovery</strong> at physical revision <code>447b3df</code>. Its elaborated RTL and prepared settings match software revision <code>881495c</code>.</p><p>Extracted timing analysis passes at all three corners. The table reports the lowest setup and hold margins across those corners.</p><div class="project-links"><a href="assets/protocol-emulator/v2/summary.json">Exact metrics and provenance</a><a href="https://evidence.mcranny.net/recovery-447b3df">Physical evidence</a><a href="https://github.com/mcranny/protocol-emulator-asic/blob/v2/docs/release-evidence.md">Release verification records →</a></div></div>
-        <details class="asic-notes"><summary>Programming V2</summary><p>The V2 Python APIs configure the engines, load programs, and read results. The host services queues through a 1 MHz SPI interface; the 1 Mbaud duplex examples preload their transmit bursts. Reset, configure, and reload to initialize program and capture storage.</p><p><a href="https://github.com/mcranny/protocol-emulator-asic/blob/v2/docs/example-programs.md">V2 programming examples →</a></p></details>
-      </section>
-
-      <section class="case-section" aria-labelledby="evolution-title">
-        <div class="case-section-heading"><h2 id="evolution-title">From V1 to V2</h2><p>V1 established programmable transmission and completed electrical closure. V2 adds independent execution, receive paths, and capture within the same 6 × 4 tile allocation.</p></div>
-        <div class="asic-comparison"><table><caption>V1 release → V2 milestone</caption><thead><tr><th scope="col">Capability</th><th scope="col">V1.0.0</th><th scope="col">V2</th></tr></thead><tbody>
-          <tr><th scope="row">Timing engines</th><td>1</td><td>2 independent engines</td></tr>
-          <tr><th scope="row">Program storage</th><td>64 × 24 bits</td><td>64 × 24 bits per engine</td></tr>
-          <tr><th scope="row">TX / RX buffering</th><td>4 TX bytes / no RX queue</td><td>16 TX bytes / 16 RX records per engine</td></tr>
-          <tr><th scope="row">Protocol examples</th><td>UART transmit</td><td>UART TX/RX, SPI modes 0–3, I²C</td></tr>
-          <tr><th scope="row">Triggered capture</th><td>None</td><td>32 timestamped records</td></tr>
-          <tr><th scope="row">Clock / allocation</th><td>25 MHz / 6 × 4 tiles</td><td>25 MHz / 6 × 4 tiles</td></tr>
-        </tbody></table></div>
-        <ol class="asic-timeline"><li><strong>Programmable foundation</strong><span>V1 UART transmission and electrical closure.</span></li><li><strong>Independent behavior</strong><span>Dual engines, protocol observers, and capture.</span></li><li><strong>Measured implementation</strong><span>Storage and routing decisions backed by physical evidence.</span></li><li><strong>V2 milestone</strong><span>Selected layout, executable examples, and retained verification results.</span></li></ol>
-        <p class="source-note">Historical baseline: <a href="https://github.com/mcranny/protocol-emulator-asic/releases/tag/v1.0.0">completed V1.0.0 release</a>. Both versions target 25 MHz. V2 adds a second engine, receive queues, and triggered capture.</p>
-      </section>
-
-      <section class="case-section asic-resources" aria-labelledby="resources-title"><div class="case-section-heading"><h2 id="resources-title">V2 source and documentation</h2><p>V2 milestone published 18 October 2026. Python package and runtime version: 2.0.0rc1.</p></div><div class="project-actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/releases/tag/v2">V2 release &amp; downloads</a><a class="button" href="https://github.com/mcranny/protocol-emulator-asic/tree/v2/docs">Technical documentation</a><a class="button" href="https://github.com/mcranny/protocol-emulator-asic/tree/v2">Source repository</a></div><p class="source-note"><a href="assets/protocol-emulator/v2/checksums.json">Website artifact checksums</a> · Viewer adapted from the project’s static renderer at <code>856a1ea</code> · <a href="assets/protocol-emulator/v2/LICENSE.txt">Apache-2.0 license</a></p></section>
-      </section>
-    </main>
-    <footer class="site-footer"><div class="footer-inner"><p>Matthew Cranny · Systems Engineer</p><nav class="footer-links" aria-label="Footer"><a href="/#work">Professional work</a><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav></div></footer>
-  </body>
+<section class="content-section " id="resources">
+<h2>References</h2>
+<div class="section-content">
+<p id="resources-title">The V2 release contains the firmware examples and software validation records. The physical summary records the checkpoint recovery and its correspondence to the software source.</p>
+<div class="actions"><a class="button primary" href="https://github.com/mcranny/protocol-emulator-asic/releases/tag/v2">V2 release</a><a class="button" href="assets/protocol-emulator/v2/summary.json">Physical summary</a><a class="button" href="https://evidence.mcranny.net/recovery-447b3df">Recovery records</a>
+</div>
+</div>
+</section>
+</section>
+</main>
+<footer class="site-footer">
+<nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>
+</nav>
+<p>Matthew Cranny, Systems Engineer</p>
+</footer>
+</body>
 </html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="robots" content="noindex"><title>Matthew Cranny | Prototype A</title><link rel="stylesheet" href="../a.css"></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><a class="identity" href="index.html">Matthew Cranny</a><nav aria-label="Primary"><a href="index.html#experience">Experience</a><a href="index.html#projects">Projects</a><a href="/resume.html">Résumé</a></nav></header>
+<main id="main" class="home"><header class="intro"><h1>Matthew Cranny</h1>
+<p class="role">Systems Engineer, PDF Solutions</p>
+<p>Automated hardware testing, embedded firmware, and digital design.</p>
+<p><a href="mailto:crannymatthew@gmail.com">crannymatthew@gmail.com</a></p></header>
+<section id="experience"><h2>Experience</h2><div class="section-content">
+<h3>PDF Solutions</h3><p class="meta">Systems Engineer, San Jose, CA<br>March 2026 to present</p>
+<ul class="experience-list"><li>Own qualification, calibration, and production acceptance across six board families using Python, PyQt6, bench instruments, SCPI, GPIB, and NI-DAQmx for electrical, analog, thermal, telemetry, and firmware testing.</li><li>Developed a custom selector for four electrostatic correction boards; wrote C firmware with SCPI-style commands over RS-485 to route measurement outputs and Ethernet control for the active board.</li><li>Built a system of record for over 1,000 items using Rust microservices and PostgreSQL, integrating frontend and backend workflows to track boards, serialized parts, installations, software, firmware, and configurations.</li><li>Investigated power-up IP assignment and connectivity failures surfaced by faster automated testing; used AMD Vivado and register-level analysis to diagnose hardware and firmware faults.</li></ul></div></section>
+<section id="projects"><h2>Projects</h2><div class="section-content">
+<article class="project"><div class="project-copy"><h3><a href="asic.html">Programmable Protocol Emulator ASIC</a></h3>
+<p>Two programmable engines schedule protocol edges on a shared 48 MHz timebase, with SRAM program memory and timestamped capture.</p>
+<dl><dt>Platform</dt><dd>Verilog, Python, IHP 130 nm CMOS5L</dd><dt>Memory</dt><dd>256 × 32 bits per engine</dd><dt>Hardware</dt><dd>Artix-7 Cmod A7-35T, Vivado ILA capture</dd></dl>
+<p class="links"><a href="asic.html">Technical details</a><a href="https://github.com/mcranny/protocol-emulator-asic">Source</a></p></div>
+<figure><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" width="1024" height="422" alt="V3 chip layout showing two SRAM macros and routed logic"><figcaption>V3 physical layout, 1,724 × 711 µm.</figcaption></figure></article>
+<article class="project"><div class="project-copy"><h3><a href="/testos.html">TestOS</a></h3>
+<p>A UEFI-booted x86-64 operating system with persistent storage, a network stack, and user-space utilities.</p>
+<dl><dt>Platform</dt><dd>C, x86-64</dd><dt>Storage</dt><dd>ATA, AHCI, and NVMe data-disk checks</dd><dt>Testing</dt><dd>QEMU boot, HTTP downloads, and TCP packet checks</dd></dl>
+<p class="links"><a href="/testos.html">Technical details</a><a href="https://github.com/mcranny/TestOS">Source</a></p></div>
+<figure><img src="/assets/testos/boot-poster.png" width="1024" height="768" alt="TestOS terminal booted in QEMU"><figcaption>TestOS shell in QEMU.</figcaption></figure></article>
+<article class="project"><div class="project-copy"><h3><a href="/btree.html">B-Tree Storage Engine</a></h3>
+<p>A disk-backed Rust key-value engine with a checksummed redo log, deletion rebalancing, and differential tests against SQLite.</p>
+<dl><dt>Platform</dt><dd>Rust</dd><dt>Pages</dt><dd>4,096 bytes, 64-page LRU cache</dd><dt>Recovery</dt><dd>Replay of complete redo-log records</dd></dl>
+<p class="links"><a href="/btree.html">Technical details</a><a href="https://github.com/mcranny/btree-storage-engine">Source</a></p></div>
+<figure class="page-structure"><dl><dt>Metadata page</dt><dd>Root, page count, free-list head</dd><dt>Node page</dt><dd>Keys, records, child page identifiers</dd><dt>Reusable page</dt><dd>Next free page identifier</dd></dl><figcaption>B-tree database page types, 4,096 bytes per page.</figcaption></figure></article>
+</div></section>
+<section id="background"><h2>Background</h2><div class="section-content"><dl class="background">
+<dt>Amazon</dt><dd>Area Manager Intern, ICQA, May to July 2025. Python and AWS data pipelines; automated labor reporting.</dd>
+<dt>Space Sciences Laboratory</dt><dd>Aerospace Engineering Intern, June 2024 to May 2025. Mechanical design, cleanroom assembly, and flight-hardware wiring.</dd>
+<dt>UC Berkeley</dt><dd>B.A. Physics, May 2026. Instrumentation, experimental laboratory, electromagnetism, and optics.</dd>
+</dl></div></section></main>
+<footer><nav aria-label="Contact"><a href="/resume.html">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a></nav><p class="review-note">Prototype A: Plain technical document. <a href="../index.html">Compare designs</a></p></footer></body></html>

@@ -1,38 +1,34 @@
 # Matthew Cranny | Engineering Portfolio
 
-[![Matthew Cranny's engineering portfolio](assets/site-preview.png)](https://mcranny.net)
+Personal site for professional semiconductor test work and three independent projects:
+Protocol Emulator ASIC, TestOS, and B-Tree Storage Engine.
 
-Personal portfolio covering automated test systems, custom hardware, instrumentation, and firmware validation for semiconductor manufacturing equipment.
+Live site: [mcranny.net](https://mcranny.net).
 
-**Live site:** [mcranny.net](https://mcranny.net)
+## Structure and development
 
-## Projects
-
-- [Programmable Protocol Emulator ASIC](https://mcranny.net/protocol-emulator): V3 SRAM programs, deadline-driven pin timing at 48 MHz, Artix-7 FPGA operation, and native V2/V3 chip explorers.
-- [TestOS](https://mcranny.net/testos): UEFI x86-64 systems work with storage, HTTP, and network interoperability checks in QEMU.
-- [Hardware Verification Framework](https://mcranny.net/hardware): Python and cocotb tooling for deterministic RTL stimulus, waveform comparison, and diagnostics.
-- [Virtual Oscilloscope Simulator](https://mcranny.net/scope): waveform generation, analog response, acquisition, triggering, and measurement in a browser viewer.
-- [Asteroid Intercept Planner](https://mcranny.net/neo): JPL data ingestion, orbital-transfer search, endpoint validation, and interactive mission plots.
-- [B-Tree Storage Engine](https://mcranny.net/btree): a disk-backed Rust key-value engine with redo logging, deletion rebalancing, and differential tests against SQLite.
-
-These are independent projects. Each project page links its source repository and supporting results. Professional experience, contact details, and the current résumé are available on the site.
-
-## Local development
-
-The site uses plain HTML, CSS, and JavaScript. Python's standard library builds `dist/` from the public file list in `scripts/public-files.json`.
+The site uses static HTML, CSS, and JavaScript. Experience and Projects are separate
+pages. Shared typography, layout, and buttons live in `css/base.css`; article
+figures, ASIC version tabs, and the native layout viewer use `css/project.css`.
+The site is light-only and navigation works without JavaScript.
 
 ```sh
 python3 scripts/build_site.py
 python3 scripts/preview_site.py --port 5001
 ```
 
-Open [localhost:5001](http://127.0.0.1:5001). Rebuild after editing source files. Add new public assets to `scripts/public-files.json` so they are included in the build.
+Open http://127.0.0.1:5001. Rebuild after edits. The build publishes only the
+explicit `scripts/public-files.json` allowlist. The preview implements the
+extensionless routes, retired-page redirects, response headers, and custom 404.
+Scope, NEO, and Hardware Verification redirect to `/projects`; Contact redirects
+to `/`. Their independent source repositories and Git history are retained.
 
-The site supports responsive navigation, light and dark themes, keyboard controls, and reduced motion. The mission viewer loads its data on demand. Both layout viewers run natively in the case study. Each loads same-origin, checksum-verified polygon tiles on demand and provides a static fallback.
+Prototype designs and their screenshots remain in `prototypes/redesign/` for
+reference and are excluded from publication. Design B was selected; the final
+site adds separate-page navigation, filled/outlined buttons, and connected
+technical prose. See `DESIGN.md` for the current conventions.
 
 ## Validation
-
-With the local preview running, install the development dependencies and run the checks in a separate terminal:
 
 ```sh
 python3 -m venv .venv
@@ -41,17 +37,26 @@ python3 -m pip install -r requirements-dev.txt
 npm ci
 npx playwright install chromium
 python3 scripts/check_site.py
+python3 scripts/build_site.py
+python3 scripts/preview_site.py --port 5001
+# In another terminal:
 npm run check:browser
 npm run check:media
 npm run check:versions
 npm run check:performance
 ```
 
-Static checks validate page links, the sitemap, public assets, V2/V3 geometry inventories and tile hashes, artifact checksums, the custom 404 page, and résumé HTML/PDF consistency. Browser checks cover the nine site routes at four viewport sizes in both themes, including navigation, contrast, keyboard focus, unavailable storage, mission viewer recovery, and Content Security Policy violations. Media checks cover both versions’ native geometry, same-origin lazy loading, layer isolation, keyboard/touch navigation, fullscreen, HTTP/checksum/source mismatch recovery, unsupported browsers, no-JavaScript fallback, CSP, and MP4/WebM playback. Version checks cover shareable selections, browser history, keyboard navigation, legacy section links, both themes and viewport sizes, independent viewer state, and cancellation when changing tabs.
+Set `CHROME_PATH` to an installed Chrome executable if needed. Browser acceptance
+covers eight pages at 390, 520, 860, and 1440 pixels, separate-page navigation,
+keyboard access, contrast, enlarged text, light presentation under a dark OS
+preference, and 16 direct legacy redirects. Static checks validate links,
+sitemaps, public assets, layout hashes, and résumé HTML/PDF consistency.
 
-Performance checks enforce cold mobile download budgets for the homepage chip preview and both viewer startups at 1.6 Mbps and 150 ms latency.
-
-GitHub Actions runs these checks on pull requests and pushes to `main`. The workflow does not deploy the site. Set `CHROME_PATH` to use an installed Chrome executable instead of Playwright's Chromium.
+Media and version checks retain the two viewers' lazy loading, layer isolation,
+keyboard/touch navigation, fullscreen, checksum/source/network failure recovery,
+version selection and history, legacy fragments, independent state, cancellation,
+and no-JavaScript fallback. Performance checks retain the cold mobile image and
+viewer startup budgets. CI checks the site; deployment automation remains open.
 
 ## Content and assets
 
@@ -129,18 +134,28 @@ python scripts/render_gds_detail.py assets/protocol-emulator/v3 --box 420 90 620
 python scripts/update_asic_manifest.py
 ```
 
-### Recordings and mission data
+### TestOS recordings and article crops
 
-The TestOS screenshots and 12.5-second recording were captured in QEMU 11.1.1 from the `ef72e55` CI boot image. The page includes ATA, AHCI, and NVMe data-disk checks, DHCP, an HTTP download, and TCP packet checks. Capture details, serial logs, packet data, and checksums are in `assets/testos/`.
+The TestOS screenshots and 12.5-second recording were captured in QEMU 11.1.1
+from the `ef72e55` boot image. Original screenshots, serial logs, packet data,
+checksums, and both video formats remain in `assets/testos/`.
 
-The 12-second scope recording shows timebase, trigger, and filter adjustments in the browser viewer at `073ed63`. Capture details and checksums are in `assets/scope/`. Both recordings have MP4 and WebM versions and are under 5 MB per file. Comparison plots include WebP variants with PNG fallbacks.
-
-The bundled NEO samples use the July 29, 2026 archive date from repository history. Their original export timestamp is unavailable. New exports record `exported_at` in UTC.
-
-Third-party viewer libraries and their licenses are included with the corresponding assets.
+`python3 scripts/prepare_testos_images.py` uses Pillow to create lossless WebP
+article crops of boot, download, and NVMe output. It verifies that each crop
+contains all non-background terminal content and leaves originals unchanged.
+The crops retain their content-driven proportions; video is not cropped.
 
 ## Deployment
 
 Cloudflare serves [mcranny.net](https://mcranny.net). `wrangler.jsonc` runs the build and publishes only `dist/`. Development scripts, dependencies, and local output are excluded. `404.html` serves unknown paths. Redirects, cache rules, and security headers are defined in `_redirects` and `_headers`.
 
 The Content Security Policy remains report-only. The browser suite checks for violations in local builds. Cloudflare currently injects a per-request inline challenge script on the live site, which violates the policy; resolve that integration before enabling enforcement. No reporting collector is configured. Update the structured-data hash in `_headers` when the inline JSON-LD changes.
+
+## Open follow-up work
+
+- Migrate large layout assets to R2 while preserving same-origin delivery,
+  checksums, immutable caching, and viewer compatibility.
+- Choose and configure automatic deployment through Workers Builds or GitHub
+  Actions, followed by verification against the deployed release.
+
+These are follow-ups to the redesign, not completed infrastructure changes.

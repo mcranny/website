@@ -31,19 +31,15 @@ const base=process.env.SITE_URL || 'http://127.0.0.1:5001';
       await page.goto(`${base}/protocol-emulator?${query}#${hash}`);await selected(v);
       await page.waitForFunction(id=>{const r=document.getElementById(id).getBoundingClientRect();return r.top<innerHeight && r.bottom>0;},hash);
     }
-    // Every tab remains legible in both themes and the established viewport sizes.
-    for(const width of [1440,390,375,844]) {
-      await page.setViewportSize({width,height:width===844?390:1000});
-      for(const theme of ['light','dark']) {
-        await page.evaluate(theme=>setTheme(theme),theme);
-        for(const v of ['v2','v3']) {
-          await page.locator(`#tab-${v}`).click();await selected(v);
-          assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${v} ${width} ${theme}`);
-        }
+    // Every tab remains legible in the supported viewport sizes.
+    for(const width of [1440,860,520,390]) {
+      await page.setViewportSize({width,height:1000});
+      for(const v of ['v2','v3']) {
+        await page.locator(`#tab-${v}`).click();await selected(v);
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${v} ${width}`);
       }
     }
     await page.setViewportSize({width:1440,height:1000});
-    await page.evaluate(()=>setTheme('light'));
     await page.goto(`${base}/protocol-emulator?version=v3`);
     requests.length=0;
     await panel('v3').locator('[data-gds-start]').click();await ready('v3','preview');
@@ -80,6 +76,6 @@ const base=process.env.SITE_URL || 'http://127.0.0.1:5001';
       await page.goto(`${base}/protocol-emulator${suffix}`);await selected(v);
     }
     assert.deepEqual(errors,[]);
-    console.log('Passed version selection, history, keyboard navigation, legacy/deep links, both themes/viewports, independent viewer state, cancellation and no-JavaScript presentation.');
+    console.log('Passed version selection, history, keyboard navigation, legacy/deep links, responsive viewports, independent viewer state, cancellation and no-JavaScript presentation.');
   } finally { await browser.close(); }
 })().catch(e=>{console.error(e);process.exit(1);});

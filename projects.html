@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>Projects | Matthew Cranny</title>
+<meta name="description" content="Technical projects in programmable digital interfaces, operating systems, and persistent storage.">
+<link rel="canonical" href="https://mcranny.net/projects">
+<meta property="og:title" content="Projects | Matthew Cranny">
+<meta property="og:description" content="Technical projects in programmable digital interfaces, operating systems, and persistent storage.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mcranny.net/projects">
+<meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Projects | Matthew Cranny">
+<meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/base.css">
+</head>
+<body><a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="topbar"><a class="wordmark" href="/">Matthew Cranny</a>
+<nav class="nav" aria-label="Primary"><a href="/experience">Experience</a><a href="/projects" aria-current="page">Projects</a><a href="/resume">Résumé</a>
+</nav>
+</header>
+<main id="main-content" class="projects-page">
+<header class="page-heading">
+<h1>Projects</h1>
+</header>
+<section class="content-section">
+<h2>Overview</h2>
+<div class="section-content">
+<p>These projects investigate systems in which correctness depends on the relationship between a software model and its implementation. The ASIC uses programmable engines to generate digital interfaces; TestOS implements operating-system services over device drivers; the storage engine maintains tree invariants while updating persistent pages. Each project page describes the design, the tests used to examine it, and the limits of the reported results.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Programmable Protocol Emulator ASIC</h2>
+<div class="section-content">
+<div class="project-row">
+<div>
+<p>The protocol emulator implements UART, SPI, I²C, and WS2812 signaling as programs executed by two engines. Its third revision separates instruction execution from pin-transition timing and uses SRAM for program storage. The comparison with V2 explains why that change was necessary and how it affects firmware timing.</p>
+<div class="actions"><a class="button primary" href="/protocol-emulator">Technical details</a><a class="button" href="https://github.com/mcranny/protocol-emulator-asic">Source</a>
+</div>
+</div>
+<figure class="chip-preview"><img src="/assets/protocol-emulator/v3/display-v1/overview-1024.webp" srcset="/assets/protocol-emulator/v3/display-v1/overview-640.webp 640w, /assets/protocol-emulator/v3/display-v1/overview-1024.webp 1024w" sizes="(max-width: 520px) calc(100vw - 36px), (max-width: 860px) calc(100vw - 64px), 726px" width="1024" height="422" alt="V3 protocol emulator physical layout with two SRAM macros" loading="lazy" decoding="async">
+<figcaption>V3 protocol emulator layout in IHP 130 nm CMOS5L.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>TestOS</h2>
+<div class="section-content">
+<div class="project-row">
+<div>
+<p>TestOS is an x86-64 operating system booted through UEFI by Limine. Its storage and network services are exercised in QEMU through shell operations, disk persistence, HTTP transfers, and packet-level TCP checks. The project provides a way to examine how user-space requests propagate through kernel services and device interfaces.</p>
+<div class="actions"><a class="button primary" href="/testos">Technical details</a><a class="button" href="https://github.com/mcranny/TestOS">Source</a>
+</div>
+</div>
+<figure><img src="/assets/testos/boot.webp" width="600" height="480" alt="TestOS boot messages and shell in QEMU" loading="lazy" decoding="async">
+<figcaption>Booting TestOS to its interactive shell.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section class="content-section ">
+<h2>B-Tree Storage Engine</h2>
+<div class="section-content">
+<div class="project-row">
+<div>
+<p>This Rust key-value engine stores records in fixed-size pages and uses a redo log to recover interrupted writes. Insertion and deletion preserve tree invariants while a persistent free list makes merged pages reusable. Differential tests compare point lookups and range scans with SQLite after generated operations.</p>
+<div class="actions"><a class="button primary" href="/btree">Technical details</a><a class="button" href="https://github.com/mcranny/btree-storage-engine">Source</a>
+</div>
+</div>
+<figure>
+<dl class="page-types">
+<dt>Metadata page</dt>
+<dd>Root, page count, free-list head</dd>
+<dt>Node page</dt>
+<dd>Keys, records, child references</dd>
+<dt>Reusable page</dt>
+<dd>Next free page reference</dd>
+</dl>
+<figcaption>Database pages have a fixed size of 4,096 bytes.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>
+</nav>
+<p>Matthew Cranny, Systems Engineer</p>
+</footer>
+</body>
+</html>

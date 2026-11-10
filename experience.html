@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<title>Experience | Matthew Cranny</title>
+<meta name="description" content="Professional experience in semiconductor test systems, embedded firmware, production software, and aerospace hardware.">
+<link rel="canonical" href="https://mcranny.net/experience">
+<meta property="og:title" content="Experience | Matthew Cranny">
+<meta property="og:description" content="Professional experience in semiconductor test systems, embedded firmware, production software, and aerospace hardware.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://mcranny.net/experience">
+<meta property="og:image" content="https://mcranny.net/assets/site-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Experience | Matthew Cranny">
+<meta name="twitter:image" content="https://mcranny.net/assets/site-preview.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/base.css">
+</head>
+<body><a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="topbar"><a class="wordmark" href="/">Matthew Cranny</a>
+<nav class="nav" aria-label="Primary"><a href="/experience" aria-current="page">Experience</a><a href="/projects">Projects</a><a href="/resume">Résumé</a>
+</nav>
+</header>
+<main id="main-content" class="experience-page">
+<header class="page-heading">
+<h1>Experience</h1>
+</header>
+<section class="content-section">
+<h2>Overview</h2>
+<div class="section-content">
+<p>My professional work spans semiconductor test systems, production data infrastructure, and aerospace hardware assembly. The common requirement is to connect a test or operational result to the behavior of the underlying system, then make the procedure repeatable for the people who use it.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>PDF Solutions</h2>
+<div class="section-content">
+<h3>Systems Engineer</h3>
+<p class="meta">San Jose, CA, March 2026 to present</p>
+<p>I own qualification, calibration, and production acceptance across six board families, using Python, PyQt6, SCPI, GPIB, and NI-DAQmx to coordinate bench instruments and collect electrical, analog, thermal, telemetry, and firmware measurements. I have also transitioned test procedures to an OpenTAP front end and OpenHTF back end, so that individual procedures can share instrument interfaces and reporting behavior.</p>
+<p>For measurements across four electrostatic correction boards, I developed a custom selector and its embedded C firmware. The selector uses SCPI-style commands over RS-485 to route measurement outputs and Ethernet control to the active board. When faster automated testing exposed power-up connectivity and IP-assignment failures, I used Vivado and register-level analysis to investigate the interaction between hardware initialization and firmware.</p>
+<p>A separate part of this work concerns configuration control. I built a system of record for more than 1,000 items using Rust microservices and PostgreSQL, linking serialized boards and parts with installations, software, firmware, and configurations. During field and overseas deployments, I coordinate hardware changes and compare scans before and after firmware upgrades.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Amazon</h2>
+<div class="section-content">
+<h3>Area Manager Intern, ICQA</h3>
+<p class="meta">Turlock, CA, May to July 2025</p>
+<p>I developed Python API and analysis pipelines for Inventory Control and Quality Assurance, then moved anomaly-detection work to AWS Lambda, EventBridge, and Secrets Manager. I also automated labor reporting across fulfillment centers with VBA, replacing a recurring manual reporting process.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Space Sciences Laboratory</h2>
+<div class="section-content">
+<h3>Aerospace Engineering Intern</h3>
+<p class="meta">UC Berkeley, June 2024 to May 2025</p>
+<p>I modeled structural components for LuSEE-Night in SolidWorks and fabricated and assembled satellite hardware under cleanroom contamination-control procedures. The electrical work included high-voltage step-up converters, flight-hardware wiring harnesses, and passive components.</p>
+</div>
+</section>
+<section class="content-section ">
+<h2>Education</h2>
+<div class="section-content">
+<h3>University of California, Berkeley</h3>
+<p>B.A. Physics, May 2026. Coursework included instrumentation and advanced experimental laboratories, electromagnetism and optics, quantum mechanics, and statistical and thermal physics.</p>
+<div class="actions"><a class="button primary" href="/assets/Matthew-Cranny-Resume.pdf">Download résumé</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<nav aria-label="Footer"><a href="/resume">Résumé</a><a href="https://github.com/mcranny">GitHub</a><a href="https://linkedin.com/in/matthew-cranny">LinkedIn</a><a href="mailto:crannymatthew@gmail.com">Email</a>
+</nav>
+<p>Matthew Cranny, Systems Engineer</p>
+</footer>
+</body>
+</html>
